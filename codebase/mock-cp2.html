@@ -9,7 +9,10 @@
   .screen.active { display: block; }
   h2 { margin-top: 0; font-size: 18px; }
   .badge { display: inline-block; background: #eef; color: #33c; font-size: 12px; padding: 2px 8px; border-radius: 6px; margin-bottom: 8px; }
+  .badge.ext { background: #f3e8ff; color: #9333ea; }
   .question { background: #f5f5f7; padding: 14px; border-radius: 8px; margin: 12px 0; }
+  .mcq { margin: 10px 0; padding: 10px; border-radius: 8px; background: #f9fafb; }
+  .mcq label { display: block; padding: 6px 0; cursor: pointer; }
   textarea, input[type=text] { width: 100%; box-sizing: border-box; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px; }
   button { background: #4338ca; color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-size: 14px; cursor: pointer; margin-top: 12px; }
   button:hover { background: #3730a3; }
@@ -17,16 +20,58 @@
   .diagnosis { background: #fff7ed; border-left: 4px solid #f97316; padding: 14px; border-radius: 8px; margin: 14px 0; }
   .hint { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 14px; border-radius: 8px; margin: 14px 0; }
   .source { font-size: 13px; color: #555; background: #f0fdf4; border-left: 4px solid #22c55e; padding: 10px 14px; border-radius: 8px; margin: 14px 0; }
+  .genbox { font-size: 13px; color: #6b21a8; background: #f3e8ff; padding: 10px 14px; border-radius: 8px; margin: 14px 0; }
   .correct { color: #16a34a; font-weight: 600; }
+  .score { font-size: 22px; font-weight: 700; margin: 10px 0; }
   .mocknote { font-size: 11px; color: #999; margin-top: 20px; border-top: 1px dashed #ddd; padding-top: 8px; }
 </style>
 </head>
 <body>
 
-<div id="s1" class="screen active">
-  <span class="badge">Bước 1 · Làm bài tập trước khi xem lý thuyết</span>
+<!-- ===== MỞ RỘNG: Bước 0 — Trắc nghiệm đánh giá trình độ ===== -->
+<div id="s0" class="screen active">
+  <span class="badge ext">Bước 0 · MỞ RỘNG — Trắc nghiệm đánh giá trình độ</span>
+  <h2>Trắc nghiệm nhanh: Tokenization</h2>
+
+  <div class="mcq">
+    <b>Câu 1.</b> BPE tokenizer hoạt động dựa trên nguyên tắc nào?
+    <label><input type="radio" name="q1" value="1"> Tách theo ranh giới từ trong từ điển</label>
+    <label><input type="radio" name="q1" value="0"> Gộp các cặp ký tự xuất hiện thường xuyên nhất trong corpus</label>
+    <label><input type="radio" name="q1" value="0"> Tách theo âm tiết</label>
+  </div>
+
+  <div class="mcq">
+    <b>Câu 2.</b> Một từ có thể được tách thành bao nhiêu token?
+    <label><input type="radio" name="q2" value="1"> Luôn đúng 1 token</label>
+    <label><input type="radio" name="q2" value="0"> Có thể nhiều hơn 1, tuỳ tần suất cụm ký tự</label>
+    <label><input type="radio" name="q2" value="0"> Luôn bằng số âm tiết</label>
+  </div>
+
+  <div class="mcq">
+    <b>Câu 3.</b> Vocabulary size ảnh hưởng gì đến tokenization?
+    <label><input type="radio" name="q3" value="1"> Không ảnh hưởng gì</label>
+    <label><input type="radio" name="q3" value="0"> Vocab lớn hơn → từ ít bị tách vụn hơn</label>
+    <label><input type="radio" name="q3" value="0"> Vocab lớn hơn → từ bị tách vụn hơn</label>
+  </div>
+
+  <button onclick="scoreQuiz()">Nộp trắc nghiệm</button>
+</div>
+
+<!-- ===== MỞ RỘNG: kết quả + AI sinh bộ tự luận theo độ khó ===== -->
+<div id="s0b" class="screen">
+  <span class="badge ext">Kết quả trắc nghiệm</span>
+  <p class="score" id="scoreText"></p>
+  <div class="genbox" id="genText">
+    🔄 [MOCK — chưa gọi AI thật] AI đang sinh bộ câu hỏi tự luận, độ khó điều chỉnh theo % đúng ở trên...
+  </div>
+  <button onclick="show('s1')">Sang phần tự luận</button>
+</div>
+
+<!-- ===== QUYẾT ĐỊNH TRUNG TÂM: bài tự luận — chỉ tự luận mới nhập được câu trả lời ===== -->
+<div id="s1" class="screen">
+  <span class="badge">Bước 1 · Bài tự luận (độ khó theo kết quả trắc nghiệm)</span>
   <h2>Bài tập: Tokenization</h2>
-  <div class="question">
+  <div class="question" id="essayQ">
     Câu hỏi: Từ "unbelievable" khi qua BPE tokenizer thường được tách thành mấy token, và vì sao?
   </div>
   <textarea rows="3" id="answer" placeholder="Nhập câu trả lời của bạn..."></textarea>
@@ -42,7 +87,7 @@
 </div>
 
 <div id="s3" class="screen">
-  <span class="badge">Bước 3 · AI chẩn đoán (MOCK — chưa gọi AI thật, dữ liệu giả để demo luồng)</span>
+  <span class="badge">Bước 3 · AI chẩn đoán — QUYẾT ĐỊNH TRUNG TÂM (MOCK — chưa gọi AI thật)</span>
   <div class="diagnosis">
     <b>Chẩn đoán lỗi cụ thể:</b><br>
     Bạn đang nhầm "1 từ = 1 token". Tokenizer không tách theo ranh giới từ vựng, mà theo tần suất xuất hiện của cụm ký tự trong dữ liệu huấn luyện.
@@ -73,8 +118,8 @@
 </div>
 
 <p class="mocknote">
-  Đây là bản MOCK cho CP2 — luồng bấm được đầy đủ, nhưng nội dung "AI chẩn đoán" ở Bước 3 đang là văn bản cố định (hardcode), CHƯA gọi AI thật.
-  CP3 sẽ thay bằng 1 lời gọi AI thật (xem spec.md §4).
+  Bản MOCK cho CP2. Khối tím (Bước 0, sinh câu tự luận) là phần <b>mở rộng</b>, chưa bắt buộc chạy AI thật ở CP3.
+  Bước 3 (chẩn đoán lỗi) là <b>quyết định AI trung tâm</b> — CP3 sẽ thay nội dung hardcode ở đây bằng 1 lời gọi AI thật (xem spec.md §4 và codebase/flow-diagram.md).
 </p>
 
 <script>
@@ -82,11 +127,41 @@ function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
+function scoreQuiz() {
+  const names = ['q1','q2','q3'];
+  let correct = 0;
+  names.forEach(n => {
+    const sel = document.querySelector(`input[name="${n}"]:checked`);
+    if (sel && sel.value === '1') correct++;
+  });
+  const pct = Math.round(correct / names.length * 100);
+  let tier, essay;
+  if (pct < 40) {
+    tier = 'Cơ bản';
+    essay = 'Câu hỏi (dễ): BPE tokenizer là gì? Nêu 1 ví dụ tách từ đơn giản.';
+  } else if (pct < 80) {
+    tier = 'Trung bình';
+    essay = 'Câu hỏi (trung bình): Từ "unbelievable" khi qua BPE tokenizer thường được tách thành mấy token, và vì sao?';
+  } else {
+    tier = 'Nâng cao';
+    essay = 'Câu hỏi (khó): So sánh cách BPE và WordPiece xử lý một từ hiếm gặp không có trong vocab — nêu ưu/nhược điểm mỗi cách.';
+  }
+  document.getElementById('scoreText').innerText = `Bạn đúng ${correct}/3 (${pct}%) — mức: ${tier}`;
+  document.getElementById('genText').innerText =
+    `🔄 [MOCK] AI đã sinh câu hỏi tự luận độ ${tier.toLowerCase()} dựa trên kết quả trên:`;
+  document.getElementById('essayQ').innerText = essay;
+  show('s0b');
+}
 function showWrong() { show('s2'); }
 function showDiagnosis() { show('s3'); }
 function showRetry() { show('s4'); }
 function showResult() { show('s5'); }
-function reset() { document.getElementById('answer').value=''; document.getElementById('retry').value=''; show('s1'); }
+function reset() {
+  document.getElementById('answer').value='';
+  document.getElementById('retry').value='';
+  document.querySelectorAll('input[type=radio]').forEach(r => r.checked = false);
+  show('s0');
+}
 </script>
 
 </body>
