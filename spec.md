@@ -76,10 +76,10 @@ Loại: [x] Tính năng mới
 - Phân công có tên:
   | Vai trò | Người | Việc chính |
   |---|---|---|
-  | Leader + BA | Nguyễn Long Khánh | Canvas, spec.md (§1-§2 evidence/impact), điều phối, nộp 5 mốc CP |
-  | Data/Eval | ⏳ TV2 — cần tên | Khảo sát D2, mining lỗi thường gặp, golden set (§7) |
-  | AI/Prototype | ⏳ TV3 — cần tên | Build luồng chẩn đoán lỗi (≥1 lời gọi AI thật), `codebase/` |
-  | UX/Validation | ⏳ TV4 — cần tên | Mock/flow CP2, video CP3/CP5, R6 (≥5 người dùng thử thật) |
+  | Leader + BA | Nguyễn Long Khánh — 2A202602649 | Canvas, spec.md (§1-§2 evidence/impact), điều phối, nộp 5 mốc CP |
+  | Data/Eval | Nguyễn Văn An — 2A202602776 | Khảo sát D2 (đã chạy xong Google Form, n=23), mining lỗi thường gặp, golden set (§7) |
+  | AI/Prototype | Trần Thế Anh — 2A202602516 | Build luồng chẩn đoán lỗi (≥1 lời gọi AI thật), `codebase/` |
+  | UX/Validation | Nguyễn Tuấn Khanh — 2A202602819 | Mock/flow CP2, video CP3/CP5, R6 (≥5 người dùng thử thật) |
 - Willing users (≥3 tên — cần cho CP1 và R6):
   1. Nguyễn Duy Khánh — 202602736
   2. Lưu Xuân Dũng — 202602746
