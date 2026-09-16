@@ -11,21 +11,31 @@ Loại: [x] Tính năng mới
 - Job executor: Một học viên K4 đang làm bài tập/quiz sau khi vừa học một đoạn lý thuyết trên VLearn.
 - Core JTBD: Làm bài tập, sai một câu, rồi tự tìm hiểu đúng chỗ mình hiểu nhầm để sửa.
 - Problem statement (KHÔNG chữ AI): Khi học viên làm sai bài tập, hệ thống hiện tại chỉ báo "sai rồi, đáp án là..." mà không chỉ ra đúng chỗ giả định sai của riêng học viên đó — khiến học viên phải tự tua lại toàn bộ bài giảng để tìm ra lỗi, tốn thời gian và có thể hiểu sai lại.
-- Evidence (chuẩn A — khảo sát):
-  - Số liệu khảo sát (n = ?, % xác nhận): ⏳ CHỜ TV2 — điền từ `research/survey-d2.md` sau khi đủ khảo sát (ít nhất vài người cho CP1, ≥20 người trước CP4)
-  - ≥5 quote/ví dụ nguyên văn + nguồn: ⏳ CHỜ TV2 — lấy nguyên văn cột "Câu chốt"/"Ghi chú" trong bảng log
+- Evidence (chuẩn A — khảo sát, Google Form `KhaoSat.xlsx`, 16/9/2026):
+  - Số liệu khảo sát: **n = 23, 14/23 xác nhận pain = 60.9%** — đạt chuẩn Đường A (≥20 người, ≥50% xác nhận). Phương pháp xác nhận pain: đếm người rơi vào ≥1 trong 3 dấu hiệu sau (theo `research/survey-d2.md`):
+    - Q2 (mất ≥5 phút hiểu vì sao sai): 6/23
+    - Q3 (quên gần hết lý thuyết, phải xem lại gần như toàn bộ): 5/23
+    - Q5 (đáp án chỉ nói "sai rồi..." không giải thích chỗ hiểu nhầm): 11/23 — **dấu hiệu mạnh nhất, đúng trọng tâm bài toán D2**
+  - Quote nguyên văn (câu 7 — đánh giá hiệu quả tự học hiện tại):
+    1. *"trung bình khá thôi, mình nghĩ vẫn cần có sự hướng dẫn từ phía con người"*
+    2. *"Chưa tốt lắm"*
+    3. *"Hơi chuối"*
+    4. *"Tương đối khó hiểu, bài tập khó"*
+    5. *"Chất lưong video hít or miss, chất luong bài tập tệ"*
+    6. *"Không áp dụng cách học này"*
+  - ⚠️ Lưu ý minh bạch: form hiện ẩn danh (không ghi tên người trả lời) — đủ chuẩn vì có timestamp thật, nhưng nếu còn thời gian nên thêm ô tên/mã HV (không bắt buộc) cho các lượt sau để log đầy đủ hơn theo `02-guide.md` §1.3.
 
 ## §2. Impact & quyết định chọn
 - Bảng impact ≥3 ứng viên:
 
   | Ứng viên | Bao nhiêu người gặp | Tần suất | Mỗi lần tốn gì | Build nổi trong 3 buổi? | Chọn? |
   |---|---|---|---|---|---|
-  | **D2 — Học từ lỗi trước** | ⏳ chờ khảo sát | Mỗi lần làm sai bài tập | Thời gian tua lại lý thuyết + rủi ro hiểu sai lại | Có — 1 luồng chẩn đoán lỗi + gợi ý, giới hạn 1 concept | **✅ Chọn** |
-  | D1 — Lớp học mô phỏng đa tác tử | ⏳ chờ khảo sát | Mỗi buổi học | Không có bạn học/TA để hỏi ngược | Khó — cần ≥2 agent phối hợp, rủi ro cao trong thời gian ngắn | Loại — quá tham vọng cho 47.5h |
-  | D3 — Học bằng cách dạy lại | ⏳ chờ khảo sát | Sau mỗi buổi học | Không ai để dạy lại, không tự biết hiểu đúng chưa | Có, nhưng khó đo "đã hiểu sâu hơn" hơn D2 | Loại — D2 đo "học được" rõ ràng hơn (đúng/sai bài tập) |
+  | **D2 — Học từ lỗi trước** | 14/23 khảo sát (60.9%) xác nhận, mạnh nhất ở "đáp án không giải thích chỗ sai" (11/23) | Mỗi lần làm sai bài tập | Thời gian tua lại lý thuyết (5/23 phải xem lại gần như toàn bộ) + rủi ro hiểu sai lại | Có — 1 luồng chẩn đoán lỗi + gợi ý, giới hạn 1 concept | **✅ Chọn** |
+  | D1 — Lớp học mô phỏng đa tác tử | Chưa khảo sát riêng | Mỗi buổi học | Không có bạn học/TA để hỏi ngược | Khó — cần ≥2 agent phối hợp, rủi ro cao trong thời gian ngắn | Loại — quá tham vọng cho 47.5h |
+  | D3 — Học bằng cách dạy lại | Chưa khảo sát riêng | Sau mỗi buổi học | Không ai để dạy lại, không tự biết hiểu đúng chưa | Có, nhưng khó đo "đã hiểu sâu hơn" hơn D2 | Loại — D2 đo "học được" rõ ràng hơn (đúng/sai bài tập) |
   | A1 — Tối ưu tutor VLearn hiện có | Có sẵn data lớn (13.494 lượt hỏi) | Rất cao | Câu trả lời không căn cứ/không đúng cỡ | Dễ nhất — data sẵn | Loại — không thuộc track D, và không đo được "học được" theo yêu cầu riêng của track D |
 
-  *(Cột "bao nhiêu người gặp/tần suất" cập nhật bằng số thật từ khảo sát trước CP4 — hiện đang là ước lượng định tính, cần thay bằng số đếm được.)*
+  *(Nguồn: khảo sát Google Form 23 phản hồi, 16/9/2026 — xem `spec.md` §1 và file gốc `KhaoSat.xlsx`. D1/D3 chưa có khảo sát riêng vì nhóm chọn D2 ngay từ đầu dựa trên đánh giá định tính; nếu giám khảo hỏi, nêu rõ đây là giới hạn thời gian, không phải bỏ qua bước so sánh.)*
 
 - Ứng viên ĐÃ LOẠI + vì sao: D1 (rủi ro kỹ thuật cao, đa tác tử khó demo gọn 5 phút), D3 (khó đo mức hiểu sâu hơn bằng chỉ số khách quan), A1 (không thuộc track D, không có yêu cầu đo "học được" như D2).
 - Ứng viên CHỌN + vì sao: D2 — vì có thể đo trực tiếp "học được" bằng đúng/sai bài tập trước/sau (đúng yêu cầu riêng của track D), và lát cắt nhỏ (1 concept, 1 lần sai) build nổi trong thời gian sự kiện.

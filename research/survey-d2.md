@@ -3,6 +3,12 @@
 **Mục tiêu:** Chứng minh pain có thật trước khi chốt lát cắt — theo `02-guide.md` §1.3, "Đường A".
 **Chuẩn cần đạt:** ≥20 người ngoài nhóm · ≥50% xác nhận có pain · log đầy đủ, nguyên văn.
 
+## ✅ ĐÃ ĐẠT CHUẨN (16/9/2026)
+
+Nhóm đã chạy khảo sát qua Google Form dựa trên bộ câu hỏi bên dưới. Kết quả: **n = 23, 14/23 xác nhận pain (60.9%)** — vượt chuẩn ≥20 người/≥50%. File gốc (đầy đủ nguyên văn từng câu trả lời, có timestamp thật): [`research/KhaoSat.xlsx`](KhaoSat.xlsx). Số liệu tổng hợp đã đưa vào `spec.md` §1-§2.
+
+⚠️ Form không thu tên người trả lời (ẩn danh) — nếu khảo sát thêm, nên bổ sung ô "Tên/mã HV (không bắt buộc)" để log đủ 3 phần theo `02-guide.md` §1.3 (câu hỏi + trả lời + ai trả lời).
+
 ## Cách phỏng vấn (Mom Test — bắt buộc đọc trước khi hỏi)
 
 **3 quy tắc:**
