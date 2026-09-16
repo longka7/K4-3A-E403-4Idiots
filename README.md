@@ -4,14 +4,15 @@
 
 ## 👥 Thành viên nhóm & Phân công vai trò
 
-**Lớp:** 3A · **Phòng:** ____ · **Cụm:** ____ · **Track:** ____
+**Lớp:** 3A · **Phòng:** E403 · **Cụm:** zone 3 · **Track:** D2
 
 | Họ và Tên | Mã Học Viên | Vai trò chính | Phần việc đảm nhiệm trong dự án |
 |---|---|---|---|
-|  |  |  |  |
-|  |  |  |  |
-|  |  |  |  |
-|  |  |  |  |
+|Nguyễn Long Khánh | 2A202602649 | Leader + BA | Chốt lát cắt 1 câu, viết spec.md (đặc biệt bằng chứng, thiết kế, rủi ro), điều phối tiến độ, nộp cả 5 mốc CP trên form (đúng mã học viên bạn từ đầu đến cuối) |
+|Trần Thế Anh |2A202602516 | AI/Prototype Engineer | Build phần chạy thật (≥1 lời gọi AI thật, bắt buộc theo luật chung), code trong codebase/, ghi rõ phần nào mock |
+|Nguyễn Tuấn Khanh| 2A202602819 | UX/Validation Lead |  tìm ≥5 người ngoài nhóm dùng thử thật (2 người khai từ CP1), ghi log + quote nguyên văn |
+| Nguyễn Văn An  |2A202602776| Data/Eval Analyst | Mining data/ tìm bằng chứng số liệu + ví dụ nguyên văn cho
+bài toán; xây golden set (bộ câu thử); chạy test đo "thử X câu, đúng Y câu" cho CP3 |
 
 > Nhóm copy nguyên file README này về repo của mình, rồi điền bảng trên. Cột **Phần việc đảm nhiệm** ghi càng cụ thể càng tốt.
 
