@@ -9,7 +9,7 @@ Loại: [x] Tính năng mới
 
 ## §1. User & Job
 - Job executor: Một học viên K4 đang làm bài tập/quiz sau khi vừa học một đoạn lý thuyết trên VLearn.
-- Core JTBD: Làm bài tập, sai một câu, rồi tự tìm hiểu đúng chỗ mình hiểu nhầm để sửa. *(bỏ chữ "AI" khỏi câu — việc này vẫn tồn tại, đúng chuẩn JTBD)*
+- Core JTBD: Làm bài tập, sai một câu, rồi tự tìm hiểu đúng chỗ mình hiểu nhầm để sửa.
 - Problem statement (KHÔNG chữ AI): Khi học viên làm sai bài tập, hệ thống hiện tại chỉ báo "sai rồi, đáp án là..." mà không chỉ ra đúng chỗ giả định sai của riêng học viên đó — khiến học viên phải tự tua lại toàn bộ bài giảng để tìm ra lỗi, tốn thời gian và có thể hiểu sai lại.
 - Evidence (chuẩn A — khảo sát):
   - Số liệu khảo sát (n = ?, % xác nhận): ⏳ CHỜ TV2 — điền từ `research/survey-d2.md` sau khi đủ khảo sát (ít nhất vài người cho CP1, ≥20 người trước CP4)
@@ -70,7 +70,10 @@ Loại: [x] Tính năng mới
   | Data/Eval | ⏳ TV2 — cần tên | Khảo sát D2, mining lỗi thường gặp, golden set (§7) |
   | AI/Prototype | ⏳ TV3 — cần tên | Build luồng chẩn đoán lỗi (≥1 lời gọi AI thật), `codebase/` |
   | UX/Validation | ⏳ TV4 — cần tên | Mock/flow CP2, video CP3/CP5, R6 (≥5 người dùng thử thật) |
-- Willing users (≥3 tên — cần cho CP1 và R6): ⏳ CHỜ TV3.
+- Willing users (≥3 tên — cần cho CP1 và R6):
+  1. Nguyễn Duy Khánh — 202602736
+  2. Lưu Xuân Dũng — 202602746
+  3. ⏳ CHỜ — cần thêm 1 người nữa để đạt chuẩn ≥3
 
 ## §9. Changelog
 | Thời điểm | Đổi gì | Vì sao (trỏ về feedback/case nào) |
