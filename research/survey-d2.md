@@ -19,30 +19,64 @@
 
 ## Bộ câu hỏi (hỏi theo thứ tự, không cần hỏi hết nếu đã rõ pain)
 
-1. Lần gần nhất bạn làm bài tập/quiz mà làm sai một câu, sau đó bạn làm gì?
-2. Lần đó bạn mất khoảng bao nhiêu phút để hiểu vì sao mình sai?
-3. Lần gần nhất bạn xem hết một đoạn bài giảng lý thuyết xong làm bài tập — bạn có nhớ lại được nội dung không, hay phải tua lại video/đọc lại slide?
-4. Bạn đã từng thử làm bài tập **trước khi** xem lý thuyết chưa? Nếu có, lần đó thế nào? Nếu chưa, vì sao?
-5. Khi làm sai và xem đáp án, đáp án đó có giải thích đúng chỗ bạn hiểu nhầm không, hay chỉ nói "sai rồi, đáp án là..."?
+Mỗi câu có 4-5 lựa chọn **mô tả hành vi cụ thể** (không phải ý kiến/tính năng) để khoanh nhanh — luôn có "Khác" để ghi nguyên văn nếu không khớp lựa chọn nào. Khoanh xong vẫn nên hỏi thêm 1 câu "vì sao/kể chi tiết hơn" và ghi lại nguyên văn vào cột Ghi chú — lựa chọn giúp nhanh, không thay được câu chuyện thật.
 
-**Câu chốt (bắt buộc hỏi cuối):** Điều gì khiến bạn *chưa* dùng cách nào khác để giải quyết việc này? *(cho biết alternatives hiện tại và tại sao chưa đủ tốt)*
+**1. Lần gần nhất bạn làm bài tập/quiz mà làm sai một câu, sau đó bạn làm gì?**
+a) Tua lại video/đọc lại slide từ đầu
+b) Hỏi bạn bè/nhóm chat
+c) Bấm xem đáp án rồi bỏ qua, không tìm hiểu thêm
+d) Hỏi giảng viên/TA (lớp học/Discord)
+e) Khác: ______
+
+**2. Lần đó bạn mất khoảng bao lâu để hiểu vì sao mình sai?**
+a) Dưới 2 phút
+b) 2-5 phút
+c) 5-15 phút
+d) Hơn 15 phút, hoặc bỏ cuộc không hiểu được
+e) Không nhớ rõ / tuỳ lần
+
+**3. Sau khi xem hết một đoạn bài giảng lý thuyết rồi làm bài tập, bạn thường:**
+a) Nhớ và áp dụng được ngay, không cần xem lại
+b) Nhớ mang máng, phải tua lại video/đọc lại slide 1-2 lần
+c) Quên gần hết, phải xem lại gần như toàn bộ
+d) Tuỳ bài/tuỳ hôm, không cố định
+e) Khác: ______
+
+**4. Bạn đã từng làm bài tập TRƯỚC KHI xem lý thuyết chưa?**
+a) Chưa từng — bài giảng luôn theo thứ tự lý thuyết trước
+b) Có thử vài lần, thấy hiểu sâu/nhớ lâu hơn
+c) Có thử vài lần, thấy khó/nản, không thích cách đó
+d) Không để ý/không nhớ rõ
+e) Khác: ______
+
+**5. Khi xem đáp án sau khi làm sai, đáp án đó thường:**
+a) Giải thích rõ đúng chỗ mình hiểu nhầm
+b) Chỉ nói "sai rồi, đáp án đúng là..." không giải thích gì thêm
+c) Có giải thích nhưng chung chung, không trúng chỗ mình sai
+d) Mình thường không xem đáp án
+e) Khác: ______
+
+**Câu chốt (bắt buộc hỏi cuối, giữ dạng mở — quan trọng nhất để biết alternatives thật):** Điều gì khiến bạn *chưa* dùng cách nào khác để giải quyết việc này? *(cho biết alternatives hiện tại và tại sao chưa đủ tốt — câu này không nên rút gọn thành trắc nghiệm, cần nghe nguyên văn)*
 
 ## Cách xác định "có xác nhận pain"
 
-Đánh dấu **CÓ** nếu người trả lời tự kể (không phải do mình gợi ý) ít nhất 1 trong:
-- Từng mất >5 phút loay hoay không hiểu vì sao sai mà không có ai/gì giải thích đúng chỗ.
-- Đọc/xem lý thuyết xong quên gần hết, phải tua lại nhiều lần.
-- Đáp án/lời giải hiện tại không giải thích đúng chỗ hiểu nhầm của họ.
+Đánh dấu **CÓ** nếu người trả lời rơi vào ít nhất 1 trong các trường hợp sau (tự nhiên kể ra hoặc chọn đúng lựa chọn, không phải do mình gợi ý trước):
+- Q2 = c hoặc d (mất >5 phút hoặc bỏ cuộc không hiểu được).
+- Q3 = c (quên gần hết, phải xem lại gần như toàn bộ).
+- Q5 = b hoặc c (đáp án không giải thích đúng chỗ hiểu nhầm).
+- Hoặc bất kỳ chi tiết nguyên văn nào ở câu chốt/ghi chú cho thấy rõ họ từng bế tắc thật sự.
 
-## Bảng log (bắt buộc điền đủ, nguyên văn — không tóm tắt hộ người trả lời)
+Chỉ cần 1 trong các điều trên là đủ tính **CÓ** — không cần cả 3.
 
-| # | Người trả lời (tên/mã HV, ẩn danh nếu cần) | Câu hỏi đã hỏi | Trả lời nguyên văn | Xác nhận pain? (Có/Không) | Ghi chú |
-|---|---|---|---|---|---|
-| 1 |  |  |  |  |  |
-| 2 |  |  |  |  |  |
-| 3 |  |  |  |  |  |
+## Bảng log (điền chữ cái cho nhanh; cột "Câu chốt" và "Ghi chú" PHẢI nguyên văn, không tóm tắt hộ)
 
-*(Copy thêm dòng cho đủ ≥20 người. Mỗi người có thể trả lời nhiều câu — vẫn tính 1 dòng, ghi gộp hoặc tách dòng theo câu, miễn giữ nguyên văn.)*
+| # | Người trả lời (tên/mã HV, ẩn danh nếu cần) | Q1 | Q2 | Q3 | Q4 | Q5 | Câu chốt (nguyên văn) | Xác nhận pain? (Có/Không) | Ghi chú (nguyên văn nếu chọn "Khác" hoặc có chi tiết đáng chú ý) |
+|---|---|:-:|:-:|:-:|:-:|:-:|---|:-:|---|
+| 1 |  |  |  |  |  |  |  |  |  |
+| 2 |  |  |  |  |  |  |  |  |  |
+| 3 |  |  |  |  |  |  |  |  |  |
+
+*(Copy thêm dòng cho đủ ≥20 người. Không hỏi hết 5 câu nếu đã rõ pain sớm — để trống ô câu không hỏi.)*
 
 ## Tổng kết (điền sau khi đủ 20 khảo sát)
 
