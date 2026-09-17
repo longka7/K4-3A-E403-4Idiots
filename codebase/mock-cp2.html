@@ -188,6 +188,155 @@
         padding-top: 10px;
       }
 
+      /* Quiz 5 câu styles */
+      .quiz-progress-bar {
+        height: 8px;
+        background: #e2e8f0;
+        border-radius: 999px;
+        overflow: hidden;
+        margin: 8px 0 16px;
+      }
+      .quiz-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #4f46e5, #7c3aed);
+        width: 20%;
+        transition: width 0.3s ease;
+      }
+      .quiz-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 18px;
+        margin-bottom: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+      .quiz-hint-btn {
+        background: #fef3c7;
+        color: #92400e;
+        border: 1px solid #fde68a;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin: 10px 0 6px;
+        transition: all 0.15s ease;
+      }
+      .quiz-hint-btn:hover {
+        background: #fde68a;
+      }
+      .quiz-hint-box {
+        display: none;
+        margin-top: 8px;
+        margin-bottom: 12px;
+        background: #fffbeb;
+        border-left: 4px solid #f59e0b;
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-size: 13px;
+        color: #92400e;
+        line-height: 1.5;
+      }
+      .quiz-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 16px 0;
+      }
+      .quiz-opt-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        background: #f8fafc;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        font-size: 14px;
+        color: #1e293b;
+      }
+      .quiz-opt-label:hover {
+        border-color: #6366f1;
+        background: #f1f5f9;
+      }
+      .quiz-opt-label.selected {
+        border-color: #4f46e5;
+        background: #eef2ff;
+      }
+      .quiz-opt-label.correct-choice {
+        border-color: #22c55e !important;
+        background: #f0fdf4 !important;
+        color: #166534;
+        font-weight: 600;
+      }
+      .quiz-opt-label.wrong-choice {
+        border-color: #ef4444 !important;
+        background: #fef2f2 !important;
+        color: #991b1b;
+      }
+      .quiz-opt-badge {
+        font-weight: 700;
+        font-size: 12px;
+        background: #e2e8f0;
+        color: #334155;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .quiz-opt-label.selected .quiz-opt-badge {
+        background: #4f46e5;
+        color: #fff;
+      }
+      .quiz-opt-label.correct-choice .quiz-opt-badge {
+        background: #22c55e;
+        color: #fff;
+      }
+      .quiz-opt-label.wrong-choice .quiz-opt-badge {
+        background: #ef4444;
+        color: #fff;
+      }
+      .quiz-feedback-box {
+        margin-top: 14px;
+        border-radius: 8px;
+        padding: 14px;
+        font-size: 13px;
+        display: none;
+      }
+      .quiz-feedback-correct {
+        background: #f0fdf4;
+        border-left: 4px solid #22c55e;
+        color: #166534;
+      }
+      .quiz-feedback-wrong {
+        background: #fef2f2;
+        border-left: 4px solid #ef4444;
+        color: #991b1b;
+      }
+      .summary-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 14px 16px;
+        margin-bottom: 12px;
+        font-size: 13px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+      }
+      .summary-card.correct {
+        border-left: 4px solid #22c55e;
+      }
+      .summary-card.wrong {
+        border-left: 4px solid #ef4444;
+      }
+
+
       /* API Key Settings Drawer */
       .api-bar {
         background: #ffffff;
@@ -327,61 +476,112 @@
       </div>
     </div>
 
-    <!-- ===== BƯỚC 0: TRẮC NGHIỆM ĐÁNH GIÁ TRÌNH ĐỘ ===== -->
+    <!-- ===== BƯỚC 0: TRẮC NGHIỆM ĐÁNH GIÁ TRÌNH ĐỘ (5 CÂU) ===== -->
     <div id="s0" class="screen active">
-      <span class="badge ext">Bước 0 · MỞ RỘNG — Trắc nghiệm đánh giá trình độ</span>
-      <h2>Trắc nghiệm nhanh: AI Agent, LLM &amp; RAG</h2>
-
-      <div class="mcq">
-        <b>Câu 1 (RAG &amp; Vector DB).</b> Trong kiến trúc RAG, vì sao cần chuyển tài liệu thành Vector Embedding thay vì chỉ dùng tìm kiếm từ khóa (Keyword Search)?
-        <label><input type="radio" name="q1" value="1" /> Cho phép tìm kiếm theo ngữ nghĩa (Semantic Search), hiểu được ý định câu hỏi ngay cả khi không trùng từ khóa chính xác</label>
-        <label><input type="radio" name="q1" value="0" /> Giúp nén dữ liệu để nhồi trực tiếp toàn bộ database vào bộ nhớ cache của LLM</label>
-        <label><input type="radio" name="q1" value="0" /> Tự động sửa lỗi chính tả và loại bỏ các bảng biểu trong file PDF</label>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+        <span class="badge ext">Bước 0 · Trắc nghiệm đánh giá trình độ</span>
+        <span style="font-size: 13px; font-weight: 700; color: #4f46e5;">
+          Câu <span id="quizIndexText">1</span> / 5
+        </span>
       </div>
 
-      <div class="mcq">
-        <b>Câu 2 (AI Agent &amp; ReAct).</b> Trong chu trình hoạt động của AI Agent (mô hình ReAct: Reasoning + Acting), bước <b>Observation</b> có ý nghĩa gì?
-        <label><input type="radio" name="q2" value="1" /> Agent tiếp nhận và phân tích kết quả trả về từ công cụ/môi trường (Tool Output) để quyết định bước suy luận (Thought) tiếp theo</label>
-        <label><input type="radio" name="q2" value="0" /> Agent tự động gửi thông báo cho lập trình viên trước khi thực thi bất kỳ đoạn mã nào</label>
-        <label><input type="radio" name="q2" value="0" /> Agent chỉ ghi nhận thời gian phản hồi của mạng Internet mà không xử lý dữ liệu</label>
+      <div class="quiz-progress-bar">
+        <div class="quiz-progress-fill" id="quizProgressBar" style="width: 20%;"></div>
       </div>
 
-      <div class="mcq">
-        <b>Câu 3 (LLM &amp; Context Window).</b> Hiện tượng <b>"Lost in the middle"</b> trong LLM ngữ cảnh dài (Long-context) gây rủi ro gì lớn nhất cho hệ thống RAG / Agent?
-        <label><input type="radio" name="q3" value="1" /> LLM chú ý tốt đầu và cuối context nhưng dễ bỏ sót thông tin quan trọng ở đoạn giữa, gây trả lời sai hoặc Hallucination</label>
-        <label><input type="radio" name="q3" value="0" /> LLM bị sập kết nối API nếu độ dài context vượt quá 500 token</label>
-        <label><input type="radio" name="q3" value="0" /> LLM tự động xóa 50% số từ ở giữa câu hỏi của người dùng</label>
-      </div>
+      <h2>Kiểm tra nhanh: LLM &amp; Kỹ thuật Prompt Engineering</h2>
 
-      <button onclick="scoreQuizAndGenerate()">Nộp bài trắc nghiệm &amp; AI sinh câu hỏi</button>
-      <button
-        style="background: none; color: #4f46e5; border: 1px solid #c7d2fe; margin-left: 8px"
-        onclick="skipToStep1()"
-      >
-        Bỏ qua trắc nghiệm → Sang thẳng phần Tự luận
-      </button>
-    </div>
+      <div class="quiz-card">
+        <div style="font-size: 15px; font-weight: 600; color: #0f172a; line-height: 1.5; margin-bottom: 10px;" id="quizQuestionText">
+          <!-- Render question text -->
+        </div>
 
-    <!-- ===== BƯỚC 0b: KẾT QUẢ + AI THẬT SINH BỘ CÂU HỎI TỰ LUẬN ===== -->
-    <div id="s0b" class="screen">
-      <span class="badge ext">Kết quả trắc nghiệm</span>
-      <p class="score" id="scoreText"></p>
-      
-      <div id="genLoading" class="loading-container" style="display:none;">
-        <div class="spinner"></div>
-        <span>AI đang phân tích kết quả và sinh câu hỏi tự luận theo độ khó...</span>
-      </div>
+        <div id="quizHintBtnContainer" style="margin-top: 6px;">
+          <button type="button" class="quiz-hint-btn" id="btnToggleHint" onclick="showQuizHint()">
+            💡 <span>Xem gợi ý</span>
+          </button>
+        </div>
 
-      <div class="genbox" id="genResultBox">
-        <b>✨ AI đã sinh câu hỏi theo trình độ của bạn:</b>
-        <p id="generatedQuestionText" style="margin: 8px 0; font-size: 14px; font-weight: 500;"></p>
-        <div style="font-size: 12px; color: #6b21a8;">
-          📖 <i>Tài liệu đi kèm: <span id="generatedDocText"></span></i>
+        <div class="quiz-hint-box" id="quizHintBox">
+          <b>💡 Gợi ý:</b> <span id="quizHintContent"></span>
+        </div>
+
+        <!-- 4 lựa chọn -->
+        <div class="quiz-options" id="quizOptionsContainer">
+          <!-- Render dynamically via JS -->
+        </div>
+
+        <!-- Phản hồi khi chọn đáp án ĐÚNG: Hiện textbox giải thích -->
+        <div class="quiz-feedback-box quiz-feedback-correct" id="quizFeedbackCorrect">
+          <div style="font-weight: 700; margin-bottom: 4px;">🎉 Chính xác! Bạn đã chọn đáp án đúng.</div>
+          <div style="font-size: 13px; margin-bottom: 8px; color: #166534;">
+            ✍️ <b>Vì sao bạn chọn đáp án này?</b> Hãy gõ phần giải thích của bạn vào ô dưới đây (giúp phân biệt giữa hiểu thật và đoán trúng):
+          </div>
+          <textarea id="quizExplanationInput" rows="2" placeholder="Gõ lý do/căn cứ bạn chọn đáp án này..."></textarea>
+        </div>
+
+        <!-- Phản hồi khi chọn đáp án SAI: Hiện phần giải thích đáp án -->
+        <div class="quiz-feedback-box quiz-feedback-wrong" id="quizFeedbackWrong">
+          <div style="font-weight: 700; margin-bottom: 4px;">❌ Chưa chính xác!</div>
+          <div style="font-size: 13px; margin-bottom: 6px; color: #991b1b;">
+            <b>Đáp án đúng:</b> <span id="quizCorrectAnswerDisplay"></span>
+          </div>
+          <div style="font-size: 13px; background: #fff; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ef4444; color: #1e293b; line-height: 1.5;">
+            <b>📖 Giải thích:</b> <span id="quizExplanationWrongDisplay"></span>
+          </div>
         </div>
       </div>
 
-      <button onclick="useGeneratedQuestion()">Làm câu hỏi này ngay</button>
-      <button class="btn-secondary" style="margin-left: 8px;" onclick="show('s1')">Tự chọn câu hỏi khác</button>
+      <div style="margin-top: 16px;">
+        <button id="quizNextBtn" onclick="nextQuizQuestion()" disabled style="display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px 18px; font-size: 15px; font-weight: 600; gap: 6px;">
+          <span id="quizNextBtnText">Câu tiếp theo ➜</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ===== BƯỚC 0b: KẾT QUẢ + DANH SÁCH CÁC CÂU ĐÃ LÀM + TỔNG KẾT + QUA PHẦN SAU ===== -->
+    <div id="s0b" class="screen">
+      <span class="badge ext">Tổng kết bài kiểm tra</span>
+      <h2 style="margin-top: 4px;">Kết quả bài kiểm tra trắc nghiệm (5 câu)</h2>
+      <p class="score" id="scoreText" style="margin: 8px 0 14px; font-size: 19px;"></p>
+
+      <!-- Danh sách các câu đã làm -->
+      <div style="margin-bottom: 20px;">
+        <h3 style="font-size: 14px; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">
+          📋 Danh sách các câu hỏi bạn đã làm:
+        </h3>
+        <div id="quizSummaryList">
+          <!-- Render danh sách 5 câu đã làm -->
+        </div>
+      </div>
+
+      <!-- AI sinh câu hỏi thích ứng theo kết quả trắc nghiệm -->
+      <div id="genLoading" class="loading-container" style="display:none;">
+        <div class="spinner"></div>
+        <span>AI đang phân tích kết quả trắc nghiệm và sinh câu hỏi tự luận theo trình độ...</span>
+      </div>
+
+      <div class="genbox" id="genResultBox" style="display:none;">
+        <b>✨ AI đã sinh câu hỏi tự luận phù hợp với trình độ của bạn:</b>
+        <p id="generatedQuestionText" style="margin: 8px 0; font-size: 14px; font-weight: 500;"></p>
+        <div style="font-size: 12px; color: #6b21a8; margin-bottom: 10px;">
+          📖 <i>Tài liệu đi kèm: <span id="generatedDocText"></span></i>
+        </div>
+        <button onclick="useGeneratedQuestion()" style="margin-top: 0;">Làm câu hỏi tự luận này ngay ➜</button>
+      </div>
+
+      <!-- Các nút chuyển tiếp qua phần sau -->
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; border-top: 1px solid #e2e8f0; padding-top: 14px;">
+        <button id="btnAiGenFromSummary" onclick="triggerAiGenFromQuiz()" style="background: #7c3aed;">
+          ✨ AI sinh bài tự luận thích ứng
+        </button>
+        <button class="btn-secondary" onclick="show('s1')">
+          Tiến vào phần Tự luận (Bước 1) ➜
+        </button>
+        <button class="btn-secondary" onclick="restartQuiz()">
+          ↺ Làm lại trắc nghiệm
+        </button>
+      </div>
     </div>
 
     <!-- ===== BƯỚC 1: BÀI TỰ LUẬN ĐỘNG (HOÀN TOÀN LINH HOẠT) ===== -->
@@ -1077,29 +1277,347 @@ Trả về DUY NHẤT một đối tượng JSON hợp lệ:
       }
 
       // ==========================================
-      // 5. TRẮC NGHIỆM ĐÁNH GIÁ & SINH TỰ LUẬN (BƯỚC 0)
+      // 5. BỘ TRẮC NGHIỆM ĐÁNH GIÁ 5 CÂU (TỪ test.md)
       // ==========================================
-      async function scoreQuizAndGenerate() {
-        const names = ["q1", "q2", "q3"];
-        let correct = 0;
-        names.forEach((n) => {
-          const sel = document.querySelector(`input[name="${n}"]:checked`);
-          if (sel && sel.value === "1") correct++;
+      function shuffleArray(array) {
+        const arr = array.slice();
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      const QUIZ_QUESTIONS = [
+        {
+          id: 1,
+          question: "Điểm đột phá chính của kiến trúc Transformer (2017) so với các mô hình tuần tự như RNN/LSTM là gì?",
+          rawOptions: [
+            { text: "Yêu cầu ít dữ liệu huấn luyện hơn", isCorrect: false },
+            { text: "Xử lý song song dữ liệu nhờ cơ chế Self-Attention", isCorrect: true },
+            { text: "Không cần sử dụng GPU để huấn luyện", isCorrect: false },
+            { text: "Loại bỏ hoàn toàn khái niệm Token", isCorrect: false }
+          ],
+          hint: 'Khác với việc đọc từng từ một cách lần lượt (tuần tự), kiến trúc này có thể "chú ý" (Attention) vào tất cả các từ cùng một lúc để tăng tốc độ xử lý.',
+          explanation: "Cơ chế Self-Attention cho phép Transformer xử lý toàn bộ chuỗi dữ liệu cùng một lúc (song song) thay vì phải xử lý từng từ một cách tuần tự như RNN/LSTM."
+        },
+        {
+          id: 2,
+          question: "Tham số Temperature trong cấu hình của LLM có vai trò gì đối với văn bản tạo ra?",
+          rawOptions: [
+            { text: "Tăng tốc độ sinh chuỗi văn bản", isCorrect: false },
+            { text: "Kiểm soát độ ngẫu nhiên và tính sáng tạo của phản hồi", isCorrect: true },
+            { text: "Giảm chi phí sử dụng API", isCorrect: false },
+            { text: "Thay đổi ngôn ngữ đầu ra của mô hình", isCorrect: false }
+          ],
+          hint: 'Tham số này giống như một "núm vặn" điều chỉnh: đặt mức thấp thì câu trả lời rất an toàn/chính xác, đặt mức cao thì câu trả lời biến hóa và phong phú hơn.',
+          explanation: "Temperature điều chỉnh mức độ ngẫu nhiên khi chọn token: giá trị thấp giúp câu trả lời nhất quán, chính xác; giá trị cao giúp tăng tính sáng tạo."
+        },
+        {
+          id: 3,
+          question: 'Khái niệm "Tokenization" trong xử lý ngôn ngữ tự nhiên (NLP) nghĩa là gì?',
+          rawOptions: [
+            { text: "Dịch văn bản sang một ngôn ngữ khác", isCorrect: false },
+            { text: "Chia tách văn bản thành các đơn vị nhỏ (tokens) để xử lý", isCorrect: true },
+            { text: "Mã hóa văn bản để bảo mật dữ liệu", isCorrect: false },
+            { text: "Tóm tắt nội dung văn bản thành một câu ngắn", isCorrect: false }
+          ],
+          hint: "Hãy tưởng tượng bạn cắt một ổ bánh mì ra thành từng lát nhỏ để máy tính có thể dễ dàng \"tiêu hóa\" và đếm từng phần.",
+          explanation: "Tokenization là quá trình cắt câu hoặc đoạn văn bản thành các phần nhỏ hơn (từ, cụm từ hoặc ký tự) gọi là token để mô hình AI có thể hiểu và tính toán."
+        },
+        {
+          id: 4,
+          question: "Tại sao việc tối ưu số lượng Token ở Input (Prompt) lại quan trọng trong việc phát triển ứng dụng LLM?",
+          rawOptions: [
+            { text: "Giúp mô hình không bị lỗi hệ thống", isCorrect: false },
+            { text: "Giảm chi phí API và giảm độ trễ (latency) của phản hồi", isCorrect: true },
+            { text: "Tăng độ dài của câu trả lời đầu ra", isCorrect: false },
+            { text: "Bắt buộc mô hình phải sử dụng công cụ tìm kiếm", isCorrect: false }
+          ],
+          hint: "Các nhà cung cấp tính tiền dựa trên số lượng token bạn gửi lên, và gửi càng nhiều chữ thì máy tính xử lý càng mất thời gian.",
+          explanation: "Việc sử dụng ít token đầu vào giúp giảm chi phí tính toán API (vốn được tính theo số lượng token) và rút ngắn thời gian xử lý phản hồi."
+        },
+        {
+          id: 5,
+          question: 'Kỹ thuật "Few-Shot Prompting" là gì trong Kỹ thuật gợi ý (Prompt Engineering)?',
+          rawOptions: [
+            { text: "Không cung cấp ví dụ nào trong câu lệnh", isCorrect: false },
+            { text: "Cung cấp một vài ví dụ minh họa mẫu trước khi yêu cầu thực hiện", isCorrect: true },
+            { text: "Yêu cầu AI suy luận theo từng bước", isCorrect: false },
+            { text: "Chia nhỏ câu lệnh thành nhiều câu hỏi liên tiếp", isCorrect: false }
+          ],
+          hint: 'Từ "Shot" ở đây tượng trưng cho các ví dụ mẫu; đưa cho AI 2-3 ví dụ cụ thể để nó bắt chước theo mẫu đó.',
+          explanation: "Few-shot Prompting là việc đưa thêm một vài cặp ví dụ (đầu vào - đầu ra mẫu) vào prompt để định hình định dạng và cách trả lời mong muốn cho AI."
+        }
+      ];
+
+      let quizCurrentIdx = 0;
+      let quizAnswers = []; // [ { selectedKey, isCorrect, userExplanation } ]
+
+      function initQuiz() {
+        quizCurrentIdx = 0;
+        // Xáo trộn 4 vị trí đáp án ngẫu nhiên cho từng câu hỏi
+        QUIZ_QUESTIONS.forEach((q) => {
+          const shuffled = shuffleArray(q.rawOptions);
+          const keys = ["a", "b", "c", "d"];
+          q.options = shuffled.map((opt, idx) => ({
+            key: keys[idx],
+            text: opt.text,
+            isCorrect: opt.isCorrect
+          }));
+          const correctOpt = q.options.find((o) => o.isCorrect);
+          q.correct = correctOpt.key;
         });
-        const pct = Math.round((correct / names.length) * 100);
+
+        quizAnswers = new Array(QUIZ_QUESTIONS.length).fill(null);
+        renderCurrentQuizQuestion();
+      }
+
+      function renderCurrentQuizQuestion() {
+        const q = QUIZ_QUESTIONS[quizCurrentIdx];
+        document.getElementById("quizIndexText").innerText = quizCurrentIdx + 1;
+        document.getElementById("quizProgressBar").style.width = `${((quizCurrentIdx + 1) / QUIZ_QUESTIONS.length) * 100}%`;
+        document.getElementById("quizQuestionText").innerText = `Câu ${q.id}: ${q.question}`;
+
+        // Reset Hint: Ẩn box gợi ý, hiện lại nút "Xem gợi ý"
+        document.getElementById("quizHintBox").style.display = "none";
+        const hintBtnCont = document.getElementById("quizHintBtnContainer");
+        if (hintBtnCont) hintBtnCont.style.display = "block";
+        document.getElementById("quizHintContent").innerText = q.hint;
+
+        // Render Options đã được xáo trộn ngẫu nhiên
+        const container = document.getElementById("quizOptionsContainer");
+        container.innerHTML = "";
+
+        const prevAns = quizAnswers[quizCurrentIdx];
+
+        q.options.forEach((opt) => {
+          const label = document.createElement("label");
+          label.className = "quiz-opt-label";
+          label.id = `optLabel_${opt.key}`;
+
+          const radio = document.createElement("input");
+          radio.type = "radio";
+          radio.name = "quizOptRadio";
+          radio.value = opt.key;
+          radio.style.display = "none";
+
+          if (prevAns && prevAns.selectedKey === opt.key) {
+            radio.checked = true;
+            label.classList.add("selected");
+            if (prevAns.isCorrect) label.classList.add("correct-choice");
+            else label.classList.add("wrong-choice");
+          }
+
+          if (prevAns) {
+            radio.disabled = true;
+            label.style.cursor = "default";
+          } else {
+            label.onclick = () => selectQuizOption(opt.key);
+          }
+
+          const badge = document.createElement("span");
+          badge.className = "quiz-opt-badge";
+          badge.innerText = opt.key.toUpperCase();
+
+          const span = document.createElement("span");
+          span.style.flex = "1";
+          span.innerText = opt.text;
+
+          label.appendChild(radio);
+          label.appendChild(badge);
+          label.appendChild(span);
+          container.appendChild(label);
+        });
+
+        // Feedback Boxes
+        const boxCorrect = document.getElementById("quizFeedbackCorrect");
+        const boxWrong = document.getElementById("quizFeedbackWrong");
+        const nextBtn = document.getElementById("quizNextBtn");
+        const nextBtnText = document.getElementById("quizNextBtnText");
+
+        if (quizCurrentIdx === QUIZ_QUESTIONS.length - 1) {
+          nextBtnText.innerText = "Hoàn thành bài kiểm tra & Xem tổng kết ➜";
+        } else {
+          nextBtnText.innerText = "Câu tiếp theo ➜";
+        }
+
+        if (prevAns) {
+          nextBtn.disabled = false;
+          if (prevAns.isCorrect) {
+            boxCorrect.style.display = "block";
+            boxWrong.style.display = "none";
+            document.getElementById("quizExplanationInput").value = prevAns.userExplanation || "";
+            document.getElementById("quizExplanationInput").disabled = true;
+          } else {
+            boxCorrect.style.display = "none";
+            boxWrong.style.display = "block";
+            const correctOpt = q.options.find((o) => o.key === q.correct);
+            document.getElementById("quizCorrectAnswerDisplay").innerText = `${correctOpt.key.toUpperCase()}. ${correctOpt.text}`;
+            document.getElementById("quizExplanationWrongDisplay").innerText = q.explanation;
+          }
+        } else {
+          boxCorrect.style.display = "none";
+          boxWrong.style.display = "none";
+          document.getElementById("quizExplanationInput").value = "";
+          document.getElementById("quizExplanationInput").disabled = false;
+          nextBtn.disabled = true;
+        }
+      }
+
+      function showQuizHint() {
+        const box = document.getElementById("quizHintBox");
+        const hintBtnCont = document.getElementById("quizHintBtnContainer");
+        box.style.display = "block";
+        if (hintBtnCont) hintBtnCont.style.display = "none"; // Bỏ nút sau khi đã nhấn hiện gợi ý
+      }
+
+      function selectQuizOption(chosenKey) {
+        if (quizAnswers[quizCurrentIdx] !== null) return; // Đã chọn đáp án cho câu này
+
+        const q = QUIZ_QUESTIONS[quizCurrentIdx];
+        const isCorrect = (chosenKey === q.correct);
+
+        // Lưu tạm
+        quizAnswers[quizCurrentIdx] = {
+          selectedKey: chosenKey,
+          isCorrect: isCorrect,
+          userExplanation: ""
+        };
+
+        // Cập nhật UI lựa chọn
+        q.options.forEach((opt) => {
+          const lbl = document.getElementById(`optLabel_${opt.key}`);
+          if (lbl) {
+            lbl.style.cursor = "default";
+            if (opt.key === chosenKey) {
+              lbl.classList.add("selected");
+              if (isCorrect) {
+                lbl.classList.add("correct-choice");
+              } else {
+                lbl.classList.add("wrong-choice");
+              }
+            }
+          }
+        });
+
+        const boxCorrect = document.getElementById("quizFeedbackCorrect");
+        const boxWrong = document.getElementById("quizFeedbackWrong");
+        const nextBtn = document.getElementById("quizNextBtn");
+
+        if (isCorrect) {
+          boxCorrect.style.display = "block";
+          boxWrong.style.display = "none";
+          setTimeout(() => {
+            document.getElementById("quizExplanationInput").focus();
+          }, 100);
+        } else {
+          boxCorrect.style.display = "none";
+          boxWrong.style.display = "block";
+          const correctOpt = q.options.find(o => o.key === q.correct);
+          document.getElementById("quizCorrectAnswerDisplay").innerText = `${correctOpt.key.toUpperCase()}. ${correctOpt.text}`;
+          document.getElementById("quizExplanationWrongDisplay").innerText = q.explanation;
+        }
+
+        // Mở khóa nút tiếp theo khi hoàn thành chọn đáp án xong
+        nextBtn.disabled = false;
+      }
+
+      function nextQuizQuestion() {
+        // Lưu phần giải thích nếu người dùng gõ
+        const currentAns = quizAnswers[quizCurrentIdx];
+        if (currentAns && currentAns.isCorrect) {
+          const userExp = document.getElementById("quizExplanationInput").value.trim();
+          currentAns.userExplanation = userExp;
+        }
+
+        if (quizCurrentIdx < QUIZ_QUESTIONS.length - 1) {
+          quizCurrentIdx++;
+          renderCurrentQuizQuestion();
+        } else {
+          finishQuiz();
+        }
+      }
+
+      function finishQuiz() {
+        let correctCount = 0;
+        quizAnswers.forEach(ans => {
+          if (ans && ans.isCorrect) correctCount++;
+        });
+
+        const total = QUIZ_QUESTIONS.length;
+        const pct = Math.round((correctCount / total) * 100);
         let tier = pct < 40 ? "Cơ bản" : pct < 80 ? "Trung bình" : "Nâng cao";
 
-        document.getElementById("scoreText").innerText = `Bạn đúng ${correct}/3 (${pct}%) — Trình độ: ${tier}`;
-        show("s0b");
+        document.getElementById("scoreText").innerHTML = `Bạn đạt <b>${correctCount}/${total}</b> câu đúng (${pct}%) — Trình độ đánh giá: <span style="color:#4f46e5; font-weight:700;">${tier}</span>`;
 
+        // Render Danh sách các câu đã làm
+        const summaryList = document.getElementById("quizSummaryList");
+        summaryList.innerHTML = "";
+
+        QUIZ_QUESTIONS.forEach((q, idx) => {
+          const ans = quizAnswers[idx];
+          const isCorrect = ans ? ans.isCorrect : false;
+          const chosenKey = ans ? ans.selectedKey : null;
+          const chosenOpt = chosenKey ? q.options.find(o => o.key === chosenKey) : null;
+          const correctOpt = q.options.find(o => o.key === q.correct);
+
+          const card = document.createElement("div");
+          card.className = `summary-card ${isCorrect ? "correct" : "wrong"}`;
+
+          let cardHtml = `
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
+              <b style="font-size:14px; color:#0f172a;">Câu ${q.id}: ${q.question}</b>
+              <span class="badge ${isCorrect ? 'success' : 'warning'}" style="margin-bottom:0; flex-shrink:0;">
+                ${isCorrect ? '✅ Đúng' : '❌ Sai'}
+              </span>
+            </div>
+            <div style="margin: 6px 0; color:#334155;">
+              <b>Đáp án bạn chọn:</b> ${chosenOpt ? `${chosenOpt.key.toUpperCase()}. ${chosenOpt.text}` : '<i>Chưa chọn</i>'}
+            </div>
+          `;
+
+          if (isCorrect) {
+            const exp = ans && ans.userExplanation ? ans.userExplanation : '<i>(Học viên không nhập giải thích)</i>';
+            cardHtml += `
+              <div style="background:#f0fdf4; border-left:3px solid #22c55e; padding:8px 10px; border-radius:6px; color:#166534; margin-top:6px;">
+                <b>✍️ Lời giải thích của bạn:</b> ${exp}
+              </div>
+            `;
+          } else {
+            cardHtml += `
+              <div style="margin-bottom:4px; color:#15803d;">
+                <b>Đáp án đúng chuẩn:</b> ${correctOpt.key.toUpperCase()}. ${correctOpt.text}
+              </div>
+              <div style="background:#f8fafc; border-left:3px solid #ef4444; padding:8px 10px; border-radius:6px; color:#334155; margin-top:6px;">
+                <b>📖 Giải thích chuẩn:</b> ${q.explanation}
+              </div>
+            `;
+          }
+
+          card.innerHTML = cardHtml;
+          summaryList.appendChild(card);
+        });
+
+        // Lưu thông tin điểm số để AI sinh bài tự luận
+        window.lastQuizScore = { correctCount, total, pct, tier };
+
+        show("s0b");
+      }
+
+      async function triggerAiGenFromQuiz() {
+        const score = window.lastQuizScore || { pct: 60, tier: "Trung bình" };
         const loading = document.getElementById("genLoading");
         const resBox = document.getElementById("genResultBox");
+        const btn = document.getElementById("btnAiGenFromSummary");
+
         loading.style.display = "block";
         resBox.style.display = "none";
+        btn.disabled = true;
 
         try {
           const sysPrompt = `Bạn là AI giáo viên môn AI Agent, LLM & RAG.
-Dựa trên kết quả trắc nghiệm của học viên (${pct}%, mức ${tier}), hãy sinh 1 câu hỏi tự luận thực tế về AI Agent (Tool Calling, ReAct) hoặc RAG (Vector Search, Context Window, Lost in the middle) phù hợp với trình độ này.
+Dựa trên kết quả trắc nghiệm của học viên (${score.pct}%, mức ${score.tier}), hãy sinh 1 câu hỏi tự luận thực tế về Transformer, LLM hoặc RAG/Prompting phù hợp với trình độ này.
 Kèm đáp án chuẩn và đoạn tài liệu liên quan.
 Trả về DUY NHẤT một đối tượng JSON:
 {
@@ -1108,7 +1626,7 @@ Trả về DUY NHẤT một đối tượng JSON:
   "doc_excerpt": "...",
   "doc_source": "Giáo trình AI Agent & RAG [Module...]"
 }`;
-          const qData = await callGemini(sysPrompt, `Học viên đạt ${pct}% trắc nghiệm (${tier}). Sinh 1 câu hỏi tự luận kiểm tra sự hiểu sâu.`);
+          const qData = await callGemini(sysPrompt, `Học viên đạt ${score.pct}% trắc nghiệm (${score.tier}). Sinh 1 câu hỏi tự luận kiểm tra sự hiểu sâu.`);
           currentCase = {
             id: "ai-tier-" + Date.now(),
             cau_hoi_bai_tap: qData.cau_hoi_bai_tap,
@@ -1126,7 +1644,14 @@ Trả về DUY NHẤT một đối tượng JSON:
           resBox.style.display = "block";
           document.getElementById("generatedQuestionText").innerText = 'Từ "unbelievable" khi qua BPE tokenizer thường được tách thành mấy token, và vì sao?';
           document.getElementById("generatedDocText").innerText = 'transcript-03, đoạn 04:12 — "BPE gộp các cặp ký tự xuất hiện thường xuyên nhất trong corpus..."';
+        } finally {
+          btn.disabled = false;
         }
+      }
+
+      function restartQuiz() {
+        initQuiz();
+        show("s0");
       }
 
       function useGeneratedQuestion() {
@@ -1334,9 +1859,9 @@ Câu trả lời mới sửa lại: ${retryAns}
       function resetApp() {
         document.getElementById("answer").value = "";
         document.getElementById("retryAnswerInput").value = "";
-        document.querySelectorAll("input[type=radio]").forEach((r) => (r.checked = false));
         onSelectGoldenCase("default");
         document.getElementById("goldenSelect").value = "default";
+        initQuiz();
         show("s0");
       }
 
@@ -1350,6 +1875,7 @@ Câu trả lời mới sửa lại: ${retryAns}
       window.addEventListener("DOMContentLoaded", () => {
         updateApiStatus();
         initGoldenSet();
+        initQuiz();
       });
     </script>
   </body>
