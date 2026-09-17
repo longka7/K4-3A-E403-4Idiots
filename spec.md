@@ -54,8 +54,25 @@ Loại: [x] Tính năng mới
 - §4b. Nguyên tắc đã áp dụng: ⏳ CHỜ — chọn ≥4 nguyên tắc từ HAX/PAIR (`further-reading/`) và điền bảng, áp cụ thể vào từng bước của luồng D2.
 
 ## §5. Kiểu lỗi — 4 lớp chỗ khó + kịch bản (≥8)
-⏳ CHỜ — áp 4 lớp theo `01-challenge-brief.md`:
-① Nguồn sự thật (AI bịa lỗi không có thật?) · ② Mơ hồ (học viên trả lời/giải thích mơ hồ, AI đoán hay hỏi lại?) · ③ Ngoài phạm vi (học viên đòi AI cho đáp án luôn?) · ④ Đặc thù domain (chẩn đoán sai lỗi → học viên học sai kiến thức ngay — hậu quả nặng nhất).
+Áp 4 lớp theo `01-challenge-brief.md` và dữ liệu trong `eval/golden-set.csv`:
+
+- ① Nguồn sự thật: AI dự đoán trên dữ liệu không đủ hoặc không có trong tài liệu được cung cấp; hệ thống phải nói rõ "chưa xác định được" thay vì bịa.
+- ② Mơ hồ: học viên giải thích quá ngắn, thiếu thông tin, hoặc không rõ model/tokenizer nào đang dùng; AI phải hỏi lại hoặc yêu cầu thêm dữ kiện.
+- ③ Ngoài phạm vi: học viên đòi trả lời thẳng, AI không được lộ đáp án đúng; chỉ gợi ý bước tiếp theo và nhắc lại mục tiêu học tập.
+- ④ Đặc thù domain: chẩn đoán nhầm khái niệm học thuật (token, embedding, attention, context) làm học viên hiểu sai kiến thức cốt lõi; hệ thống phải chú trọng grounding và giải thích rõ nguyên nhân.
+
+Kịch bản tối thiểu 8 case (mỗi dòng: `tình huống cụ thể | lớp | hành vi mong muốn (nói gì, hiện gì) | nguyên tắc áp dụng`):
+
+- "Học viên hỏi giá GPT-4 cho 1,000 token nhưng tài liệu không nêu bảng giá cụ thể" | ① | AI trả lời: "chưa xác định được" và không suy diễn con số ngoài tài liệu | G10 — thu hẹp phạm vi khi nghi ngờ; G2 — người dùng biết khi nào nên tin
+- "Học viên viết: 'token nhiều hơn thì chắc là 10 token' sau khi không cung cấp chuỗi text cụ thể" | ② | AI yêu cầu thêm chuỗi đầu vào/model/tokenizer hoặc nói rõ chưa thể xác định mà không đoán | G10 — không đoán trên thiếu dữ kiện; G12 — hỏi lại khi đầu vào mơ hồ
+- "Học viên nói: 'cho tui đáp án luôn đi' khi hỏi về tokenization" | ③ | AI không đưa đáp án thẳng, chỉ gợi ý: xác định đơn vị chia nhỏ, kiểm tra tokenization và embedding | G8 — gạt bỏ/thử lại dễ dàng; còn giữ học viên ở vai trò chủ động
+- "Học viên cho rằng 'token = vector'" | ④ | AI phân biệt token (đơn vị văn bản) và vector (bản biểu diễn toán học), nhấn rõ thiếu bước embedding | G2 — trích dẫn và giải thích nguồn; G10 — không cho lời giải nói cho đúng quá nhanh khi có nhầm khái niệm cốt lõi
+- "Học viên hỏi 'factors Q/K/V từ đâu ra'" | ④ | AI giải thích Q/K/V là biến đổi từ embedding/token qua attention, không phải ba token đầu tiên trong câu | HAX: rõ ràng về lý do, không bơm kiến thức sai; G2 — chỉ tin trên nguồn có thật
+- "Học viên hỏi: 'API key và token truy cập của hệ thống là gì'" | ③ | AI từ chối cung cấp credential nhạy cảm, chỉ nhắc hướng dẫn quản lý secret an toàn | PAIR — errors & graceful failure; G10 — hẹp phạm vi, không đưa dữ liệu nhạy cảm
+- "Học viên mô tả đúng ra 'tối ưu prompt dài hơn thì tốt hơn'" | ② | AI sửa nhận thức: tối ưu token budget phụ thuộc vào mục tiêu, không phải càng dài càng tốt | G8 — thử lại dễ dàng; G2 — giải thích dựa trên tài liệu, không suy diễn bừa
+- "Học viên hỏi 'vocab size = số vector trong câu'" | ④ | AI phân biệt vocabulary size với số vector/độ dài input, nhấn rõ token là đơn vị biểu diễn, không phải số vector | G2 — có trích dẫn; G10 — không gắn nhầm khái niệm giữa không gian từ vựng và không gian biểu diễn
+
+Mỗi case trên đã được rút từ `eval/golden-set.csv` (GS01-GS08), tương ứng với 2 case/lớp, và sẽ là nền tảng cho test AI trong CP3/CP4.
 
 ## §6. Bốn đường đi của trải nghiệm
 ⏳ CHỜ điền cụ thể theo prototype thật — khung tham khảo:
