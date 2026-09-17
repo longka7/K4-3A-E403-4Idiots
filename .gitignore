@@ -1,0 +1,9 @@
+# Secrets and environment
+.env
+.env.*
+codebase/config.js
+
+# Test results and temporary files
+eval/eval_results.json
+*.log
+__pycache__/
