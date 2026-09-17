@@ -481,6 +481,9 @@
           <div class="diagnosis" id="diagBox">
             <b>Chẩn đoán lỗi cụ thể từ câu trả lời của bạn:</b><br />
             <span id="diagText"></span>
+            <div style="font-size: 11px; color: #94a3b8; margin-top: 6px; font-style: italic;">
+              ⚠️ Đây là chẩn đoán giả định dựa trên câu trả lời của bạn, không phải kết luận tuyệt đối — nếu thấy chưa đúng, bạn có thể bỏ qua và tự làm theo cách của mình.
+            </div>
           </div>
 
           <div class="hint" id="hintBox">
@@ -494,6 +497,7 @@
 
           <button onclick="goToRetryScreen()">💡 Thử sửa lại câu trả lời theo gợi ý</button>
           <button class="btn-secondary" style="margin-left: 8px;" onclick="show('s1')">Đổi câu hỏi khác</button>
+          <button class="btn-secondary" style="margin-left: 8px;" onclick="dismissAiHint()">🙈 AI chẩn đoán chưa chuẩn — Bỏ qua gợi ý</button>
         </div>
       </div>
 
@@ -534,12 +538,21 @@
         <span class="badge" id="retryBadge">Kết quả sửa lỗi</span>
         <h2 id="retryStatusHeader">Đánh giá nỗ lực tự sửa</h2>
 
-        <!-- Sửa đúng -->
+        <!-- Sửa đúng: AI không kết luận ngay, luôn confirm lại bằng 1 câu hỏi mức độ cao hơn trước khi công nhận -->
         <div id="retrySuccessBox" class="success-box" style="display: none">
-          <div style="font-size: 18px; font-weight: 700; margin-bottom: 6px;">🎉 Tuyệt vời! Bạn đã tự học từ lỗi sai thành công!</div>
-          <p id="retrySuccessNhanXet" style="margin: 6px 0; font-size: 14px;"></p>
-          <div style="font-size: 12px; color: #15803d; margin-top: 8px;">
-            Đây chính là bản chất của <b>Productive Failure</b>: việc tự chẩn đoán và tự sửa giúp bạn hiểu sâu kiến thức hơn nhiều so với việc chỉ nhận đáp án ngay từ đầu!
+          <div id="deeperConfirmGate">
+            <div style="font-size: 15px; font-weight: 700; margin-bottom: 6px;">✅ Câu trả lời đã sửa hợp lý! Trước khi xác nhận, trả lời thêm 1 câu để chắc bạn hiểu sâu chứ không phải đoán trúng:</div>
+            <p style="font-size: 13px; color: #475569; margin: 8px 0;">Hãy giải thích lại bằng lời của chính bạn: vì sao câu trả lời BAN ĐẦU của bạn sai, và điều gì khiến bạn sửa lại như vậy?</p>
+            <textarea rows="2" id="deeperConfirmInput" placeholder="Giải thích ngắn gọn bằng lời của bạn..."></textarea>
+            <br />
+            <button onclick="confirmDeeperUnderstanding()">Xác nhận đã hiểu sâu</button>
+          </div>
+          <div id="retryCelebrationContent" style="display: none">
+            <div style="font-size: 18px; font-weight: 700; margin-bottom: 6px;">🎉 Tuyệt vời! Bạn đã tự học từ lỗi sai thành công!</div>
+            <p id="retrySuccessNhanXet" style="margin: 6px 0; font-size: 14px;"></p>
+            <div style="font-size: 12px; color: #15803d; margin-top: 8px;">
+              Đây chính là bản chất của <b>Productive Failure</b>: việc tự chẩn đoán và tự sửa giúp bạn hiểu sâu kiến thức hơn nhiều so với việc chỉ nhận đáp án ngay từ đầu!
+            </div>
           </div>
         </div>
 
@@ -1216,6 +1229,27 @@ Câu trả lời của học viên: ${studentAns}
         show("s3");
       }
 
+      // G8 — Support efficient dismissal: học viên có thể ẩn chẩn đoán AI nếu thấy chưa chuẩn,
+      // vẫn tự chủ đi tiếp sang bước tự sửa mà không bị chặn bởi gợi ý AI.
+      function dismissAiHint() {
+        document.getElementById("diagBox").style.display = "none";
+        document.getElementById("hintBox").style.display = "none";
+        document.getElementById("sourceBox").style.display = "none";
+        goToRetryScreen();
+      }
+
+      // AI không tự quyết học viên đã hiểu đúng chỉ sau 1 câu — luôn hỏi lại một câu
+      // mức độ cao hơn (giải thích bằng lời riêng) trước khi công nhận hoàn thành.
+      function confirmDeeperUnderstanding() {
+        const explain = document.getElementById("deeperConfirmInput").value.trim();
+        if (explain.length < 10) {
+          alert("Bạn hãy giải thích rõ hơn một chút (ít nhất khoảng 1 câu) trước khi xác nhận nhé.");
+          return;
+        }
+        document.getElementById("deeperConfirmGate").style.display = "none";
+        document.getElementById("retryCelebrationContent").style.display = "block";
+      }
+
       // ==========================================
       // 7. HỌC VIÊN TỰ SỬA & AI CHẤM ĐIỂM THẬT LẦN 2
       // ==========================================
@@ -1267,6 +1301,10 @@ Câu trả lời mới sửa lại: ${retryAns}
             document.getElementById("retryBadge").innerText = "Tự sửa thành công ✅";
             document.getElementById("retryStatusHeader").innerText = "Kết quả: Bạn đã hiểu đúng bài!";
             document.getElementById("retrySuccessNhanXet").innerText = retryRes.nhan_xet;
+            // Không công nhận ngay — luôn confirm lại bằng 1 câu hỏi mức độ cao hơn trước
+            document.getElementById("deeperConfirmInput").value = "";
+            document.getElementById("deeperConfirmGate").style.display = "block";
+            document.getElementById("retryCelebrationContent").style.display = "none";
             successBox.style.display = "block";
             stillWrongBox.style.display = "none";
           } else {
