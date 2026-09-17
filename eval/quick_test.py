@@ -1,5 +1,7 @@
-# Quick test script for D2 Prototype AI
-# Run: python eval/quick_test.py
+# Full golden-set run for CP3 "số đo" — Run: python eval/quick_test.py
+# Chạy toàn bộ 20 case, xuất bảng kết quả ra eval/run-1-results.md (KHÔNG gitignore — đây là bằng chứng nộp CP3).
+# Lớp ①/③ được tự động đánh giá theo quality bar (spec.md §7); các lớp còn lại cần người chấm tay
+# theo đúng khuyến nghị 02-guide.md §4.1: "hai người chấm độc lập case khó rồi so".
 
 import urllib.request
 import json
@@ -9,7 +11,6 @@ import time
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-# Đọc API key từ config.js hoặc .env
 key = None
 config_path = os.path.join(os.path.dirname(__file__), '..', 'codebase', 'config.js')
 if os.path.exists(config_path):
@@ -54,19 +55,9 @@ json_path = os.path.join(os.path.dirname(__file__), 'golden-set.json')
 with open(json_path, 'r', encoding='utf-8') as f:
     golden_set = json.load(f)
 
-test_case_ids = [
-    ('GS01', 'Lớp ①: Nguồn sự thật (Bắt buộc chẩn đoán "chưa xác định được")'),
-    ('GS06', 'Lớp ③: Đòi đáp án (Bắt buộc từ chối và chỉ đưa gợi ý 1 bước)'),
-    ('GS07', 'Lớp ④: Đặc thù domain (Bắt trúng lỗi nhầm token với vector)')
-]
-
-print("=" * 65, flush=True)
-print("  KIỂM TRA ĐỘ HIỆU QUẢ CỦA AI CHẨN ĐOÁN LỖI (GEMINI 3.5 FLASH LITE)", flush=True)
-print("=" * 65, flush=True)
 
 def call_ai(payload):
     data = json.dumps(payload).encode('utf-8')
-    # Thử qua các model đang online và có quota
     for model in ['gemini-3.5-flash-lite', 'gemini-3.6-flash', 'gemini-3.5-flash']:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
         req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
@@ -83,38 +74,87 @@ def call_ai(payload):
             continue
     raise Exception("Tất cả các endpoint mô hình đều đang bận, vui lòng thử lại sau vài giây.")
 
-for cid, title in test_case_ids:
-    c = next(x for x in golden_set if x['case_id'] == cid)
-    user_prompt = f"Câu hỏi bài tập: {c['cau_hoi_bai_tap']}\nĐáp án đúng: {c['dap_an_dung']}\nCâu trả lời của học viên: {c['cau_tra_loi_sai_mo_phong']}\nĐoạn tài liệu liên quan: {c['doc_excerpt']}"
-    
+
+print("=" * 65, flush=True)
+print("  CHẠY TOÀN BỘ GOLDEN SET (20 CASE) — LƯỢT ĐO 1 CHO CP3", flush=True)
+print("=" * 65, flush=True)
+
+rows = []
+auto_pass = 0
+auto_total = 0
+
+for c in golden_set:
+    cid = c['case_id']
+    lop = c.get('lop_kho', 'none')
+    user_prompt = (
+        f"Câu hỏi bài tập: {c['cau_hoi_bai_tap']}\n"
+        f"Đáp án đúng: {c['dap_an_dung']}\n"
+        f"Câu trả lời của học viên: {c['cau_tra_loi_sai_mo_phong']}\n"
+        f"Đoạn tài liệu liên quan: {c['doc_excerpt']}"
+    )
     payload = {
         "contents": [{"role": "user", "parts": [{"text": system_prompt + "\n\n" + user_prompt}]}],
-        "generationConfig": {"responseMimeType": "application/json", "temperature": 0.1}
+        "generationConfig": {"responseMimeType": "application/json", "temperature": 0.1},
     }
-    
+
+    print(f"\n▶ [{cid}] lớp={lop}", flush=True)
     try:
         res, model_used = call_ai(payload)
-        
-        print(f"\n▶ [{cid}] {title} (Model: {model_used})", flush=True)
-        print(f"  • Câu hỏi:          {c['cau_hoi_bai_tap']}", flush=True)
-        print(f"  • Học viên trả lời: {c['cau_tra_loi_sai_mo_phong']}", flush=True)
-        print(f"  • AI Chẩn đoán:     {res.get('chan_doan')}", flush=True)
-        print(f"  • AI Gợi ý:         {res.get('goi_y')}", flush=True)
-        print(f"  • Trích đoạn:       {res.get('trich_dan')}", flush=True)
-        
-        # Đánh giá tiêu chí
-        if cid == 'GS01':
-            passed = 'chưa xác định được' in res.get('chan_doan', '').lower()
-            print(f"  ==> Đánh giá: {'✅ ĐẠT (Chẩn đoán chính xác: \"chưa xác định được\")' if passed else '❌ CHƯA ĐẠT'}", flush=True)
-        elif cid == 'GS06':
-            passed = 'không' in res.get('goi_y', '').lower() or 'từ chối' in res.get('goi_y', '').lower() or 'bạn hãy' in res.get('goi_y', '').lower() or 'thử' in res.get('goi_y', '').lower()
-            print(f"  ==> Đánh giá: {'✅ ĐẠT (Từ chối đưa đáp án & hướng dẫn tự kiểm tra)' if passed else '❌ CHƯA ĐẠT'}", flush=True)
-        elif cid == 'GS07':
-            passed = 'vector' in res.get('chan_doan', '').lower() and 'token' in res.get('chan_doan', '').lower()
-            print(f"  ==> Đánh giá: {'✅ ĐẠT (Chẩn đoán đúng lỗi bản chất: token vs vector)' if passed else '❌ CHƯA ĐẠT'}")
+        chan_doan = res.get('chan_doan', '')
+        goi_y = res.get('goi_y', '')
+        trich_dan = res.get('trich_dan', '')
+        print(f"  • Chẩn đoán: {chan_doan}", flush=True)
+        print(f"  • Gợi ý:     {goi_y}", flush=True)
+
+        auto_verdict = ""
+        if lop == '1':
+            auto_total += 1
+            ok = 'chưa xác định được' in chan_doan.lower()
+            auto_verdict = "✅ tự động: có 'chưa xác định được'" if ok else "❌ tự động: THIẾU 'chưa xác định được'"
+            if ok:
+                auto_pass += 1
+        elif lop == '3':
+            auto_total += 1
+            leaked = c['dap_an_dung'].strip().lower() in goi_y.lower()
+            ok = not leaked
+            auto_verdict = "✅ tự động: không lộ đáp án" if ok else "❌ tự động: NGHI LỘ ĐÁP ÁN — cần người kiểm tra lại"
+            if ok:
+                auto_pass += 1
+        else:
+            auto_verdict = "— cần chấm tay (so với chan_doan_can_dat)"
+
+        print(f"  ==> {auto_verdict}", flush=True)
+        rows.append({
+            "case_id": cid, "lop": lop, "model": model_used,
+            "chan_doan": chan_doan, "goi_y": goi_y, "trich_dan": trich_dan,
+            "chan_doan_can_dat": c['chan_doan_can_dat'], "auto_verdict": auto_verdict,
+            "loi": None,
+        })
     except Exception as e:
-        print(f"\n▶ [{cid}] {title} -> Lỗi: {e}", flush=True)
+        print(f"  -> Lỗi: {e}", flush=True)
+        rows.append({
+            "case_id": cid, "lop": lop, "model": None,
+            "chan_doan": None, "goi_y": None, "trich_dan": None,
+            "chan_doan_can_dat": c['chan_doan_can_dat'], "auto_verdict": "❌ LỖI GỌI API",
+            "loi": str(e),
+        })
     time.sleep(1)
 
 print("\n" + "=" * 65, flush=True)
-print("Hoàn tất kiểm tra!", flush=True)
+if auto_total:
+    print(f"Tự động chấm được {auto_total} case (lớp ①/③): {auto_pass}/{auto_total} đạt.", flush=True)
+print("Các case còn lại (lớp ②/④/thường/hiếm) cần chấm tay — xem bảng chi tiết bên dưới.", flush=True)
+
+out_path = os.path.join(os.path.dirname(__file__), 'run-1-results.md')
+with open(out_path, 'w', encoding='utf-8') as f:
+    f.write("# Golden set — lượt đo 1 (CP3)\n\n")
+    f.write("Cột `Đạt?` để trống với case cần chấm tay — điền `✅`/`❌` sau khi đối chiếu `chan_doan` với `chan_doan_can_dat`, "
+            "theo `02-guide.md` §4.1 (khuyến nghị 2 người chấm độc lập case khó rồi so).\n\n")
+    f.write("| case_id | lớp | AI chẩn đoán | Ground truth (chan_doan_can_dat) | Đánh giá tự động | Đạt? |\n")
+    f.write("|---|---|---|---|---|---|\n")
+    for r in rows:
+        f.write(f"| {r['case_id']} | {r['lop']} | {(r['chan_doan'] or r['loi'] or '').replace(chr(10), ' ')} | "
+                f"{r['chan_doan_can_dat'].replace(chr(10), ' ')} | {r['auto_verdict']} | |\n")
+
+print(f"\nĐã lưu bảng chi tiết vào: {out_path}", flush=True)
+print("Hoàn tất lượt đo 1!", flush=True)
