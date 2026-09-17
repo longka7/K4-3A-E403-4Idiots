@@ -75,7 +75,7 @@ Kịch bản tối thiểu 8 case (mỗi dòng: `tình huống cụ thể | lớ
 Mỗi case trên đã được rút từ `eval/golden-set.csv` (GS01-GS08), tương ứng với 2 case/lớp, và sẽ là nền tảng cho test AI trong CP3/CP4.
 
 ## §6. Bốn đường đi của trải nghiệm
-Áp dụng trực tiếp từ quy trình Productive Failure trên prototype thật [`codebase/mock-cp2.html`](file:///d:/NguyenVanAn/2026_Vin_AI_ThucChien/TongHop_LAB/K4-3A-E403-4Idiots/codebase/mock-cp2.html) và dữ liệu kiểm thử thật từ bộ Golden Set (`eval/eval_results.json`):
+Áp dụng trực tiếp từ quy trình Productive Failure trên prototype thật [`codebase/mock-cp2.html`](codebase/mock-cp2.html) và dữ liệu kiểm thử thật từ bộ Golden Set (`eval/golden-set.csv`, kết quả chạy tại `eval/eval_report.md`):
 
 ### 1. Happy Path — Đi đúng luồng Productive Failure (Làm sai → AI chẩn đoán trúng → Gợi ý 1 bước → Tự sửa đúng)
 - **Bối cảnh:** Học viên làm bài tập tự luận, đưa ra câu trả lời sai do ngộ nhận bản chất khái niệm.
@@ -151,7 +151,7 @@ Tuân thủ nguyên tắc minh bạch học thuật, nhóm không che giấu s�
 3. **Case GS09, GS10, GS16 (Nhóm Thường - Pretraining vs SFT, Token budget, Vocab size):** Tương tự GS08, các đoạn trích tài liệu quá ngắn khiến AI kích hoạt Guardrail an toàn và từ chối đưa ra chẩn đoán cụ thể.
 
 > **Bài học thiết kế AI Agent rút ra:** Có sự đánh đổi cố hữu (Trade-off) giữa **Precision (Độ an toàn chống Hallucination - Lớp ①)** và **Recall (Khả năng phát hiện lỗi hiểu nhầm của học viên)**. Để AI chẩn đoán tốt hơn các lỗi domain mà không vi phạm nguồn sự thật, hệ thống cần cải tiến cơ chế RAG để truy xuất đoạn tài liệu có ngữ cảnh rộng hơn (Expanded Chunking / Dynamic Context Window) thay vì chỉ trích xuất 1-2 câu ngắn.
-- Chi tiết báo cáo kiểm thử và log chạy từng case: xem file minh chứng [`eval/eval_report.md`](file:///d:/NguyenVanAn/2026_Vin_AI_ThucChien/TongHop_LAB/K4-3A-E403-4Idiots/eval/eval_report.md) và [`eval/eval_results.json`](file:///d:/NguyenVanAn/2026_Vin_AI_ThucChien/TongHop_LAB/K4-3A-E403-4Idiots/eval/eval_results.json).
+- Chi tiết báo cáo kiểm thử và log chạy từng case: xem file minh chứng [`eval/eval_report.md`](eval/eval_report.md).
 
 ## §8. Phân công & kế hoạch
 - Phân công có tên:
