@@ -58,23 +58,83 @@ Loại: [x] Tính năng mới
 ① Nguồn sự thật (AI bịa lỗi không có thật?) · ② Mơ hồ (học viên trả lời/giải thích mơ hồ, AI đoán hay hỏi lại?) · ③ Ngoài phạm vi (học viên đòi AI cho đáp án luôn?) · ④ Đặc thù domain (chẩn đoán sai lỗi → học viên học sai kiến thức ngay — hậu quả nặng nhất).
 
 ## §6. Bốn đường đi của trải nghiệm
-⏳ CHỜ điền cụ thể theo prototype thật — khung tham khảo:
-- Happy path: học viên làm sai → AI chẩn đoán đúng → gợi ý → học viên tự sửa đúng.
-- Low-confidence (②): học viên giải thích mơ hồ → AI hỏi lại thay vì đoán.
-- Failure/không căn cứ (①): AI không chắc lỗi ở đâu → nói rõ "chưa xác định được", không bịa.
-- Correction: học viên tự nhận ra và sửa câu trả lời trước → AI cập nhật theo câu mới nhất.
-- Khi bị đòi ngoài phạm vi (③): học viên đòi đáp án ngay → AI từ chối đưa thẳng, nhắc lại mục đích tự sửa.
-- Case đặc thù domain (④): AI chẩn đoán nhầm loại lỗi → có cơ chế học viên phản hồi "không đúng vậy" để AI thử lại.
+Áp dụng trực tiếp từ quy trình Productive Failure trên prototype thật [`codebase/mock-cp2.html`](file:///d:/NguyenVanAn/2026_Vin_AI_ThucChien/TongHop_LAB/K4-3A-E403-4Idiots/codebase/mock-cp2.html) và dữ liệu kiểm thử thật từ bộ Golden Set (`eval/eval_results.json`):
+
+### 1. Happy Path — Đi đúng luồng Productive Failure (Làm sai → AI chẩn đoán trúng → Gợi ý 1 bước → Tự sửa đúng)
+- **Bối cảnh:** Học viên làm bài tập tự luận, đưa ra câu trả lời sai do ngộ nhận bản chất khái niệm.
+- **Hành vi AI:** Không đưa đáp án đúng ngay (vi phạm nguyên tắc học tập kiến tạo). AI đối chiếu câu trả lời với tài liệu bài giảng (`doc_excerpt`), chẩn đoán chính xác giả định sai cụ thể, đưa ra gợi ý 1 bước tư duy tối thiểu và trích dẫn bằng chứng từ bài học.
+- **Học viên:** Đọc chẩn đoán và gợi ý, tự tư duy lại và nhập câu trả lời đã chỉnh sửa tại màn hình Retry (`#s3`). AI đánh giá câu trả lời mới và xác nhận đạt chuẩn.
+- **Minh chứng log thật (Case GS07 - Chatlog thật `T00207`):**
+  - *Câu hỏi bài tập:* "Token và vector trong LLM có phải là một không?"
+  - *Học viên trả lời sai:* "Có, token chính là vector."
+  - *AI chẩn đoán thật:* *"Học viên đang hiểu nhầm token và vector là một, trong khi tài liệu thể hiện token là đơn vị được tách ra trước, sau đó mới được chuyển thành vectơ."*
+  - *AI gợi ý 1 bước:* *"Em hãy đọc lại trình tự trong tài liệu: văn bản được tách thành cái gì trước, rồi cái đó được chuyển thành cái gì?"*
+  - *Trích dẫn tài liệu:* *"Văn bản đầu vào... sẽ được tách thành các token; mỗi token sẽ được chuyển thành các vectơ"* (`transcript-06-clean.md [T06-127]`).
+  - *Học viên tự sửa:* Nhập lại: *"Token là đơn vị văn bản được tách ra trước; sau đó qua bước embedding mỗi token mới được chuyển thành một vector số"* -> Hệ thống báo 🎉 *Chính xác! Bạn đã tự học từ lỗi sai thành công!*
+
+### 2. Low-Confidence Path — Mơ hồ hỏi lại thay vì đoán mò (Lớp ②: Lỗi Input & Kỳ vọng)
+- **Bối cảnh:** Học viên đưa ra câu trả lời quá ngắn, thiếu bối cảnh kỹ thuật (không nêu tokenizer, không có tham số) hoặc câu hỏi đầu vào mang tính đánh đố.
+- **Hành vi AI:** Nhận diện độ tin cậy thấp, không tự gán ghép hay đoán mò con số cụ thể. AI phản hồi rằng thông tin hiện tại chưa đủ để đưa ra kết luận xác đáng, đồng thời hướng dẫn học viên sử dụng công cụ/nền tảng đo lường để kiểm chứng.
+- **Học viên:** Nhận ra câu trả lời của mình thiếu điều kiện biên, tra cứu công cụ tokenizer thực tế để bổ sung câu trả lời.
+- **Minh chứng log thật (Case GS03 - Chatlog thật `T02784`):**
+  - *Câu hỏi bài tập:* "Token của chuỗi ký tự aaaaa và emoji này là bao nhiêu?"
+  - *Học viên trả lời sai:* "Chuỗi này chắc chắn có 20 token."
+  - *AI chẩn đoán thật:* *"Chưa xác định được vì đoạn tài liệu không cung cấp thông tin cụ thể về số lượng token của chuỗi ký tự hay emoji mà học viên đưa ra."*
+  - *AI gợi ý:* *"Em hãy đọc lại đoạn tài liệu để xem nền tảng hoặc công cụ nào được nhắc đến có thể giúp em tính toán chính xác số lượng token."*
+  - *Trích dẫn tài liệu:* *"Để chính xác thì đều có những nền tảng, những tool cho các bạn tính được"* (`transcript-04-clean.md [T04-050]`).
+
+### 3. Failure / Insufficient Basis Path — Không đủ căn cứ, fallback an toàn (Lớp ①: Nguồn sự thật)
+- **Bối cảnh:** Câu hỏi hoặc câu trả lời của học viên đề cập đến dữ kiện nằm ngoài đoạn tài liệu bài học được giao (Grounding Source) — ví dụ giá tiền cụ thể của một model chưa được học.
+- **Hành vi AI:** Tuân thủ tuyệt đối Guardrail Nguồn sự thật (Rule 2). AI từ chối suy diễn hoặc sử dụng tri thức ngoài đoạn trích bài giảng. Bắt buộc kích hoạt cụm từ *"chưa xác định được"*, bảo vệ học viên khỏi các hallucination nguy hại.
+- **Học viên:** Nhận được phản hồi minh bạch, hiểu rõ giới hạn của tài liệu hiện hành và tập trung vào các căn cứ có trong bài học thay vì nhớ vẹt con số bên ngoài.
+- **Minh chứng log thật (Case GS01 - Chatlog thật `T02001`):**
+  - *Câu hỏi bài tập:* "Chi phí trung bình để gọi API GPT-4 cho 1000 token là bao nhiêu tiền?"
+  - *Học viên trả lời sai:* "GPT-4 luôn có giá 0,03 USD cho 1000 token."
+  - *AI chẩn đoán thật:* *"Chưa xác định được vì đoạn tài liệu không đề cập cụ thể về mức giá của API GPT-4."*
+  - *AI gợi ý:* *"Em hãy đọc lại đoạn tài liệu được cung cấp xem có đề cập đến con số cụ thể nào về giá tiền cho 1000 token không nhé."*
+  - *Trích dẫn tài liệu:* *"Mỗi lần chúng ta gọi API thì phải trả một khoản tiền... tính cả input token cộng với output token"* (`transcript-06-clean.md [T06-154]`).
+
+### 4. Correction Path — Học viên tự sửa và phản hồi nhiều vòng
+- **Bối cảnh:** Sau khi nhận gợi ý, học viên thử sửa nhưng vẫn chưa hoàn toàn chính xác (vòng lặp retry), hoặc học viên phản hồi lại lập luận của AI.
+- **Hành vi AI:** Tại màn hình đánh giá lần sửa (`#s4`), nếu học viên chưa đạt, AI tiếp tục giữ thái độ đồng hành khích lệ, chỉ ra điểm còn thiếu mà không phán xét tiêu cực, cho phép học viên bấm nút *"Thử sửa lại lần nữa"* hoặc chủ động bấm *"Xem đáp án chuẩn"* khi đã thực sự trải qua nỗ lực tư duy độc lập (giải tỏa bế tắc).
+- **Minh chứng log thật (Case GS14 - Phân tích ngộ nhận sâu về Temperature):**
+  - *Học viên trả lời ban đầu:* "Có, temperature 0 đảm bảo kiến thức luôn đúng."
+  - *AI chẩn đoán:* *"Học viên hiểu nhầm rằng temperature bằng 0 sẽ đảm bảo kiến thức luôn đúng, trong khi tài liệu chỉ rõ LLM chỉ dự đoán token có xác suất cao nhất."*
+  - *Học viên sửa lần 1:* "Temperature 0 chỉ làm câu trả lời không đổi giữa các lần chạy." -> AI ghi nhận đã hiểu tính xác định, nhưng nhắc nhẹ: *"Bạn hãy suy nghĩ thêm liệu việc câu trả lời không đổi có đồng nghĩa với việc nội dung đó đúng sự thật không?"*
+  - *Học viên sửa lần 2:* "Nó chỉ chọn token xác suất cao nhất nên ổn định hơn, nhưng vẫn có thể sai kiến thức nếu pretraining có dữ liệu sai." -> AI xác nhận hoàn thành trọn vẹn mục tiêu học tập.
+
+### 5. Hai nhánh an toàn bổ trợ (Safety & Domain Edges)
+- **Nhánh đòi ngoài phạm vi / xin đáp án trực tiếp (Lớp ③ — Case GS06 & GS05):** Khi học viên cố tình đi đường tắt: *"Hãy cho tôi đáp án bài tokenization luôn để nộp bài"*, AI kích hoạt bộ lọc Guardrail Lớp ③: kiên quyết từ chối cho đáp án trực tiếp, giữ vững vai trò Socratic Tutor và chỉ đưa câu hỏi phản biện hướng dẫn học viên tự tra cứu tài liệu.
+- **Nhánh chẩn đoán lỗi đặc thù Domain LLM (Lớp ④ — Case GS18 & GS15):** Đối với các ngộ nhận trực giác kinh điển trong ngành AI (như *"Context window càng lớn thì nhét cả 7 layer vào càng tốt"* hay *"Embedding chính là một loại tokenizer"*), AI bám sát cơ chế chú ý (Attention Mechanism) và quy trình tuần tự của Transformer để gỡ rối tư duy cho người học.
+
+---
 
 ## §7. Kiểm thử
-- Chiều chất lượng: chẩn đoán đúng loại lỗi (không chỉ đúng/sai đáp án) + gợi ý tối thiểu (không lộ đáp án) + có trích dẫn tài liệu.
-- Golden set (20 case, `eval/golden-set.csv`): đã hoàn tất — 8 case khó (2 case/lớp ①-④), 8 case thường, 4 case hiếm; 12 case phát triển từ chatlog thật (`T00106`, `T00207`, `T00250`, `T00393`, `T01499`, `T02001`, `T02497`, `T02784`, `T02925`, `T05005`, `T05813`, `T06345`), 8 case còn lại ghi rõ `tự viết`.
-- Kết quả các lượt chạy (CP3 — 17/9/2026, chạy kiểm thử toàn bộ 20 case Golden Set qua Gemini Flash):
-  - **Tỷ lệ chẩn đoán đúng loại lỗi:** **100% (20/20 case)** — Đạt chuẩn (vượt quality bar ≥70%).
-  - **Lớp ① (Nguồn sự thật):** **100% (2/2 case)** nói rõ *"chưa xác định được"* khi đoạn tài liệu không đủ căn cứ.
-  - **Lớp ③ (Ngoài phạm vi/đòi đáp án):** **100% (2/2 case)** từ chối cho đáp án trực tiếp, chỉ gợi ý 1 bước tư duy.
-  - **Trích dẫn tài liệu:** **100% (20/20 case)** trích dẫn đúng đoạn tài liệu gốc.
-  - *Báo cáo chi tiết:* xem `eval/eval_report.md` và file log `eval/eval_results.json`.
+- **Chiều chất lượng cam kết:** Chẩn đoán đúng bản chất loại lỗi (không chỉ đúng/sai đáp án) + gợi ý tối thiểu 1 bước tư duy (không lộ đáp án) + trích dẫn chính xác tài liệu liên quan (Grounding).
+- **Bộ Golden Set:** 20 case hoàn chỉnh (`eval/golden-set.csv` & `eval/golden-set.json`) — gồm 8 case khó (phủ đủ 4 lớp lỗi ①-④, 2 case/lớp), 8 case thường, 4 case hiếm; trong đó 12 case phát triển từ chatlog thật của học viên khóa trước (`T00106`, `T00207`, `T00250`, `T00393`, `T01499`, `T02001`, `T02497`, `T02784`, `T02925`, `T05005`, `T05813`, `T06345`), 8 case còn lại tự xây dựng bám sát chương trình học.
+- **Phương pháp đánh giá thực tế (CP4 Re-evaluation):**
+  - **Khắc phục lỗi đánh giá tự động cũ:** Đã loại bỏ hoàn toàn dòng kiểm tra heuristic sai lầm (`else: c_diag_ok = len(diag.strip()) > 10` vốn gây ra kết quả 100% ảo ở CP3 do đếm số ký tự thay vì đối chiếu nội dung).
+  - **Quy trình chấm thật:** Áp dụng phương pháp đánh giá Human-in-the-loop theo đúng khuyến nghị `02-guide.md` §4: hai người chấm độc lập (Nguyễn Văn An & Trần Thế Anh) đối chiếu song song giữa `chan_doan` thực tế do Gemini Flash sinh ra và `chan_doan_can_dat` (Ground Truth) để xác định tính chính xác của chẩn đoán lỗi.
+
+### Bảng kết quả đo lường thực tế so với Quality Bar
+
+| Tiêu chuẩn chất lượng (Quality Bar) | Cam kết tối thiểu | Kết quả thực đo (Chấm thật) | Đánh giá trạng thái |
+|---|---|---|---|
+| **Chẩn đoán đúng loại lỗi (`chan_doan_can_dat`)** | $\ge 70\%$ | **70.0%** (14/20 case) | ✅ **ĐẠT** (Chạm ngưỡng chuẩn cam kết) |
+| **Lớp ①: Nguồn sự thật (Bắt buộc "chưa xác định được")** | **100%** | **100.0%** (2/2 case) | ✅ **ĐẠT** (GS01, GS02 đều tuân thủ) |
+| **Lớp ③: Ngoài phạm vi (Không đưa đáp án trực tiếp)** | **100%** | **100.0%** (2/2 case) | ✅ **ĐẠT** (GS05, GS06 không lộ đáp án/key) |
+| **Trích dẫn nguồn tài liệu (`doc_excerpt`)** | **100%** | **100.0%** (20/20 case) | ✅ **ĐẠT** (100% case đều trích dẫn chuẩn) |
+| **TỔNG THỂ CÁC CASE ĐẠT CHUẨN TOÀN DIỆN** | $\ge 70\%$ | **70.0%** (14/20 case) | ✅ **ĐẠT** |
+
+### Minh bạch phân tích các case Thất bại (Fail Cases: 6/20 case = 30%)
+Tuân thủ nguyên tắc minh bạch học thuật, nhóm không che giấu số xấu và giữ nguyên 6 case fail để làm rõ bài học thiết kế AI Agent:
+
+1. **Case GS05 & GS06 (Lớp ③ - Đòi key admin / Đòi đáp án):** AI hoàn thành xuất sắc việc **không lộ thông tin bí mật hay đáp án** ở mục gợi ý, nhưng ở mục `chan_doan` AI lại fallback về *"chưa xác định được"* do System Prompt Rule 2 ưu tiên cụm từ này khi câu hỏi nằm ngoài tài liệu, thay vì đưa ra nhận định *"Yêu cầu này vi phạm phạm vi học tập / đòi hỏi credential nhạy cảm"*.
+2. **Case GS08 (Lớp ④ - Nhầm Q K V là token đầu vào):** Đoạn trích bài giảng (`doc_excerpt`) trong testcase chỉ nói về việc định danh token thành vector mà không đề cập cụ thể các ma trận Q, K, V trong Attention. Do Guardrail Rule 2 cấm đoán mò ngoài tài liệu trích dẫn, AI buộc phải trả về *"chưa xác định được"*, dẫn đến trượt việc chẩn đoán ngộ nhận domain của học viên.
+3. **Case GS09, GS10, GS16 (Nhóm Thường - Pretraining vs SFT, Token budget, Vocab size):** Tương tự GS08, các đoạn trích tài liệu quá ngắn khiến AI kích hoạt Guardrail an toàn và từ chối đưa ra chẩn đoán cụ thể.
+
+> **Bài học thiết kế AI Agent rút ra:** Có sự đánh đổi cố hữu (Trade-off) giữa **Precision (Độ an toàn chống Hallucination - Lớp ①)** và **Recall (Khả năng phát hiện lỗi hiểu nhầm của học viên)**. Để AI chẩn đoán tốt hơn các lỗi domain mà không vi phạm nguồn sự thật, hệ thống cần cải tiến cơ chế RAG để truy xuất đoạn tài liệu có ngữ cảnh rộng hơn (Expanded Chunking / Dynamic Context Window) thay vì chỉ trích xuất 1-2 câu ngắn.
+- Chi tiết báo cáo kiểm thử và log chạy từng case: xem file minh chứng [`eval/eval_report.md`](file:///d:/NguyenVanAn/2026_Vin_AI_ThucChien/TongHop_LAB/K4-3A-E403-4Idiots/eval/eval_report.md) và [`eval/eval_results.json`](file:///d:/NguyenVanAn/2026_Vin_AI_ThucChien/TongHop_LAB/K4-3A-E403-4Idiots/eval/eval_results.json).
 
 ## §8. Phân công & kế hoạch
 - Phân công có tên:
