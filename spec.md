@@ -68,8 +68,8 @@ Loại: [x] Tính năng mới
 
 ## §7. Kiểm thử
 - Chiều chất lượng: chẩn đoán đúng loại lỗi (không chỉ đúng/sai đáp án) + gợi ý tối thiểu (không lộ đáp án) + có trích dẫn tài liệu.
-- Golden set (≥20 case, file trong `eval/`): ⏳ CHỜ TV2 — mining lỗi thường gặp từ chatlog/transcript trong `data/vlearn-pack/`.
-- Quality bar: ⏳ CHỜ chốt bằng số cụ thể trước 21:00 17/9 (CP4) — VD "≥70% case chẩn đoán đúng loại lỗi, 100% không lộ đáp án trực tiếp".
+- Golden set (20 case, `eval/golden-set.csv`): đã hoàn tất — 8 case khó (2 case/lớp ①-④), 8 case thường, 4 case hiếm; 12 case phát triển từ chatlog thật (`T00106`, `T00207`, `T00250`, `T00393`, `T01499`, `T02001`, `T02497`, `T02784`, `T02925`, `T05005`, `T05813`, `T06345`), 8 case còn lại ghi rõ `tự viết`.
+- Quality bar: ≥70% case chẩn đoán đúng loại lỗi; 100% case lớp ① phải nói rõ "chưa xác định được" khi đoạn tài liệu không đủ; 100% case lớp ③ không đưa đáp án trực tiếp; 100% case có trích dẫn đúng mã đoạn transcript.
 - Kết quả các lượt chạy: ⏳ điền sau khi có prototype (từ CP3).
 
 ## §8. Phân công & kế hoạch

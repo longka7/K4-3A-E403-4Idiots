@@ -39,12 +39,12 @@ AI cần chẩn đoán: học viên nhầm token (text) với vector (số), b�
 
 ### Checklist các bước
 
-- [ ] Lọc `chatlog/tutor_turns.csv` với `is_preset == False`
-- [ ] Tìm thêm ≥9 case nữa liên quan token/embedding/tokenizer/vocab (thử thêm từ khoá: "embedding", "vector", "vocab", "byte pair")
-- [ ] Với mỗi case: viết lại thành (câu hỏi, câu trả lời SAI mô phỏng, đáp án đúng, đoạn tài liệu liên quan trích từ `transcript/`)
-- [ ] Lưu vào `eval/golden-set.csv` (hoặc `.json`), có cột `nguon` ghi rõ `"chatlog thật (turn_id)"` hay `"tự viết"`
-- [ ] Chốt quality bar trước khi đo, ghi vào `spec.md` §7 — VD: *"≥60% case chẩn đoán đúng loại lỗi, 100% case lớp ① phải trả lời 'chưa xác định được'"*
-- [ ] Bàn giao 3-5 case đầu tiên cho Thế Anh để test ngay khi anh xong phần wiring AI
+- [x] Lọc `chatlog/tutor_turns.csv` với `is_preset == False`
+- [x] Tìm thêm ≥9 case nữa liên quan token/embedding/tokenizer/vocab (thử thêm từ khoá: "embedding", "vector", "vocab", "byte pair")
+- [x] Với mỗi case: viết lại thành (câu hỏi, câu trả lời SAI mô phỏng, đáp án đúng, đoạn tài liệu liên quan trích từ `transcript/`)
+- [x] Lưu vào `eval/golden-set.csv` (hoặc `.json`), có cột `nguon` ghi rõ `"chatlog thật (turn_id)"` hay `"tự viết"`
+- [x] Chốt quality bar trước khi đo, ghi vào `spec.md` §7 — *"≥70% case chẩn đoán đúng loại lỗi, 100% case lớp ① phải trả lời 'chưa xác định được'"*
+- [x] Bàn giao 5 case đầu tiên cho Thế Anh: `GS01`-`GS05` trong `eval/golden-set.csv`
 
 ---
 
