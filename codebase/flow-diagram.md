@@ -4,13 +4,16 @@ Nộp cho **CP2** (hạn 21:00 16/9) — GitHub tự render sơ đồ Mermaid b�
 
 Lát cắt 1 câu (tham chiếu `spec.md` §4, **quyết định AI trung tâm** — cái được đo ở CP3): *Một học viên · làm bài tập tự luận, làm sai · AI chẩn đoán đúng giả định sai cụ thể và gợi ý một bước tối thiểu kèm trích dẫn tài liệu (không đưa đáp án ngay) · học viên tự sửa và giải thích lại được.*
 
-**Mở rộng (không phải quyết định trung tâm, làm nếu còn thời gian):** trước khi vào bài tự luận, học viên làm 1 bộ trắc nghiệm đánh giá trình độ hiện tại; hệ thống tự sinh bộ câu hỏi tự luận với độ khó tương ứng % đúng trắc nghiệm.
+**Mở rộng (không phải quyết định trung tâm, làm nếu còn thời gian):** trước khi vào bài tự luận, học viên làm 1 bộ trắc nghiệm đánh giá trình độ hiện tại; mỗi câu chọn **đúng** sẽ hiện thêm ô giải thích lý do (lọc "đoán trúng" khỏi "hiểu thật"); hệ thống tự sinh bộ câu hỏi tự luận với độ khó tương ứng cả % đúng lẫn chất lượng giải thích.
 
 ```mermaid
 flowchart TD
     A0[Học viên mở bài học] --> A1[Làm bộ trắc nghiệm<br/>đánh giá trình độ hiện tại]
-    A1 --> A2[Chấm điểm trắc nghiệm<br/>rule-based, không cần AI]
-    A2 --> A3["AI #1 — MỞ RỘNG: Sinh bộ câu hỏi<br/>TỰ LUẬN, độ khó theo % đúng<br/>(điểm thấp → câu dễ hơn,<br/>điểm cao → câu khó/vận dụng)"]
+    A1 --> A1b{Với mỗi câu:<br/>chọn đúng?}
+    A1b -->|Đúng| A1c[Hiện ô giải thích lý do<br/>vì sao chọn đáp án này]
+    A1b -->|Sai| A2
+    A1c --> A2[Chấm điểm: % đúng<br/>+ phát hiện 'đoán trúng'<br/>nếu giải thích thiếu/quá mỏng<br/>— rule-based, không cần AI]
+    A2 --> A3["AI #1 — MỞ RỘNG: Sinh bộ câu hỏi<br/>TỰ LUẬN, độ khó theo % đúng<br/>VÀ chất lượng giải thích<br/>(nghi đoán trúng → hạ độ khó,<br/>hiểu thật + đúng nhiều → nâng độ khó)"]
     A3 --> A[Học viên nhận bài tập tự luận]
 
     A --> B[Nhập câu trả lời<br/>chỉ áp dụng cho câu tự luận —<br/>trắc nghiệm không cần nhập text]
@@ -32,6 +35,8 @@ flowchart TD
     K --> B
 
     style A1 fill:#f3e8ff,stroke:#9333ea
+    style A1b fill:#f3e8ff,stroke:#9333ea
+    style A1c fill:#f3e8ff,stroke:#9333ea
     style A2 fill:#f3e8ff,stroke:#9333ea
     style A3 fill:#f3e8ff,stroke:#9333ea
     style E fill:#dbeafe,stroke:#2563eb,stroke-width:3px
@@ -45,8 +50,9 @@ flowchart TD
 
 ## Giải thích nhánh quan trọng
 
-- **Trắc nghiệm chấm bằng rule, không cần AI** (A2): giữ đơn giản — % đúng chỉ cần so khớp đáp án có sẵn, không cần gọi AI để chấm.
-- **AI #1 (sinh câu tự luận theo độ khó)**: nhận input là % đúng trắc nghiệm + bài học hiện tại, output là bộ câu hỏi tự luận. Đây là phần **mở rộng**, không phải quyết định bắt buộc đo ở CP3.
+- **Ô giải thích khi chọn đúng** (A1b→A1c): chọn đúng đáp án chưa chắc là hiểu đúng bản chất (có thể đoán trúng) — nên chỉ hỏi thêm ở đúng chỗ mơ hồ nhất (khi chọn đúng), không bắt giải thích mọi câu.
+- **Trắc nghiệm chấm bằng rule, không cần AI** (A2): % đúng chỉ cần so khớp đáp án có sẵn; phần "phát hiện đoán trúng" cũng chỉ cần rule đơn giản (VD giải thích < 15 ký tự hoặc để trống → nghi ngờ), không cần AI để làm bước này.
+- **AI #1 (sinh câu tự luận theo độ khó)**: nhận input là % đúng trắc nghiệm + chất lượng giải thích + bài học hiện tại, output là bộ câu hỏi tự luận. Đây là phần **mở rộng**, không phải quyết định bắt buộc đo ở CP3.
 - **AI #2 (chẩn đoán lỗi) — quyết định trung tâm**: giữ nguyên thiết kế cũ, đã có evidence khảo sát (60.9% xác nhận pain đúng ở khâu này — xem `spec.md` §1).
 - **Nhánh "Đúng"**: không kết thúc ngay — AI hỏi ngược 1 câu để chắc chắn học viên hiểu chứ không phải đoán trúng.
 - **Nhánh "Không đủ căn cứ"** (màu vàng): nếu tài liệu không đủ để xác định đúng loại lỗi, AI phải nói rõ thay vì bịa (Lớp ① — Nguồn sự thật, `01-challenge-brief.md`).
