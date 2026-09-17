@@ -30,28 +30,35 @@ Loại: [x] Tính năng mới
 
   | Ứng viên | Bao nhiêu người gặp | Tần suất | Mỗi lần tốn gì | Build nổi trong 3 buổi? | Chọn? |
   |---|---|---|---|---|---|
-  | **D2 — Học từ lỗi trước** | 14/23 khảo sát (60.9%) xác nhận, mạnh nhất ở "đáp án không giải thích chỗ sai" (11/23) | Mỗi lần làm sai bài tập | Thời gian tua lại lý thuyết (5/23 phải xem lại gần như toàn bộ) + rủi ro hiểu sai lại | Có — 1 luồng chẩn đoán lỗi + gợi ý, giới hạn 1 concept | **✅ Chọn** |
-  | D1 — Lớp học mô phỏng đa tác tử | Chưa khảo sát riêng | Mỗi buổi học | Không có bạn học/TA để hỏi ngược | Khó — cần ≥2 agent phối hợp, rủi ro cao trong thời gian ngắn | Loại — quá tham vọng cho 47.5h |
-  | D3 — Học bằng cách dạy lại | Chưa khảo sát riêng | Sau mỗi buổi học | Không ai để dạy lại, không tự biết hiểu đúng chưa | Có, nhưng khó đo "đã hiểu sâu hơn" hơn D2 | Loại — D2 đo "học được" rõ ràng hơn (đúng/sai bài tập) |
-  | A1 — Tối ưu tutor VLearn hiện có | Có sẵn data lớn (13.494 lượt hỏi) | Rất cao | Câu trả lời không căn cứ/không đúng cỡ | Dễ nhất — data sẵn | Loại — không thuộc track D, và không đo được "học được" theo yêu cầu riêng của track D |
+  | **D2 — Học từ lỗi trước** | 14/23 khảo sát (60.9%) xác nhận pain; riêng dấu hiệu "đáp án không giải thích chỗ sai" là 11/23 (47.8%) | Ước lượng 3 lần sai trong một bộ 10 câu | Mỗi lần mất khoảng 5 phút để tìm nguyên nhân (6/23 gặp pain này), tương đương khoảng 15 phút/bộ; 5/23 còn phải xem lại gần như toàn bộ lý thuyết | Có — 1 luồng chẩn đoán lỗi + gợi ý, giới hạn trong 1 khái niệm kiến thức | **✅ Chọn** |
+  | D1 — Lớp học mô phỏng đa tác tử | Chưa khảo sát riêng | Mỗi buổi học | Thời gian tra cứu, liên hệ giảng viên lab coach để được giải đáp thắc mắc | Khó — cần ≥2 agent phối hợp, rủi ro cao trong thời gian ngắn | Loại — quá tham vọng cho 47.5h |
+  | D3 — Học bằng cách dạy lại | Chưa khảo sát riêng | Sau mỗi buổi học | Rủi ro hiểu sai kiến thức do Không có ai để dạy lại | Có, nhưng khó đo "đã hiểu sâu hơn" hơn D2 | Loại — D2 đo "học được" rõ ràng hơn (đúng/sai bài tập) |
+  | A1 — Tối ưu tutor VLearn hiện có | Có sẵn data lớn (13.494 lượt hỏi) | Chưa kiểm tra | Câu trả lời không căn cứ/không đúng cỡ | Dễ nhất — data sẵn | Loại — không thuộc track D, và không đo được "học được" theo yêu cầu riêng của track D |
 
   *(Nguồn: khảo sát Google Form 23 phản hồi, 16/9/2026 — xem `spec.md` §1 và file gốc `KhaoSat.xlsx`. D1/D3 chưa có khảo sát riêng vì nhóm chọn D2 ngay từ đầu dựa trên đánh giá định tính; nếu giám khảo hỏi, nêu rõ đây là giới hạn thời gian, không phải bỏ qua bước so sánh.)*
 
 - Ứng viên ĐÃ LOẠI + vì sao: D1 (rủi ro kỹ thuật cao, đa tác tử khó demo gọn 5 phút), D3 (khó đo mức hiểu sâu hơn bằng chỉ số khách quan), A1 (không thuộc track D, không có yêu cầu đo "học được" như D2).
-- Ứng viên CHỌN + vì sao: D2 — vì có thể đo trực tiếp "học được" bằng đúng/sai bài tập trước/sau (đúng yêu cầu riêng của track D), và lát cắt nhỏ (1 concept, 1 lần sai) build nổi trong thời gian sự kiện.
+- Ứng viên CHỌN + vì sao (giải thích kèm số): D2 — ảnh hưởng được lượng hóa bằng 14/23 người (60.9%) gặp pain × khoảng 3 lần sai/bộ 10 câu × khoảng 5 phút tìm nguyên nhân mỗi lần = khoảng 15 phút/bộ/người gặp pain; 6/23 người (26.1%) xác nhận mất từ 5 phút để hiểu vì sao sai, và 5/23 người (21.7%) phải xem lại gần như toàn bộ lý thuyết. D2 cũng đo trực tiếp "học được" bằng đúng/sai bài tập trước/sau (đúng yêu cầu riêng của track D), trong phạm vị kiến thức nhỏ (1 khái niệm trong day 1), 1 lần sai nên build được trong thời gian sự kiện.
 
 ## §3. Giải pháp tương tự đã nghiên cứu
 - ⏳ CHỜ — mỗi thành viên dùng thử 1 sản phẩm gần giống (ChatGPT study mode / Khanmigo / Duolingo / Quizlet AI) và trả lời 4 câu theo `02-guide.md` §2.2 (15 phút/người).
 
 ## §4. Thiết kế
-- Lát cắt MỘT CÂU: *Một học viên · làm bài tập về một khái niệm (VD tokenization) trước khi xem bài giảng, làm sai · AI chẩn đoán đúng giả định sai cụ thể của học viên và gợi ý một bước tối thiểu kèm đoạn tài liệu liên quan (không đưa đáp án ngay) · học viên tự sửa và giải thích lại được khái niệm.*
+- Lát cắt MỘT CÂU: *Một học viên · làm bài tập về một khái niệm (VD tokenization) trước khi xem bài giảng và trả lời sai · AI chẩn đoán nguyên nhân hiểu sai, không cho đáp án ngay mà tạo câu hỏi khoanh vùng lỗi kèm gợi ý tối thiểu và dẫn chứng về khái niệm liên quan · học viên tự sửa và giải thích lại được khái niệm.*
 - Non-goals (KHÔNG build trong hackathon):
   1. Không xây bộ misconception bank đầy đủ cho cả môn — chỉ 1 concept demo.
   2. Không làm giao diện hoàn chỉnh — mock/sketch đủ để bấm qua luồng.
   3. Không theo dõi lịch sử lỗi nhiều buổi/thích ứng dài hạn — chỉ 1 lượt sai → 1 lượt sửa.
 - Mức prototype nhắm tới: [ ] Sketch [x] Mock — phần chẩn đoán lỗi gọi AI thật (bắt buộc ≥1 lời gọi thật), phần giao diện có thể mock.
-- Automation: [x] conditional — AI chỉ dừng ở "chẩn đoán lỗi cụ thể + gợi ý 1 bước + trích dẫn tài liệu", KHÔNG tự đưa đáp án đúng ngay. Lý do theo cost-of-error: nếu AI đưa đáp án ngay thì mất tác dụng productive failure (học viên không tự kiến tạo); nếu AI chẩn đoán sai lỗi mà vẫn "chắc chắn" thì học viên tin sai — nên luôn trích dẫn nguồn (transcript/slide) để học viên tự đối chiếu, không yêu cầu tin mù AI.
-- §4b. Nguyên tắc đã áp dụng: ⏳ CHỜ — chọn ≥4 nguyên tắc từ HAX/PAIR (`further-reading/`) và điền bảng, áp cụ thể vào từng bước của luồng D2.
+- Automation: [x] conditional — AI luôn tạo ra 1 bộ câu hỏi, nhưng chỉ dừng ở bước hỗ trợ "tạo câu hỏi khoanh vùng lỗi sai + gợi ý 1 bước + trích dẫn tài liệu", học viên tự đưa ra đáp án. AI cũng sẽ không bao giờ tự quyết định rằng học viên đã hiểu đúng khái niệm chỉ sau 1 câu hỏi mà sẽ luôn confirm lại bằng 1 câu hỏi khác với mức độ thông hiểu cao hơn. Lý do theo cost-of-error: nếu AI chẩn đoán sai lỗi mà vẫn "chắc chắn" thì học viên tin sai — nên luôn trích dẫn nguồn (transcript/slide) để học viên tự đối chiếu, không yêu cầu tin mù AI; Đồng thời AI không mặc định học viên đã nắm được khái niệm chỉ sau 1 lần trả lời đúng trong trường hợp học viên chỉ chọn bừa.
+- §4b. Nguyên tắc HAX đã áp dụng:
+
+  | Tên nguyên tắc HAX & mô tả | Áp cụ thể vào đâu trong prototype |
+  |---|---|---|
+  | **G2 - Make clear how well the system can do what it can do**<br>(Làm rõ mức độ chính xác của hệ thống) | **Tại bước AI chẩn đoán lỗi:** Giao diện hiển thị rõ rằng nhận định của AI về "lỗ hổng kiến thức" chỉ là giả định chẩn đoán dựa trên đáp án sai của học viên. Hệ thống không trình bày nhận định như kết luận tuyệt đối, tránh tạo tâm lý tin tưởng mù quáng rằng AI luôn đúng. |
+  | **G4 - Show contextually relevant information**<br>(Hiển thị thông tin phù hợp theo ngữ cảnh) | **Tại bước gợi ý hỗ trợ:** AI chỉ trích xuất một đoạn ngắn từ transcript/slide liên quan trực tiếp đến khái niệm học viên đang bị hổng, ví dụ *tokenization*, thay vì đưa cả tài liệu hoặc video dài. |
+  | **G9 - Support efficient correction**<br>(Hỗ trợ chỉnh sửa hiệu quả) | **Tại bước học viên tự sửa:** Hệ thống cung cấp khung nhập liệu mở để học viên dễ chỉnh sửa câu trả lời và tự viết lại phần giải thích bằng ngôn ngữ của mình sau khi đọc gợi ý tối thiểu từ AI. |
+  | **G8 - Support efficient dismissal**<br>(Hỗ trợ từ chối hoặc bỏ qua gợi ý hiệu quả) | **Tại bước AI chẩn đoán lỗi & gợi ý::** Giao diện cung cấp nút "AI chẩn đoán chưa chuẩn / Bỏ qua gợi ý này" để học viên có thể nhanh chóng thoát khỏi vòng lặp câu hỏi phụ nếu họ tự tin vào tư duy của mình hoặc thấy AI đang hiểu sai vấn đề, tránh gây ức chế cho người học. |
 
 ## §5. Kiểu lỗi — 4 lớp chỗ khó + kịch bản (≥8)
 ⏳ CHỜ — áp 4 lớp theo `01-challenge-brief.md`:
