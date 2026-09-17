@@ -2,18 +2,21 @@
 
 Hạn: **16:00 hôm nay**. Cập nhật checkbox trực tiếp trong file này khi làm xong từng bước.
 
+> ⚠️ **ĐỔI VAI (17/9, đã xác nhận với leader):** Thế Anh đã làm xong phần Data/Eval (golden set — xem dưới, đã verify 12/12 turn_id thật). **Từ giờ An chuyển sang làm phần AI/Prototype** (wire AI thật) — xem checklist ở mục thứ 2. Thế Anh coi như xong phần của mình.
+
 ---
 
-## Nguyễn Văn An (Data/Eval) — Xây golden set
+## ✅ ĐÃ XONG — Golden set (ban đầu giao An, Thế Anh đã làm)
 
 ### Cơ cấu bắt buộc ≥20 case (`02-guide.md` §2.6)
 
 | Nhóm | Số lượng | Trạng thái |
 |---|---|---|
-| 4 lớp chỗ khó (≥2 case/lớp) | ≥8 case | ☐ |
-| Case thường | 8-10 case | ☐ |
-| Case hiếm | 2-4 case | ☐ |
-| **Từ chatlog thật** | **≥10 case** | ☐ (đã có 1 mẫu, xem dưới) |
+| 4 lớp chỗ khó (≥2 case/lớp) | 8 case (đúng 2/lớp) | ✅ |
+| Case thường | 8 case | ✅ |
+| Case hiếm | 4 case | ✅ |
+| **Từ chatlog thật** | **12/20 case** — đã verify đúng 12/12 turn_id thật | ✅ vượt chuẩn |
+| **Tổng** | **20 case** | ✅ — file: `eval/golden-set.csv` |
 
 ### Case mẫu đã tìm sẵn từ chatlog thật (turn_id T00207, `chatlog/tutor_turns.csv`)
 
@@ -44,20 +47,24 @@ AI cần chẩn đoán: học viên nhầm token (text) với vector (số), b�
 - [x] Với mỗi case: viết lại thành (câu hỏi, câu trả lời SAI mô phỏng, đáp án đúng, đoạn tài liệu liên quan trích từ `transcript/`)
 - [x] Lưu vào `eval/golden-set.csv` (hoặc `.json`), có cột `nguon` ghi rõ `"chatlog thật (turn_id)"` hay `"tự viết"`
 - [x] Chốt quality bar trước khi đo, ghi vào `spec.md` §7 — *"≥70% case chẩn đoán đúng loại lỗi, 100% case lớp ① phải trả lời 'chưa xác định được'"*
-- [x] Bàn giao 5 case đầu tiên cho Thế Anh: `GS01`-`GS05` trong `eval/golden-set.csv`
+- [x] Bàn giao toàn bộ 20 case cho An: `eval/golden-set.csv`
 
 ---
 
-## Trần Thế Anh (AI/Prototype) — Wire AI thật vào `mock-cp2.html`
+## 🔴 Nguyễn Văn An (nhận lại AI/Prototype) — Wire AI thật vào `mock-cp2.html`
 
 ### 4 phần input bắt buộc cho AI
 
-| Phần | Nguồn |
-|---|---|
-| Câu hỏi bài tập | Từ golden set của An |
-| Đáp án đúng | Từ golden set của An |
-| Câu trả lời sai của học viên | Người dùng nhập (ô `#answer`) |
-| Đoạn tài liệu liên quan | Từ golden set của An (trích `transcript/`) |
+⚠️ **Chỉ AI #2 (chẩn đoán lỗi) — KHÔNG phải AI #1 (sinh trắc nghiệm/tự luận, đó là phần mở rộng không bắt buộc CP3).** 4 input này lấy thẳng từ `eval/golden-set.csv` (hoặc `eval/golden-set.json`), không cần dựng thêm bộ dữ liệu nào khác:
+
+| Phần | Nguồn | Cột trong golden-set |
+|---|---|---|
+| Câu hỏi bài tập | `eval/golden-set.csv` | `cau_hoi_bai_tap` |
+| Đáp án đúng | `eval/golden-set.csv` | `dap_an_dung` |
+| Câu trả lời sai của học viên | Khi test: cột `cau_tra_loi_sai_mo_phong`. Khi demo thật: người dùng nhập (ô `#answer`) | `cau_tra_loi_sai_mo_phong` |
+| Đoạn tài liệu liên quan | `eval/golden-set.csv` | `doc_excerpt` |
+
+So output AI với cột `chan_doan_can_dat` để chấm đúng/sai khi chạy golden set.
 
 ### 3 trường hợp output bắt buộc
 
@@ -75,8 +82,47 @@ AI cần chẩn đoán: học viên nhầm token (text) với vector (số), b�
   - Nếu đoạn tài liệu không đủ để xác định lỗi, trả lời "chưa xác định được", không đoán
   - Không bao giờ đưa đáp án đúng trực tiếp trong gợi ý
 - [ ] Parse response, render vào 3 khối `.diagnosis` / `.hint` / `.source` thay vì hardcode
-- [ ] Test với ≥3 case từ golden set của An (bắt buộc test ít nhất 1 case lớp ①)
+- [ ] Test với ≥3 case từ `eval/golden-set.csv` (bắt buộc test ít nhất 1 case lớp ①)
 - [ ] **Không commit API key vào repo** — đọc từ nơi không commit (nhập tay lúc demo, hoặc file `.env` đã thêm vào `.gitignore`)
+
+### Code mẫu — load golden set + gọi AI
+
+Đã convert sẵn `eval/golden-set.json` (mảng object, dễ dùng trong JS hơn CSV — không bắt buộc, chỉ để tiện):
+
+```js
+async function loadGoldenSet() {
+  const res = await fetch('eval/golden-set.json');
+  return res.json(); // mảng 20 object, mỗi object có: cau_hoi_bai_tap, cau_tra_loi_sai_mo_phong, dap_an_dung, chan_doan_can_dat, doc_excerpt, lop_kho, ...
+}
+
+async function callAI(question, correctAnswer, wrongAnswer, docExcerpt) {
+  const systemPrompt = `Bạn là AI chẩn đoán lỗi học tập. Chỉ dùng đoạn tài liệu được cung cấp — không bịa nguồn khác.
+Nếu đoạn tài liệu không đủ để xác định lỗi cụ thể, trả lời "chưa xác định được", không đoán.
+Không bao giờ đưa đáp án đúng trực tiếp trong gợi ý.
+Trả về JSON: {"chan_doan": "...", "goi_y": "...", "trich_dan": "..."}`;
+
+  const userPrompt = `Câu hỏi: ${question}\nĐáp án đúng: ${correctAnswer}\nCâu trả lời của học viên: ${wrongAnswer}\nĐoạn tài liệu liên quan: ${docExcerpt}`;
+
+  const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + API_KEY, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: systemPrompt + '\n\n' + userPrompt }] }]
+    })
+  });
+  const data = await res.json();
+  const text = data.candidates[0].content.parts[0].text;
+  return JSON.parse(text.replace(/```json|```/g, '').trim());
+}
+
+// Test nhanh 1 case từ golden set (vd GS07, lớp ④):
+const cases = await loadGoldenSet();
+const c = cases.find(x => x.case_id === 'GS07');
+const result = await callAI(c.cau_hoi_bai_tap, c.dap_an_dung, c.cau_tra_loi_sai_mo_phong, c.doc_excerpt);
+console.log(result, '— so với chan_doan_can_dat:', c.chan_doan_can_dat);
+```
+
+Đây chỉ là khung mẫu (dùng Gemini làm ví dụ) — An sửa lại theo API/key thật khi có.
 
 ---
 
