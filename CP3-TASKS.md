@@ -131,5 +131,5 @@ console.log(result, "— so với chan_doan_can_dat:", c.chan_doan_can_dat);
 
 ## Sau khi cả 2 xong
 
-- [ ] Nguyễn Tuấn Khanh quay video 30s: bấm luồng thật, AI trả lời thật
-- [ ] Leader tổng hợp bảng % kết quả từ golden set → nộp form CP3
+- [ ] Nguyễn Tuấn Khanh quay video 30s: bấm luồng thật, AI trả lời thật (xem kịch bản tại `codebase/video_script_30s.md`)
+- [x] Leader tổng hợp bảng % kết quả từ golden set → nộp form CP3 (Đã hoàn tất: 20/20 case đạt 100% Quality Bar, chi tiết tại `eval/eval_report.md` và `spec.md` §7)

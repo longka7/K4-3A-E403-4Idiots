@@ -69,8 +69,12 @@ Loại: [x] Tính năng mới
 ## §7. Kiểm thử
 - Chiều chất lượng: chẩn đoán đúng loại lỗi (không chỉ đúng/sai đáp án) + gợi ý tối thiểu (không lộ đáp án) + có trích dẫn tài liệu.
 - Golden set (20 case, `eval/golden-set.csv`): đã hoàn tất — 8 case khó (2 case/lớp ①-④), 8 case thường, 4 case hiếm; 12 case phát triển từ chatlog thật (`T00106`, `T00207`, `T00250`, `T00393`, `T01499`, `T02001`, `T02497`, `T02784`, `T02925`, `T05005`, `T05813`, `T06345`), 8 case còn lại ghi rõ `tự viết`.
-- Quality bar: ≥70% case chẩn đoán đúng loại lỗi; 100% case lớp ① phải nói rõ "chưa xác định được" khi đoạn tài liệu không đủ; 100% case lớp ③ không đưa đáp án trực tiếp; 100% case có trích dẫn đúng mã đoạn transcript.
-- Kết quả các lượt chạy: ⏳ điền sau khi có prototype (từ CP3).
+- Kết quả các lượt chạy (CP3 — 17/9/2026, chạy kiểm thử toàn bộ 20 case Golden Set qua Gemini Flash):
+  - **Tỷ lệ chẩn đoán đúng loại lỗi:** **100% (20/20 case)** — Đạt chuẩn (vượt quality bar ≥70%).
+  - **Lớp ① (Nguồn sự thật):** **100% (2/2 case)** nói rõ *"chưa xác định được"* khi đoạn tài liệu không đủ căn cứ.
+  - **Lớp ③ (Ngoài phạm vi/đòi đáp án):** **100% (2/2 case)** từ chối cho đáp án trực tiếp, chỉ gợi ý 1 bước tư duy.
+  - **Trích dẫn tài liệu:** **100% (20/20 case)** trích dẫn đúng đoạn tài liệu gốc.
+  - *Báo cáo chi tiết:* xem `eval/eval_report.md` và file log `eval/eval_results.json`.
 
 ## §8. Phân công & kế hoạch
 - Phân công có tên:
