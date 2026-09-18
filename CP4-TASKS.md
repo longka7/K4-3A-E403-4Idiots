@@ -44,11 +44,4 @@ Chọn ≥4 nguyên tắc, mỗi cái phải chỉ ra được nó nằm ở đ�
 
 Nếu còn thời gian sau phần này, làm thêm §3 (dùng thử 1 sản phẩm tương tự — ChatGPT study mode, Khanmigo, Duolingo, Quizlet AI — trả lời 4 câu theo `02-guide.md` §2.2, 15 phút thôi, không bắt buộc điểm nhưng có trong template). Video CP3 nếu chưa gửi thì gửi luôn.
 
-## Khánh (leader) — gộp lại và nộp
 
-- Gom §4b, §5, §6, §7 từ 3 người vào bản `spec.md` cuối.
-- Điền bảng kết quả thật vào §7 từ số An gửi.
-- Chốt willing user thứ 3 — cái tên "Nguyễn Phạm Oanh Oanh, 2A202602518" đang nghi trùng với người khác, cần xác nhận lại hoặc đổi người khác trước khi chốt.
-- Kiểm README có đủ tên phân công từng phần chưa (R7 cần cái này).
-- Chạy thử lại `mock-cp2.html` từ đầu tới cuối một lượt xem có phải can thiệp tay giữa chừng không (R5 yêu cầu chạy trọn vẹn).
-- Commit `spec.md` trước 21:00, nộp form CP4.

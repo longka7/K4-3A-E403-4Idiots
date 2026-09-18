@@ -6,73 +6,122 @@
     <title>D2 — Học từ lỗi trước (Productive Failure · AI Socratic Tutor)</title>
     <!-- Tải config.js cục bộ nếu có (file này trong .gitignore, chứa API key dev) -->
     <script src="config.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
+      :root {
+        --ink-900: #0f172a;
+        --ink-700: #334155;
+        --ink-500: #64748b;
+        --ink-400: #94a3b8;
+        --line: #e5e9f0;
+        --surface: #ffffff;
+        --canvas: #f4f6fb;
+        --primary-600: #3d3aa8;
+        --primary-700: #302d85;
+        --primary-100: #eef1ff;
+        --primary-shadow: rgba(61, 58, 168, 0.32);
+        --success-600: #16a34a;
+        --success-100: #ecfdf3;
+        --danger-600: #dc2626;
+        --danger-100: #fef2f2;
+        --warning-600: #b45309;
+        --warning-100: #fffbeb;
+        --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+        --shadow-md: 0 6px 16px -4px rgba(30, 41, 59, 0.1), 0 2px 6px -2px rgba(30, 41, 59, 0.06);
+        --shadow-lg: 0 20px 40px -12px rgba(30, 41, 59, 0.18);
+      }
+      * {
+        box-sizing: border-box;
+      }
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-family: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
         max-width: 650px;
-        margin: 25px auto;
+        margin: 28px auto;
         padding: 0 16px;
-        color: #1e293b;
-        background: #f8fafc;
-        line-height: 1.5;
+        color: var(--ink-700);
+        background: var(--canvas);
+        line-height: 1.55;
+        transition: max-width 0.25s ease;
+        letter-spacing: -0.005em;
+      }
+      body.wide-screen {
+        max-width: 980px;
       }
       .screen {
         display: none;
-        background: #fff;
-        border-radius: 12px;
-        padding: 24px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-        border: 1px solid #e2e8f0;
+        background: var(--surface);
+        border-radius: 18px;
+        padding: 28px;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--line);
+        animation: screenIn 0.32s ease both;
       }
       .screen.active {
         display: block;
       }
+      @keyframes screenIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
       h2 {
         margin-top: 0;
-        font-size: 19px;
-        color: #0f172a;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        color: var(--ink-900);
       }
       .badge {
         display: inline-block;
-        background: #e0e7ff;
+        background: var(--primary-100);
         color: #3730a3;
-        font-size: 12px;
-        font-weight: 600;
-        padding: 3px 10px;
-        border-radius: 6px;
-        margin-bottom: 10px;
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        padding: 4px 11px;
+        border-radius: 999px;
+        margin-bottom: 12px;
       }
       .badge.ext {
-        background: #f3e8ff;
+        background: #f5edff;
         color: #7e22ce;
       }
       .badge.ai-real {
-        background: #dcfce7;
+        background: var(--success-100);
         color: #15803d;
-        border: 1px solid #86efac;
+        border: 1px solid #a7f3d0;
       }
       .badge.success {
-        background: #dcfce7;
+        background: var(--success-100);
         color: #15803d;
       }
       .badge.warning {
-        background: #fef3c7;
-        color: #92400e;
+        background: var(--warning-100);
+        color: var(--warning-600);
       }
       .question {
-        background: #f1f5f9;
-        padding: 14px;
-        border-radius: 8px;
+        background: var(--canvas);
+        padding: 16px;
+        border-radius: 12px;
         margin: 12px 0;
-        border-left: 4px solid #6366f1;
+        border-left: 4px solid var(--primary-600);
         font-weight: 500;
+        box-shadow: var(--shadow-sm);
       }
       .mcq {
         margin: 10px 0;
-        padding: 12px;
-        border-radius: 8px;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
+        padding: 14px;
+        border-radius: 12px;
+        background: var(--canvas);
+        border: 1px solid var(--line);
       }
       .mcq label {
         display: block;
@@ -84,140 +133,193 @@
       select {
         width: 100%;
         box-sizing: border-box;
-        padding: 10px;
-        border-radius: 8px;
-        border: 1px solid #cbd5e1;
+        padding: 11px 12px;
+        border-radius: 10px;
+        border: 1.5px solid #d8dee9;
         font-size: 14px;
         font-family: inherit;
+        color: var(--ink-900);
+        background: var(--surface);
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
       }
       textarea:focus,
       input[type="text"]:focus,
       select:focus {
         outline: none;
-        border-color: #6366f1;
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        border-color: var(--primary-600);
+        box-shadow: 0 0 0 4px var(--primary-shadow);
       }
       button {
-        background: #4f46e5;
+        background: var(--primary-600);
         color: #fff;
         border: none;
-        padding: 10px 18px;
-        border-radius: 8px;
+        padding: 11px 20px;
+        border-radius: 10px;
         font-size: 14px;
-        font-weight: 500;
+        font-weight: 600;
+        letter-spacing: -0.005em;
         cursor: pointer;
         margin-top: 12px;
-        transition: background 0.15s ease;
+        box-shadow: 0 3px 10px -3px var(--primary-shadow);
+        transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
       }
       button:hover {
-        background: #4338ca;
+        background: var(--primary-700);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px -4px var(--primary-shadow);
+      }
+      button:active {
+        transform: translateY(0);
       }
       button:disabled {
-        background: #94a3b8;
+        background: #cbd2e0;
+        color: #8791a3;
         cursor: not-allowed;
+        box-shadow: none;
+        transform: none;
+        filter: none;
       }
       .btn-secondary {
-        background: #f1f5f9;
-        color: #475569;
-        border: 1px solid #cbd5e1;
+        background: var(--surface);
+        color: var(--ink-700);
+        border: 1.5px solid #d8dee9;
+        box-shadow: none;
       }
       .btn-secondary:hover {
-        background: #e2e8f0;
+        background: var(--canvas);
+        border-color: #c2cad9;
+        box-shadow: none;
       }
       .wrong {
-        color: #dc2626;
+        color: var(--danger-600);
         font-weight: 600;
       }
       .correct {
-        color: #16a34a;
+        color: var(--success-600);
         font-weight: 600;
       }
       .diagnosis {
-        background: #fff7ed;
+        background: #fff8f1;
         border-left: 4px solid #f97316;
-        padding: 14px;
-        border-radius: 8px;
+        padding: 15px 16px;
+        border-radius: 12px;
         margin: 14px 0;
         color: #9a3412;
+        box-shadow: var(--shadow-sm);
       }
       .hint {
-        background: #eff6ff;
+        background: #f0f6ff;
         border-left: 4px solid #3b82f6;
-        padding: 14px;
-        border-radius: 8px;
+        padding: 15px 16px;
+        border-radius: 12px;
         margin: 14px 0;
         color: #1e40af;
+        box-shadow: var(--shadow-sm);
       }
       .source {
         font-size: 13px;
         color: #166534;
-        background: #f0fdf4;
+        background: var(--success-100);
         border-left: 4px solid #22c55e;
-        padding: 10px 14px;
-        border-radius: 8px;
+        padding: 11px 15px;
+        border-radius: 12px;
         margin: 14px 0;
+        box-shadow: var(--shadow-sm);
       }
       .success-box {
-        background: #f0fdf4;
+        background: var(--success-100);
         border-left: 4px solid #22c55e;
-        padding: 16px;
-        border-radius: 8px;
+        padding: 18px;
+        border-radius: 12px;
         margin: 14px 0;
         color: #166534;
+        box-shadow: var(--shadow-sm);
       }
-      .genbox {
+      /* Khối CTA gộp "AI sinh câu hỏi + vào Bước 1" ở màn tổng kết quiz (s0b) */
+      .essay-cta-block {
+        margin-top: 20px;
+        border-top: 1px solid var(--line);
+        padding-top: 20px;
+      }
+      .essay-cta-btn {
+        width: 100%;
+        background: var(--primary-600);
+        box-shadow: 0 6px 16px -4px var(--primary-shadow);
+        font-size: 15px;
+        padding: 14px 20px;
+      }
+      .essay-cta-btn:hover {
+        background: var(--primary-700);
+      }
+      .essay-cta-hint {
+        font-size: 12.5px;
+        color: var(--ink-500);
+        text-align: center;
+        margin: 10px 0 0;
+        line-height: 1.5;
+      }
+      .gen-error-box {
+        display: none;
+        margin-top: 14px;
+        background: var(--danger-100);
+        border-left: 4px solid #ef4444;
+        color: #991b1b;
+        padding: 13px 15px;
+        border-radius: 12px;
         font-size: 13px;
-        color: #6b21a8;
-        background: #faf5ff;
-        border: 1px solid #e9d5ff;
-        padding: 12px 14px;
-        border-radius: 8px;
-        margin: 14px 0;
+      }
+      .essay-cta-restart {
+        width: 100%;
+        margin-top: 12px;
       }
       .score {
-        font-size: 22px;
-        font-weight: 700;
+        font-size: 23px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
         margin: 10px 0;
-        color: #0f172a;
+        color: var(--ink-900);
       }
       .mocknote {
         font-size: 12px;
-        color: #64748b;
-        margin-top: 24px;
-        border-top: 1px dashed #cbd5e1;
-        padding-top: 10px;
+        color: var(--ink-500);
+        margin-top: 26px;
+        border-top: 1px dashed #d8dee9;
+        padding-top: 12px;
       }
 
       /* Quiz 5 câu styles */
       .quiz-progress-bar {
-        height: 8px;
-        background: #e2e8f0;
+        height: 7px;
+        background: #e7ebf3;
         border-radius: 999px;
         overflow: hidden;
-        margin: 8px 0 16px;
+        margin: 10px 0 16px;
+        box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.06);
       }
       .quiz-progress-fill {
         height: 100%;
-        background: linear-gradient(90deg, #4f46e5, #7c3aed);
+        border-radius: 999px;
+        background: var(--primary-600);
         width: 20%;
-        transition: width 0.3s ease;
+        transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       }
       .quiz-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 18px;
-        margin-bottom: 14px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 22px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow-sm);
       }
       .quiz-hint-btn {
-        background: #fef3c7;
-        color: #92400e;
-        border: 1px solid #fde68a;
-        padding: 6px 14px;
-        border-radius: 6px;
+        background: var(--warning-100);
+        color: var(--warning-600);
+        border: 1px solid #fde8b8;
+        box-shadow: none;
+        padding: 7px 15px;
+        border-radius: 999px;
         font-size: 12px;
-        font-weight: 600;
+        font-weight: 700;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
@@ -226,70 +328,74 @@
         transition: all 0.15s ease;
       }
       .quiz-hint-btn:hover {
-        background: #fde68a;
+        background: #fdedc0;
+        transform: translateY(-1px);
       }
       .quiz-hint-box {
         display: none;
-        margin-top: 8px;
+        margin-top: 10px;
         margin-bottom: 12px;
-        background: #fffbeb;
+        background: var(--warning-100);
         border-left: 4px solid #f59e0b;
-        padding: 10px 14px;
-        border-radius: 8px;
+        padding: 12px 15px;
+        border-radius: 12px;
         font-size: 13px;
         color: #92400e;
-        line-height: 1.5;
+        line-height: 1.55;
       }
       .quiz-options {
         display: flex;
         flex-direction: column;
         gap: 10px;
-        margin: 16px 0;
+        margin: 18px 0;
       }
       .quiz-opt-label {
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 12px 16px;
-        background: #f8fafc;
-        border: 1.5px solid #cbd5e1;
-        border-radius: 8px;
+        padding: 13px 16px;
+        background: var(--canvas);
+        border: 1.5px solid #e2e6ef;
+        border-radius: 12px;
         cursor: pointer;
         transition: all 0.15s ease;
         font-size: 14px;
-        color: #1e293b;
+        color: var(--ink-900);
       }
       .quiz-opt-label:hover {
-        border-color: #6366f1;
-        background: #f1f5f9;
+        border-color: #a5b4fc;
+        background: var(--primary-100);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
       }
       .quiz-opt-label.selected {
         border-color: #4f46e5;
-        background: #eef2ff;
+        background: var(--primary-100);
       }
       .quiz-opt-label.correct-choice {
         border-color: #22c55e !important;
-        background: #f0fdf4 !important;
+        background: var(--success-100) !important;
         color: #166534;
         font-weight: 600;
       }
       .quiz-opt-label.wrong-choice {
         border-color: #ef4444 !important;
-        background: #fef2f2 !important;
+        background: var(--danger-100) !important;
         color: #991b1b;
       }
       .quiz-opt-badge {
         font-weight: 700;
         font-size: 12px;
-        background: #e2e8f0;
-        color: #334155;
-        width: 24px;
-        height: 24px;
+        background: #e7ebf3;
+        color: var(--ink-700);
+        width: 25px;
+        height: 25px;
         border-radius: 50%;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
+        transition: background 0.15s ease, color 0.15s ease;
       }
       .quiz-opt-label.selected .quiz-opt-badge {
         background: #4f46e5;
@@ -304,30 +410,31 @@
         color: #fff;
       }
       .quiz-feedback-box {
-        margin-top: 14px;
-        border-radius: 8px;
-        padding: 14px;
+        margin-top: 16px;
+        border-radius: 12px;
+        padding: 15px 16px;
         font-size: 13px;
         display: none;
+        box-shadow: var(--shadow-sm);
       }
       .quiz-feedback-correct {
-        background: #f0fdf4;
+        background: var(--success-100);
         border-left: 4px solid #22c55e;
         color: #166534;
       }
       .quiz-feedback-wrong {
-        background: #fef2f2;
+        background: var(--danger-100);
         border-left: 4px solid #ef4444;
         color: #991b1b;
       }
       .summary-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        padding: 14px 16px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 15px 17px;
         margin-bottom: 12px;
         font-size: 13px;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        box-shadow: var(--shadow-sm);
       }
       .summary-card.correct {
         border-left: 4px solid #22c55e;
@@ -336,18 +443,200 @@
         border-left: 4px solid #ef4444;
       }
 
+      /* Quiz layout 2 cột (chính + sidebar) — chỉ áp dụng khi body.wide-screen (màn s0) */
+      .quiz-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 22px;
+        align-items: start;
+      }
+      body.wide-screen .quiz-layout {
+        grid-template-columns: 1fr 264px;
+      }
+      .quiz-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .sidebar-card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 17px;
+        box-shadow: var(--shadow-sm);
+      }
+      .sidebar-card-title {
+        font-size: 10.5px;
+        font-weight: 800;
+        color: var(--ink-500);
+        letter-spacing: 0.7px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .sidebar-progress-num {
+        font-size: 32px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: var(--ink-900);
+      }
+      .sidebar-progress-num span {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--ink-400);
+      }
+      .sidebar-knowledge-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--ink-900);
+        margin-bottom: 6px;
+        line-height: 1.4;
+      }
+      .sidebar-knowledge-desc {
+        font-size: 12.5px;
+        color: var(--ink-500);
+        line-height: 1.55;
+      }
+
+      /* Banner tiếp tục lượt đang làm */
+      .quiz-resume-banner {
+        display: none;
+        align-items: center;
+        gap: 9px;
+        background: var(--primary-100);
+        border: 1px solid #d3d8fd;
+        color: #3730a3;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 11px 15px;
+        border-radius: 12px;
+        margin-bottom: 16px;
+      }
+      .quiz-resume-banner .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #4f46e5;
+        flex-shrink: 0;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
+        animation: dotPulse 1.8s ease-in-out infinite;
+      }
+      @keyframes dotPulse {
+        0%, 100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.35;
+        }
+      }
+
+      /* Header: số câu + progress + độ khó */
+      .quiz-head-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 4px;
+      }
+      .quiz-diff-badge {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px 11px;
+        border-radius: 999px;
+        white-space: nowrap;
+      }
+      .quiz-diff-de {
+        background: var(--success-100);
+        color: #166534;
+      }
+      .quiz-diff-tb {
+        background: #fef3c7;
+        color: #854d0e;
+      }
+      .quiz-diff-kho {
+        background: var(--danger-100);
+        color: #991b1b;
+      }
+
+      /* Pills điều hướng 1-5 */
+      .quiz-pills {
+        display: flex;
+        gap: 8px;
+        margin: 12px 0 18px;
+      }
+      .quiz-pill {
+        width: 29px;
+        height: 29px;
+        border-radius: 50%;
+        border: 1.5px solid var(--line);
+        background: var(--surface);
+        color: var(--ink-400);
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: default;
+        transition: all 0.15s ease;
+      }
+      .quiz-pill.visited {
+        cursor: pointer;
+        border-color: #c7d2fe;
+        color: #4f46e5;
+      }
+      .quiz-pill.visited:hover {
+        background: var(--primary-100);
+        transform: translateY(-1px);
+      }
+      .quiz-pill.current {
+        background: var(--ink-900);
+        border-color: var(--ink-900);
+        color: #fff;
+        box-shadow: 0 3px 8px -2px rgba(15, 23, 42, 0.35);
+      }
+
+      /* Tag inline trong option (Bạn đã chọn / Đáp án đúng) */
+      .quiz-opt-tag {
+        font-size: 11px;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+      .quiz-opt-label.wrong-choice .quiz-opt-tag {
+        color: #991b1b;
+      }
+      .quiz-opt-label.correct-choice .quiz-opt-tag {
+        color: #166534;
+      }
+
+      .quiz-nav-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .quiz-nav-row .btn-secondary {
+        flex: 0 0 auto;
+      }
+      .quiz-nav-row #quizNextBtn {
+        flex: 1;
+      }
+
+      @media (max-width: 720px) {
+        body.wide-screen {
+          max-width: 650px;
+        }
+      }
 
       /* API Key Settings Drawer */
       .api-bar {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        padding: 8px 14px;
-        margin-bottom: 16px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 9px 15px;
+        margin-bottom: 18px;
         font-size: 13px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        box-shadow: var(--shadow-sm);
       }
       .api-status-dot {
         display: inline-block;
@@ -356,27 +645,36 @@
         border-radius: 50%;
         background: #22c55e;
         margin-right: 6px;
+        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
       }
       .api-status-dot.no-key {
         background: #eab308;
+        box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.15);
       }
       .api-toggle-btn {
         background: none;
-        color: #6366f1;
+        color: var(--primary-600);
         border: none;
+        box-shadow: none;
         padding: 0;
         margin: 0;
         font-size: 12px;
+        font-weight: 600;
         cursor: pointer;
         text-decoration: underline;
       }
+      .api-toggle-btn:hover {
+        transform: none;
+        filter: none;
+        color: #4338ca;
+      }
       #apiDrawer {
         display: none;
-        background: #f8fafc;
-        border: 1px solid #cbd5e1;
-        border-radius: 8px;
-        padding: 12px;
-        margin-bottom: 16px;
+        background: var(--canvas);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px;
+        margin-bottom: 18px;
         font-size: 13px;
       }
 
@@ -384,31 +682,38 @@
       .tab-bar {
         display: flex;
         gap: 6px;
-        margin-bottom: 12px;
-        border-bottom: 1px solid #e2e8f0;
+        margin-bottom: 14px;
+        border-bottom: 1px solid var(--line);
         padding-bottom: 8px;
       }
       .tab-btn {
         background: none;
-        color: #64748b;
+        color: var(--ink-500);
         border: 1px solid transparent;
-        padding: 6px 12px;
-        border-radius: 6px;
+        box-shadow: none;
+        padding: 6px 13px;
+        border-radius: 999px;
         font-size: 13px;
+        font-weight: 500;
         margin-top: 0;
       }
+      .tab-btn:hover {
+        transform: none;
+        filter: none;
+        background: var(--canvas);
+      }
       .tab-btn.active {
-        background: #e0e7ff;
+        background: var(--primary-100);
         color: #3730a3;
-        font-weight: 600;
+        font-weight: 700;
         border-color: #c7d2fe;
       }
       .tab-content {
         display: none;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        padding: 12px;
+        background: var(--canvas);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px;
         margin-bottom: 14px;
       }
       .tab-content.active {
@@ -440,14 +745,14 @@
       }
     </style>
   </head>
-  <body>
+  <body class="wide-screen">
     <!-- ===== THANH TRẠNG THÁI API & BẢO MẬT KEY ===== -->
     <div class="api-bar">
       <div style="display: flex; align-items: center">
         <span id="apiDot" class="api-status-dot"></span>
         <span id="apiStatusText"><b>AI Engine:</b> Gemini Flash <span style="color: #16a34a; font-size: 11px">(Sẵn sàng)</span></span>
       </div>
-      <button class="api-toggle-btn" onclick="toggleApiDrawer()">⚙ Cấu hình Key</button>
+      <button class="api-toggle-btn" onclick="toggleApiDrawer()">Cấu hình Key</button>
     </div>
 
     <div id="apiDrawer">
@@ -460,6 +765,7 @@
         placeholder="Dán Gemini API Key tại đây..."
         style="font-family: monospace; font-size: 12px"
       />
+      <div id="apiSaveNotice" style="display: none; font-size: 12px; font-weight: 600; margin-top: 8px; padding: 6px 10px; border-radius: 8px;"></div>
       <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px">
         <span style="font-size: 11px; color: #64748b"
           >Key được ưu tiên: config.js (gitignore) &gt; localStorage &gt; nhập tay</span
@@ -478,109 +784,130 @@
 
     <!-- ===== BƯỚC 0: TRẮC NGHIỆM ĐÁNH GIÁ TRÌNH ĐỘ (5 CÂU) ===== -->
     <div id="s0" class="screen active">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-        <span class="badge ext">Bước 0 · Trắc nghiệm đánh giá trình độ</span>
-        <span style="font-size: 13px; font-weight: 700; color: #4f46e5;">
-          Câu <span id="quizIndexText">1</span> / 5
-        </span>
+      <span class="badge ext">Bước 0 · Trắc nghiệm đánh giá trình độ</span>
+      <h2 style="margin-top: 8px;">Kiểm tra nhanh: LLM &amp; Kỹ thuật Prompt Engineering</h2>
+
+      <div class="quiz-resume-banner" id="quizResumeBanner">
+        <span class="dot"></span>
+        <span>Tiếp tục lượt đang làm · Đã trả lời <span id="quizResumeCount">0</span>/5 câu</span>
       </div>
 
-      <div class="quiz-progress-bar">
-        <div class="quiz-progress-fill" id="quizProgressBar" style="width: 20%;"></div>
-      </div>
-
-      <h2>Kiểm tra nhanh: LLM &amp; Kỹ thuật Prompt Engineering</h2>
-
-      <div class="quiz-card">
-        <div style="font-size: 15px; font-weight: 600; color: #0f172a; line-height: 1.5; margin-bottom: 10px;" id="quizQuestionText">
-          <!-- Render question text -->
-        </div>
-
-        <div id="quizHintBtnContainer" style="margin-top: 6px;">
-          <button type="button" class="quiz-hint-btn" id="btnToggleHint" onclick="showQuizHint()">
-            💡 <span>Xem gợi ý</span>
-          </button>
-        </div>
-
-        <div class="quiz-hint-box" id="quizHintBox">
-          <b>💡 Gợi ý:</b> <span id="quizHintContent"></span>
-        </div>
-
-        <!-- 4 lựa chọn -->
-        <div class="quiz-options" id="quizOptionsContainer">
-          <!-- Render dynamically via JS -->
-        </div>
-
-        <!-- Phản hồi khi chọn đáp án ĐÚNG: Hiện textbox giải thích -->
-        <div class="quiz-feedback-box quiz-feedback-correct" id="quizFeedbackCorrect">
-          <div style="font-weight: 700; margin-bottom: 4px;">🎉 Chính xác! Bạn đã chọn đáp án đúng.</div>
-          <div style="font-size: 13px; margin-bottom: 8px; color: #166534;">
-            ✍️ <b>Vì sao bạn chọn đáp án này?</b> Hãy gõ phần giải thích của bạn vào ô dưới đây (giúp phân biệt giữa hiểu thật và đoán trúng):
+      <div class="quiz-layout">
+        <div>
+          <div class="quiz-head-row">
+            <span style="font-size: 13px; font-weight: 700; color: #4f46e5;">
+              Câu <span id="quizIndexText">1</span> / 5
+            </span>
+            <span class="quiz-diff-badge" id="quizDiffBadge">Độ khó: Dễ</span>
           </div>
-          <textarea id="quizExplanationInput" rows="2" placeholder="Gõ lý do/căn cứ bạn chọn đáp án này..."></textarea>
+
+          <div class="quiz-progress-bar">
+            <div class="quiz-progress-fill" id="quizProgressBar" style="width: 20%;"></div>
+          </div>
+
+          <div class="quiz-pills" id="quizPills">
+            <!-- Render 5 pill số câu qua JS -->
+          </div>
+
+          <div class="quiz-card">
+            <div style="font-size: 15px; font-weight: 600; color: #0f172a; line-height: 1.5; margin-bottom: 10px;" id="quizQuestionText">
+              <!-- Render question text -->
+            </div>
+
+            <div id="quizHintBtnContainer" style="margin-top: 6px;">
+              <button type="button" class="quiz-hint-btn" id="btnToggleHint" onclick="showQuizHint()">
+                <span>Xem gợi ý</span>
+              </button>
+            </div>
+
+            <div class="quiz-hint-box" id="quizHintBox">
+              <b>Gợi ý:</b> <span id="quizHintContent"></span>
+            </div>
+
+            <!-- 4 lựa chọn -->
+            <div class="quiz-options" id="quizOptionsContainer">
+              <!-- Render dynamically via JS -->
+            </div>
+
+            <!-- Phản hồi khi chọn đáp án ĐÚNG: Hiện textbox giải thích -->
+            <div class="quiz-feedback-box quiz-feedback-correct" id="quizFeedbackCorrect">
+              <div style="font-weight: 700; margin-bottom: 4px;">Chính xác! Bạn đã chọn đáp án đúng.</div>
+              <div style="font-size: 13px; margin-bottom: 8px; color: #166534;">
+                <b>Vì sao bạn chọn đáp án này?</b> Hãy gõ phần giải thích của bạn vào ô dưới đây (giúp phân biệt giữa hiểu thật và đoán trúng):
+              </div>
+              <textarea id="quizExplanationInput" rows="2" placeholder="Gõ lý do/căn cứ bạn chọn đáp án này..."></textarea>
+            </div>
+
+            <!-- Phản hồi khi chọn đáp án SAI: Hiện phần giải thích đáp án -->
+            <div class="quiz-feedback-box quiz-feedback-wrong" id="quizFeedbackWrong">
+              <div style="font-weight: 700; margin-bottom: 4px;">Chưa chính xác!</div>
+              <div style="font-size: 13px; margin-bottom: 6px; color: #991b1b;">
+                <b>Đáp án đúng:</b> <span id="quizCorrectAnswerDisplay"></span>
+              </div>
+              <div style="font-size: 13px; background: #fff; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ef4444; color: #1e293b; line-height: 1.5;">
+                <b>Giải thích:</b> <span id="quizExplanationWrongDisplay"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="quiz-nav-row">
+            <button type="button" class="btn-secondary" id="quizPrevBtn" onclick="prevQuizQuestion()" disabled>Câu trước</button>
+            <button id="quizNextBtn" onclick="nextQuizQuestion()" disabled style="display: inline-flex; align-items: center; justify-content: center; padding: 12px 18px; font-size: 15px; font-weight: 600; gap: 6px;">
+              <span id="quizNextBtnText">Câu tiếp theo</span>
+            </button>
+          </div>
         </div>
 
-        <!-- Phản hồi khi chọn đáp án SAI: Hiện phần giải thích đáp án -->
-        <div class="quiz-feedback-box quiz-feedback-wrong" id="quizFeedbackWrong">
-          <div style="font-weight: 700; margin-bottom: 4px;">❌ Chưa chính xác!</div>
-          <div style="font-size: 13px; margin-bottom: 6px; color: #991b1b;">
-            <b>Đáp án đúng:</b> <span id="quizCorrectAnswerDisplay"></span>
+        <div class="quiz-sidebar">
+          <div class="sidebar-card">
+            <div class="sidebar-card-title">Tiến độ lượt này</div>
+            <div class="sidebar-progress-num"><span id="sidebarProgressNum">1</span> <span>/ 5</span></div>
+            <div class="quiz-progress-bar" style="margin: 10px 0 0;">
+              <div class="quiz-progress-fill" id="sidebarProgressBar" style="width: 20%;"></div>
+            </div>
           </div>
-          <div style="font-size: 13px; background: #fff; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ef4444; color: #1e293b; line-height: 1.5;">
-            <b>📖 Giải thích:</b> <span id="quizExplanationWrongDisplay"></span>
+          <div class="sidebar-card">
+            <div class="sidebar-card-title">Kiến thức đang luyện</div>
+            <div class="sidebar-knowledge-title" id="sidebarKnowledgeTitle"></div>
+            <div class="sidebar-knowledge-desc" id="sidebarKnowledgeDesc"></div>
           </div>
         </div>
-      </div>
-
-      <div style="margin-top: 16px;">
-        <button id="quizNextBtn" onclick="nextQuizQuestion()" disabled style="display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px 18px; font-size: 15px; font-weight: 600; gap: 6px;">
-          <span id="quizNextBtnText">Câu tiếp theo ➜</span>
-        </button>
       </div>
     </div>
 
     <!-- ===== BƯỚC 0b: KẾT QUẢ + DANH SÁCH CÁC CÂU ĐÃ LÀM + TỔNG KẾT + QUA PHẦN SAU ===== -->
     <div id="s0b" class="screen">
-      <span class="badge ext">Tổng kết bài kiểm tra</span>
+      <span class="badge ext">Bước 0 · Tổng kết & chuyển tiếp</span>
       <h2 style="margin-top: 4px;">Kết quả bài kiểm tra trắc nghiệm (5 câu)</h2>
       <p class="score" id="scoreText" style="margin: 8px 0 14px; font-size: 19px;"></p>
 
       <!-- Danh sách các câu đã làm -->
       <div style="margin-bottom: 20px;">
         <h3 style="font-size: 14px; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">
-          📋 Danh sách các câu hỏi bạn đã làm:
+          Danh sách các câu hỏi bạn đã làm:
         </h3>
         <div id="quizSummaryList">
           <!-- Render danh sách 5 câu đã làm -->
         </div>
       </div>
 
-      <!-- AI sinh câu hỏi thích ứng theo kết quả trắc nghiệm -->
-      <div id="genLoading" class="loading-container" style="display:none;">
-        <div class="spinner"></div>
-        <span>AI đang phân tích kết quả trắc nghiệm và sinh câu hỏi tự luận theo trình độ...</span>
-      </div>
+      <!-- Chuyển tiếp sang phần tự luận: 1 hành động duy nhất — AI sinh câu hỏi thích ứng
+           theo trình độ RỒI vào thẳng Bước 1, không cần bấm 2 lần -->
+      <div class="essay-cta-block">
+        <button id="btnGoEssay" onclick="goToEssayWithAiQuestion()" class="essay-cta-btn">
+          <span id="btnGoEssayLabel">Vào bài tự luận — AI sinh câu hỏi theo trình độ của bạn</span>
+        </button>
+        <p class="essay-cta-hint">AI sẽ đọc kết quả trắc nghiệm của bạn và soạn 1 câu hỏi tự luận đúng tầm, kèm đáp án chuẩn và tài liệu tham chiếu.</p>
 
-      <div class="genbox" id="genResultBox" style="display:none;">
-        <b>✨ AI đã sinh câu hỏi tự luận phù hợp với trình độ của bạn:</b>
-        <p id="generatedQuestionText" style="margin: 8px 0; font-size: 14px; font-weight: 500;"></p>
-        <div style="font-size: 12px; color: #6b21a8; margin-bottom: 10px;">
-          📖 <i>Tài liệu đi kèm: <span id="generatedDocText"></span></i>
+        <div class="gen-error-box" id="genErrorBox">
+          <b>AI chưa sinh được câu hỏi:</b> <span id="genErrorMsg"></span>
+          <div style="margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap;">
+            <button onclick="goToEssayWithAiQuestion()" style="background: #ef4444; margin-top: 0;">Thử lại</button>
+            <button class="btn-secondary" style="margin-top: 0;" onclick="show('s1')">Dùng câu hỏi mặc định thay thế</button>
+          </div>
         </div>
-        <button onclick="useGeneratedQuestion()" style="margin-top: 0;">Làm câu hỏi tự luận này ngay ➜</button>
-      </div>
 
-      <!-- Các nút chuyển tiếp qua phần sau -->
-      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; border-top: 1px solid #e2e8f0; padding-top: 14px;">
-        <button id="btnAiGenFromSummary" onclick="triggerAiGenFromQuiz()" style="background: #7c3aed;">
-          ✨ AI sinh bài tự luận thích ứng
-        </button>
-        <button class="btn-secondary" onclick="show('s1')">
-          Tiến vào phần Tự luận (Bước 1) ➜
-        </button>
-        <button class="btn-secondary" onclick="restartQuiz()">
-          ↺ Làm lại trắc nghiệm
-        </button>
+        <button class="btn-secondary essay-cta-restart" onclick="restartQuiz()">Làm lại trắc nghiệm</button>
       </div>
     </div>
 
@@ -588,11 +915,10 @@
     <div id="s1" class="screen">
       <span class="badge">Bước 1 · Bài tự luận tương tác</span>
 
-      <!-- Tab chọn nguồn câu hỏi linh hoạt: Golden Set | AI sinh | Tự gõ -->
+      <!-- Tab chọn nguồn câu hỏi: Golden Set (test với case đã biết) | Tự nhập (test case lạ, VD khi giám khảo hỏi) -->
       <div class="tab-bar">
-        <button class="tab-btn active" id="tabBtnGolden" onclick="switchQuestionTab('golden')">🧪 Kho 20 case Golden Set</button>
-        <button class="tab-btn" id="tabBtnAiGen" onclick="switchQuestionTab('aigen')">✨ AI Sinh câu hỏi mới</button>
-        <button class="tab-btn" id="tabBtnCustom" onclick="switchQuestionTab('custom')">✏️ Tự nhập câu hỏi</button>
+        <button class="tab-btn active" id="tabBtnGolden" onclick="switchQuestionTab('golden')">Kho 20 case Golden Set</button>
+        <button class="tab-btn" id="tabBtnCustom" onclick="switchQuestionTab('custom')">Tự nhập câu hỏi</button>
       </div>
 
       <!-- Tab 1: Kho Golden Set -->
@@ -605,31 +931,13 @@
         </select>
       </div>
 
-      <!-- Tab 2: AI Sinh câu hỏi mới -->
-      <div id="tabContentAiGen" class="tab-content">
-        <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
-          <select id="aiGenTopic" style="width: 55%;">
-            <option value="RAG (Vector Database, Chunking, Semantic Search, Lost in the Middle)" selected>Chủ đề: 📚 RAG &amp; Vector Database</option>
-            <option value="AI Agent (Tool Calling, ReAct Framework, Agent Loop, Memory)">Chủ đề: 🤖 AI Agent &amp; Tool Calling</option>
-            <option value="LLM Core (Context Window, Hallucination, Temperature, SFT vs Pretraining)">Chủ đề: 🧠 LLM Architecture &amp; Prompting</option>
-          </select>
-          <select id="aiGenTier" style="width: 45%;">
-            <option value="Cơ bản">Độ khó: Cơ bản (Khái niệm)</option>
-            <option value="Trung bình" selected>Độ khó: Trung bình (Hiểu nhầm phổ biến)</option>
-            <option value="Nâng cao">Độ khó: Nâng cao (Chỗ khó / Edge-case)</option>
-          </select>
-        </div>
-        <button style="margin-top: 0; width: 100%;" id="btnGenNew" onclick="generateNewQuestionFromTab()">
-          ⚡ Tạo câu hỏi thực chiến bằng AI theo chủ đề &amp; độ khó trên
-        </button>
-      </div>
-
-      <!-- Tab 3: Tự nhập câu hỏi riêng -->
+      <!-- Tab 2: Tự nhập câu hỏi riêng -->
       <div id="tabContentCustom" class="tab-content">
-        <input type="text" id="customQInput" placeholder="Nhập câu hỏi bài tập bạn muốn thử..." style="margin-bottom: 6px;" />
+        <input type="text" id="customQInput" placeholder="Nhập câu hỏi bài tập bạn muốn thử..." style="margin-bottom: 4px;" />
+        <div id="customQError" style="display: none; font-size: 12px; color: #991b1b; margin-bottom: 8px;">Vui lòng nhập nội dung câu hỏi trước khi áp dụng.</div>
         <input type="text" id="customDocInput" placeholder="Nhập đoạn tài liệu bài giảng tương ứng (Grounding source)..." style="margin-bottom: 6px;" />
         <input type="text" id="customAnsInput" placeholder="Nhập đáp án đúng chuẩn để AI đối chiếu..." style="margin-bottom: 6px;" />
-        <button style="margin-top: 0; padding: 6px 14px; font-size: 13px;" onclick="applyCustomQuestion()">Áp dụng câu hỏi này</button>
+        <button style="margin-top: 0; padding: 6px 14px; font-size: 13px;" id="btnApplyCustom" onclick="applyCustomQuestion()">Áp dụng câu hỏi này</button>
       </div>
 
       <h2 id="essayTitle">Bài tập: Kiến trúc RAG &amp; AI Agent</h2>
@@ -640,34 +948,33 @@
         id="docExcerptBox"
         style="font-size: 12px; color: #475569; background: #f1f5f9; padding: 10px 12px; border-radius: 6px; margin-bottom: 12px;"
       >
-        📖 <b>Tài liệu bài giảng đi kèm (Grounding Source):</b><br />
+        <b>Tài liệu bài giảng đi kèm (Grounding Source):</b><br />
         <span id="docExcerptDisplay"><i>Module 04 — RAG &amp; AI Agent Architecture [T04-102]: "Context Window lớn không thay thế được RAG. Khi nạp quá nhiều ngữ cảnh không liên quan, mô hình gặp hiệu ứng Lost-in-the-middle, tăng latency đáng kể và chi phí API tăng lũy kế theo từng turn hội thoại. Agent cần RAG để chỉ trích xuất đúng các chunk thông tin có độ liên quan ngữ nghĩa cao nhất."</i></span>
       </div>
 
       <label style="font-size: 13px; font-weight: 600; color: #334155">Câu trả lời của bạn:</label>
       <textarea rows="3" id="answer" placeholder="Nhập câu trả lời bất kỳ của bạn (đúng hoặc sai)..."></textarea>
+      <div id="answerError" style="display: none; font-size: 12px; color: #991b1b; margin-top: 6px;">Vui lòng nhập câu trả lời trước khi nộp.</div>
       <br />
       <button id="btnSubmitAnswer" onclick="submitAnswerAndEvaluate()">Nộp câu trả lời cho AI chấm</button>
     </div>
 
     <!-- ===== BƯỚC 2: KẾT QUẢ ĐÁNH GIÁ THẬT 100% TỪ AI ===== -->
     <div id="s2" class="screen">
+      <span class="badge">Bước 2 · AI chẩn đoán lỗi (quyết định trung tâm)</span>
       <div id="evalLoading" class="loading-container" style="display: none">
         <div class="spinner"></div>
         <span>AI đang phân tích câu trả lời của bạn và đối chiếu tài liệu...</span>
       </div>
 
       <div id="evalResultContent" style="display: none">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <span class="badge" id="evalBadge">Đánh giá</span>
-          <span style="font-size: 12px; color: #64748b;">Được chấm bởi Gemini Flash</span>
-        </div>
+        <div style="font-size: 12px; color: #64748b; text-align: right; margin-bottom: 4px;">Được chấm bởi Gemini Flash</div>
 
         <h2 id="evalStatusHeader">Kết quả đánh giá</h2>
 
         <!-- Khối hiển thị khi câu trả lời ĐÚNG -->
         <div id="correctResultBox" class="success-box" style="display: none">
-          <div style="font-size: 18px; font-weight: 700; margin-bottom: 6px;">🎉 Chính xác! Bạn đã nắm rất vững kiến thức.</div>
+          <div style="font-size: 18px; font-weight: 700; margin-bottom: 6px;">Chính xác! Bạn đã nắm rất vững kiến thức.</div>
           <p id="correctFeedbackText" style="margin: 6px 0;"></p>
           <button onclick="show('s1')" style="background: #16a34a;">Làm câu hỏi khác</button>
         </div>
@@ -682,7 +989,7 @@
             <b>Chẩn đoán lỗi cụ thể từ câu trả lời của bạn:</b><br />
             <span id="diagText"></span>
             <div style="font-size: 11px; color: #94a3b8; margin-top: 6px; font-style: italic;">
-              ⚠️ Đây là chẩn đoán giả định dựa trên câu trả lời của bạn, không phải kết luận tuyệt đối — nếu thấy chưa đúng, bạn có thể bỏ qua và tự làm theo cách của mình.
+              Đây là chẩn đoán giả định dựa trên câu trả lời của bạn, không phải kết luận tuyệt đối — nếu thấy chưa đúng, bạn có thể bỏ qua và tự làm theo cách của mình.
             </div>
           </div>
 
@@ -692,18 +999,18 @@
           </div>
 
           <div class="source" id="sourceBox">
-            📎 Trích đoạn bài giảng liên quan: <i id="sourceText"></i>
+            Trích đoạn bài giảng liên quan: <i id="sourceText"></i>
           </div>
 
-          <button onclick="goToRetryScreen()">💡 Thử sửa lại câu trả lời theo gợi ý</button>
+          <button onclick="goToRetryScreen()">Thử sửa lại câu trả lời theo gợi ý</button>
           <button class="btn-secondary" style="margin-left: 8px;" onclick="show('s1')">Đổi câu hỏi khác</button>
-          <button class="btn-secondary" style="margin-left: 8px;" onclick="dismissAiHint()">🙈 AI chẩn đoán chưa chuẩn — Bỏ qua gợi ý</button>
+          <button class="btn-secondary" style="margin-left: 8px;" onclick="dismissAiHint()">AI chẩn đoán chưa chuẩn — Bỏ qua gợi ý</button>
         </div>
       </div>
 
       <!-- Thông báo lỗi kết nối API nếu có -->
       <div id="evalErrorBox" style="display: none; background: #fef2f2; border-left: 4px solid #ef4444; padding: 12px 14px; border-radius: 8px; margin: 14px 0; color: #991b1b;">
-        <b>⚠️ Lỗi kết nối AI:</b> <span id="evalErrorMsg"></span>
+        <b>Lỗi kết nối AI:</b> <span id="evalErrorMsg"></span>
         <br />
         <button style="background: #ef4444; margin-top: 8px; font-size: 12px; padding: 6px 12px" onclick="submitAnswerAndEvaluate()">
           Thử lại
@@ -722,6 +1029,7 @@
 
       <label style="font-size: 13px; font-weight: 600; color: #334155">Câu trả lời mới của bạn sau khi suy ngẫm:</label>
       <textarea rows="3" id="retryAnswerInput" placeholder="Nhập câu trả lời bạn đã sửa đổi..."></textarea>
+      <div id="retryAnswerError" style="display: none; font-size: 12px; color: #991b1b; margin-top: 6px;">Vui lòng nhập câu trả lời đã sửa trước khi nộp.</div>
       <br />
       <button id="btnSubmitRetry" onclick="submitRetryAndEvaluate()">Nộp lại để AI chấm thực tế</button>
       <button class="btn-secondary" style="margin-left: 8px;" onclick="show('s2')">Quay lại xem chẩn đoán</button>
@@ -729,26 +1037,27 @@
 
     <!-- ===== BƯỚC 4: KẾT QUẢ ĐÁNH GIÁ LẦN SỬA LỖI (CHẤM THẬT 100%) ===== -->
     <div id="s4" class="screen">
+      <span class="badge">Bước 4 · Kết quả tự sửa lỗi</span>
       <div id="retryLoading" class="loading-container" style="display: none">
         <div class="spinner"></div>
         <span>AI đang đánh giá câu trả lời bạn vừa sửa...</span>
       </div>
 
       <div id="retryResultContent" style="display: none">
-        <span class="badge" id="retryBadge">Kết quả sửa lỗi</span>
         <h2 id="retryStatusHeader">Đánh giá nỗ lực tự sửa</h2>
 
         <!-- Sửa đúng: AI không kết luận ngay, luôn confirm lại bằng 1 câu hỏi mức độ cao hơn trước khi công nhận -->
         <div id="retrySuccessBox" class="success-box" style="display: none">
           <div id="deeperConfirmGate">
-            <div style="font-size: 15px; font-weight: 700; margin-bottom: 6px;">✅ Câu trả lời đã sửa hợp lý! Trước khi xác nhận, trả lời thêm 1 câu để chắc bạn hiểu sâu chứ không phải đoán trúng:</div>
+            <div style="font-size: 15px; font-weight: 700; margin-bottom: 6px;">Câu trả lời đã sửa hợp lý! Trước khi xác nhận, trả lời thêm 1 câu để chắc bạn hiểu sâu chứ không phải đoán trúng:</div>
             <p style="font-size: 13px; color: #475569; margin: 8px 0;">Hãy giải thích lại bằng lời của chính bạn: vì sao câu trả lời BAN ĐẦU của bạn sai, và điều gì khiến bạn sửa lại như vậy?</p>
             <textarea rows="2" id="deeperConfirmInput" placeholder="Giải thích ngắn gọn bằng lời của bạn..."></textarea>
+            <div id="deeperConfirmError" style="display: none; font-size: 12px; color: #991b1b; margin-top: 4px;">Hãy giải thích rõ hơn một chút (ít nhất khoảng 1 câu) trước khi xác nhận nhé.</div>
             <br />
             <button onclick="confirmDeeperUnderstanding()">Xác nhận đã hiểu sâu</button>
           </div>
           <div id="retryCelebrationContent" style="display: none">
-            <div style="font-size: 18px; font-weight: 700; margin-bottom: 6px;">🎉 Tuyệt vời! Bạn đã tự học từ lỗi sai thành công!</div>
+            <div style="font-size: 18px; font-weight: 700; margin-bottom: 6px;">Tuyệt vời! Bạn đã tự học từ lỗi sai thành công!</div>
             <p id="retrySuccessNhanXet" style="margin: 6px 0; font-size: 14px;"></p>
             <div style="font-size: 12px; color: #15803d; margin-top: 8px;">
               Đây chính là bản chất của <b>Productive Failure</b>: việc tự chẩn đoán và tự sửa giúp bạn hiểu sâu kiến thức hơn nhiều so với việc chỉ nhận đáp án ngay từ đầu!
@@ -758,7 +1067,7 @@
 
         <!-- Sửa vẫn chưa đúng -->
         <div id="retryStillWrongBox" style="display: none; background: #fff7ed; border-left: 4px solid #f97316; padding: 16px; border-radius: 8px; margin: 14px 0; color: #9a3412;">
-          <div style="font-size: 16px; font-weight: 700; margin-bottom: 6px;">⚠️ Vẫn chưa hoàn toàn chính xác</div>
+          <div style="font-size: 16px; font-weight: 700; margin-bottom: 6px;">Vẫn chưa hoàn toàn chính xác</div>
           <p id="retryStillWrongNhanXet" style="margin: 6px 0; font-size: 14px;"></p>
           <div style="margin-top: 12px;">
             <button onclick="show('s3')">Thử sửa lại lần nữa</button>
@@ -768,7 +1077,7 @@
 
         <!-- Khối hiển thị đáp án chuẩn (khi học viên muốn xem) -->
         <div id="revealedAnswerBox" style="display: none; background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px 14px; border-radius: 8px; margin-top: 14px; font-size: 13px;">
-          <b>📖 Đáp án chuẩn &amp; Giải thích:</b><br />
+          <b>Đáp án chuẩn &amp; Giải thích:</b><br />
           <span id="revealedAnswerText"></span>
         </div>
 
@@ -813,21 +1122,27 @@
       function toggleApiDrawer() {
         const drawer = document.getElementById("apiDrawer");
         drawer.style.display = drawer.style.display === "block" ? "none" : "block";
+        document.getElementById("apiSaveNotice").style.display = "none";
       }
 
       function saveApiKey() {
         const val = document.getElementById("apiKeyInput").value.trim();
+        const notice = document.getElementById("apiSaveNotice");
         if (val) {
           localStorage.setItem("GEMINI_API_KEY", val);
           window.CONFIG_API_KEY = val;
-          alert("Đã lưu API Key thành công!");
+          notice.style.background = "#ecfdf3";
+          notice.style.color = "#166534";
+          notice.innerText = "Đã lưu key — AI Engine đã kết nối.";
         } else {
           localStorage.removeItem("GEMINI_API_KEY");
           window.CONFIG_API_KEY = "";
-          alert("Đã xóa API Key!");
+          notice.style.background = "#f4f6fb";
+          notice.style.color = "#475569";
+          notice.innerText = "Đã xoá key khỏi trình duyệt.";
         }
+        notice.style.display = "block";
         updateApiStatus();
-        toggleApiDrawer();
       }
 
       // ==========================================
@@ -836,7 +1151,7 @@
       async function callGemini(systemPrompt, userPrompt) {
         const apiKey = getApiKey();
         if (!apiKey) {
-          throw new Error('Chưa có API Key. Vui lòng bấm "⚙ Cấu hình Key" ở góc trên để nhập key.');
+          throw new Error('Chưa có API Key. Vui lòng bấm "Cấu hình Key" ở góc trên để nhập key.');
         }
 
         const payload = {
@@ -1201,66 +1516,24 @@
 
       function switchQuestionTab(tab) {
         document.getElementById("tabBtnGolden").className = tab === "golden" ? "tab-btn active" : "tab-btn";
-        document.getElementById("tabBtnAiGen").className = tab === "aigen" ? "tab-btn active" : "tab-btn";
         document.getElementById("tabBtnCustom").className = tab === "custom" ? "tab-btn active" : "tab-btn";
 
         document.getElementById("tabContentGolden").className = tab === "golden" ? "tab-content active" : "tab-content";
-        document.getElementById("tabContentAiGen").className = tab === "aigen" ? "tab-content active" : "tab-content";
         document.getElementById("tabContentCustom").className = tab === "custom" ? "tab-content active" : "tab-content";
-      }
-
-      // ==========================================
-      // 4. AI SINH CÂU HỎI TỰ LUẬN THEO YÊU CẦU
-      // ==========================================
-      async function generateNewQuestionFromTab() {
-        const topic = document.getElementById("aiGenTopic").value;
-        const tier = document.getElementById("aiGenTier").value;
-        const btn = document.getElementById("btnGenNew");
-        btn.disabled = true;
-        btn.innerText = "⏳ Đang phân tích và sinh câu hỏi...";
-
-        try {
-          const sysPrompt = `Bạn là AI chuyên gia hàng đầu về AI Agent, LLM và RAG.
-Hãy sinh 1 câu hỏi bài tập tự luận thực chiến về chủ đề: ${topic}, theo độ khó: ${tier}.
-Nội dung câu hỏi nên đưa ra 1 tình huống thực tế hoặc một giả định hiểu nhầm phổ biến để người học phân tích.
-Kèm đáp án đúng chuẩn và trích đoạn tài liệu bài giảng liên quan làm căn cứ xác thực (grounding source).
-Trả về DUY NHẤT một đối tượng JSON hợp lệ:
-{
-  "cau_hoi_bai_tap": "...",
-  "dap_an_dung": "...",
-  "doc_excerpt": "...",
-  "doc_source": "Tài liệu chuyên sâu AI Agent & RAG [Module...]"
-}`;
-          const qData = await callGemini(sysPrompt, `Tạo bài tập tự luận thực chiến về ${topic}, mức độ ${tier}`);
-          currentCase = {
-            id: "ai-generated-" + Date.now(),
-            cau_hoi_bai_tap: qData.cau_hoi_bai_tap,
-            dap_an_dung: qData.dap_an_dung,
-            cau_tra_loi_sai_mo_phong: "",
-            doc_source: qData.doc_source || "Tài liệu bài giảng",
-            doc_excerpt: qData.doc_excerpt,
-          };
-          updateQuestionUI();
-          document.getElementById("answer").value = "";
-          document.getElementById("answer").placeholder = "Hãy nhập câu trả lời của bạn cho câu hỏi AI vừa sinh...";
-          alert(`Đã sinh thành công câu hỏi tự luận độ khó [${tier}]!`);
-        } catch (err) {
-          alert("Lỗi khi sinh câu hỏi: " + err.message);
-        } finally {
-          btn.disabled = false;
-          btn.innerText = "⚡ Tạo câu hỏi bằng AI";
-        }
       }
 
       function applyCustomQuestion() {
         const q = document.getElementById("customQInput").value.trim();
         const doc = document.getElementById("customDocInput").value.trim();
         const ans = document.getElementById("customAnsInput").value.trim();
+        const errBox = document.getElementById("customQError");
 
         if (!q) {
-          alert("Vui lòng nhập nội dung câu hỏi!");
+          errBox.style.display = "block";
+          document.getElementById("customQInput").focus();
           return;
         }
+        errBox.style.display = "none";
 
         currentCase = {
           id: "custom-" + Date.now(),
@@ -1273,7 +1546,11 @@ Trả về DUY NHẤT một đối tượng JSON hợp lệ:
 
         updateQuestionUI();
         document.getElementById("answer").value = "";
-        alert("Đã áp dụng câu hỏi tự nhập thành công!");
+
+        const btn = document.getElementById("btnApplyCustom");
+        const original = btn.innerText;
+        btn.innerText = "Đã áp dụng — xem câu hỏi bên dưới";
+        setTimeout(() => { btn.innerText = original; }, 1800);
       }
 
       // ==========================================
@@ -1299,7 +1576,10 @@ Trả về DUY NHẤT một đối tượng JSON hợp lệ:
             { text: "Loại bỏ hoàn toàn khái niệm Token", isCorrect: false }
           ],
           hint: 'Khác với việc đọc từng từ một cách lần lượt (tuần tự), kiến trúc này có thể "chú ý" (Attention) vào tất cả các từ cùng một lúc để tăng tốc độ xử lý.',
-          explanation: "Cơ chế Self-Attention cho phép Transformer xử lý toàn bộ chuỗi dữ liệu cùng một lúc (song song) thay vì phải xử lý từng từ một cách tuần tự như RNN/LSTM."
+          explanation: "Cơ chế Self-Attention cho phép Transformer xử lý toàn bộ chuỗi dữ liệu cùng một lúc (song song) thay vì phải xử lý từng từ một cách tuần tự như RNN/LSTM.",
+          difficulty: "tb",
+          sidebarTitle: "Kiến trúc Transformer & Self-Attention",
+          sidebarDesc: "Cơ chế cho phép mô hình xử lý toàn bộ chuỗi văn bản cùng lúc thay vì tuần tự — nền tảng của hầu hết LLM hiện đại."
         },
         {
           id: 2,
@@ -1311,7 +1591,10 @@ Trả về DUY NHẤT một đối tượng JSON hợp lệ:
             { text: "Thay đổi ngôn ngữ đầu ra của mô hình", isCorrect: false }
           ],
           hint: 'Tham số này giống như một "núm vặn" điều chỉnh: đặt mức thấp thì câu trả lời rất an toàn/chính xác, đặt mức cao thì câu trả lời biến hóa và phong phú hơn.',
-          explanation: "Temperature điều chỉnh mức độ ngẫu nhiên khi chọn token: giá trị thấp giúp câu trả lời nhất quán, chính xác; giá trị cao giúp tăng tính sáng tạo."
+          explanation: "Temperature điều chỉnh mức độ ngẫu nhiên khi chọn token: giá trị thấp giúp câu trả lời nhất quán, chính xác; giá trị cao giúp tăng tính sáng tạo.",
+          difficulty: "de",
+          sidebarTitle: "Tham số Temperature",
+          sidebarDesc: "Điều chỉnh độ ngẫu nhiên khi sinh văn bản — thấp thì ổn định/chính xác, cao thì sáng tạo/đa dạng hơn."
         },
         {
           id: 3,
@@ -1323,7 +1606,10 @@ Trả về DUY NHẤT một đối tượng JSON hợp lệ:
             { text: "Tóm tắt nội dung văn bản thành một câu ngắn", isCorrect: false }
           ],
           hint: "Hãy tưởng tượng bạn cắt một ổ bánh mì ra thành từng lát nhỏ để máy tính có thể dễ dàng \"tiêu hóa\" và đếm từng phần.",
-          explanation: "Tokenization là quá trình cắt câu hoặc đoạn văn bản thành các phần nhỏ hơn (từ, cụm từ hoặc ký tự) gọi là token để mô hình AI có thể hiểu và tính toán."
+          explanation: "Tokenization là quá trình cắt câu hoặc đoạn văn bản thành các phần nhỏ hơn (từ, cụm từ hoặc ký tự) gọi là token để mô hình AI có thể hiểu và tính toán.",
+          difficulty: "de",
+          sidebarTitle: "Tokenization",
+          sidebarDesc: "Bước chia văn bản thành các đơn vị nhỏ (token) trước khi mô hình xử lý — nền tảng của mọi thao tác trên văn bản trong LLM."
         },
         {
           id: 4,
@@ -1335,7 +1621,10 @@ Trả về DUY NHẤT một đối tượng JSON hợp lệ:
             { text: "Bắt buộc mô hình phải sử dụng công cụ tìm kiếm", isCorrect: false }
           ],
           hint: "Các nhà cung cấp tính tiền dựa trên số lượng token bạn gửi lên, và gửi càng nhiều chữ thì máy tính xử lý càng mất thời gian.",
-          explanation: "Việc sử dụng ít token đầu vào giúp giảm chi phí tính toán API (vốn được tính theo số lượng token) và rút ngắn thời gian xử lý phản hồi."
+          explanation: "Việc sử dụng ít token đầu vào giúp giảm chi phí tính toán API (vốn được tính theo số lượng token) và rút ngắn thời gian xử lý phản hồi.",
+          difficulty: "tb",
+          sidebarTitle: "Tối ưu chi phí & độ trễ qua Token",
+          sidebarDesc: "Số token đầu vào ảnh hưởng trực tiếp tới chi phí API và thời gian phản hồi — tối ưu prompt giúp giảm cả hai."
         },
         {
           id: 5,
@@ -1347,15 +1636,22 @@ Trả về DUY NHẤT một đối tượng JSON hợp lệ:
             { text: "Chia nhỏ câu lệnh thành nhiều câu hỏi liên tiếp", isCorrect: false }
           ],
           hint: 'Từ "Shot" ở đây tượng trưng cho các ví dụ mẫu; đưa cho AI 2-3 ví dụ cụ thể để nó bắt chước theo mẫu đó.',
-          explanation: "Few-shot Prompting là việc đưa thêm một vài cặp ví dụ (đầu vào - đầu ra mẫu) vào prompt để định hình định dạng và cách trả lời mong muốn cho AI."
+          explanation: "Few-shot Prompting là việc đưa thêm một vài cặp ví dụ (đầu vào - đầu ra mẫu) vào prompt để định hình định dạng và cách trả lời mong muốn cho AI.",
+          difficulty: "kho",
+          sidebarTitle: "Few-Shot Prompting",
+          sidebarDesc: "Kỹ thuật đưa vài ví dụ mẫu vào prompt để định hình định dạng/cách trả lời mà bạn muốn mô hình làm theo."
         }
       ];
 
+      const QUIZ_DIFF_LABEL = { de: "Dễ", tb: "Trung bình", kho: "Khó" };
+
       let quizCurrentIdx = 0;
+      let quizVisitedMax = 0;
       let quizAnswers = []; // [ { selectedKey, isCorrect, userExplanation } ]
 
       function initQuiz() {
         quizCurrentIdx = 0;
+        quizVisitedMax = 0;
         // Xáo trộn 4 vị trí đáp án ngẫu nhiên cho từng câu hỏi
         QUIZ_QUESTIONS.forEach((q) => {
           const shuffled = shuffleArray(q.rawOptions);
@@ -1373,11 +1669,70 @@ Trả về DUY NHẤT một đối tượng JSON hợp lệ:
         renderCurrentQuizQuestion();
       }
 
+      function renderQuizPills() {
+        const cont = document.getElementById("quizPills");
+        cont.innerHTML = "";
+        QUIZ_QUESTIONS.forEach((q, idx) => {
+          const pill = document.createElement("div");
+          pill.className = "quiz-pill";
+          pill.innerText = idx + 1;
+          if (idx === quizCurrentIdx) {
+            pill.classList.add("current");
+          } else if (idx <= quizVisitedMax) {
+            pill.classList.add("visited");
+            pill.onclick = () => goToQuizQuestion(idx);
+          }
+          cont.appendChild(pill);
+        });
+      }
+
+      function goToQuizQuestion(idx) {
+        if (idx < 0 || idx > quizVisitedMax) return;
+        quizCurrentIdx = idx;
+        renderCurrentQuizQuestion();
+      }
+
+      function prevQuizQuestion() {
+        if (quizCurrentIdx === 0) return;
+        quizCurrentIdx--;
+        renderCurrentQuizQuestion();
+      }
+
       function renderCurrentQuizQuestion() {
+        quizVisitedMax = Math.max(quizVisitedMax, quizCurrentIdx);
+
         const q = QUIZ_QUESTIONS[quizCurrentIdx];
         document.getElementById("quizIndexText").innerText = quizCurrentIdx + 1;
-        document.getElementById("quizProgressBar").style.width = `${((quizCurrentIdx + 1) / QUIZ_QUESTIONS.length) * 100}%`;
+        const pct = `${((quizCurrentIdx + 1) / QUIZ_QUESTIONS.length) * 100}%`;
+        document.getElementById("quizProgressBar").style.width = pct;
         document.getElementById("quizQuestionText").innerText = `Câu ${q.id}: ${q.question}`;
+
+        // Badge độ khó
+        const diffBadge = document.getElementById("quizDiffBadge");
+        diffBadge.innerText = `Độ khó: ${QUIZ_DIFF_LABEL[q.difficulty]}`;
+        diffBadge.className = `quiz-diff-badge quiz-diff-${q.difficulty}`;
+
+        // Pills điều hướng
+        renderQuizPills();
+
+        // Nút "Câu trước"
+        document.getElementById("quizPrevBtn").disabled = quizCurrentIdx === 0;
+
+        // Sidebar: tiến độ + kiến thức đang luyện
+        document.getElementById("sidebarProgressNum").innerText = quizCurrentIdx + 1;
+        document.getElementById("sidebarProgressBar").style.width = pct;
+        document.getElementById("sidebarKnowledgeTitle").innerText = q.sidebarTitle;
+        document.getElementById("sidebarKnowledgeDesc").innerText = q.sidebarDesc;
+
+        // Banner "tiếp tục lượt đang làm"
+        const answeredCount = quizAnswers.filter((a) => a).length;
+        const resumeBanner = document.getElementById("quizResumeBanner");
+        if (answeredCount > 0) {
+          document.getElementById("quizResumeCount").innerText = answeredCount;
+          resumeBanner.style.display = "flex";
+        } else {
+          resumeBanner.style.display = "none";
+        }
 
         // Reset Hint: Ẩn box gợi ý, hiện lại nút "Xem gợi ý"
         document.getElementById("quizHintBox").style.display = "none";
@@ -1402,11 +1757,22 @@ Trả về DUY NHẤT một đối tượng JSON hợp lệ:
           radio.value = opt.key;
           radio.style.display = "none";
 
+          let tagText = "";
+
           if (prevAns && prevAns.selectedKey === opt.key) {
             radio.checked = true;
             label.classList.add("selected");
-            if (prevAns.isCorrect) label.classList.add("correct-choice");
-            else label.classList.add("wrong-choice");
+            if (prevAns.isCorrect) {
+              label.classList.add("correct-choice");
+              tagText = "Đáp án đúng";
+            } else {
+              label.classList.add("wrong-choice");
+              tagText = "Bạn đã chọn";
+            }
+          } else if (prevAns && !prevAns.isCorrect && opt.key === q.correct) {
+            // Chọn sai: vẫn tô xanh + gắn tag cho đáp án đúng thật để đối chiếu ngay
+            label.classList.add("correct-choice");
+            tagText = "Đáp án đúng";
           }
 
           if (prevAns) {
@@ -1427,6 +1793,14 @@ Trả về DUY NHẤT một đối tượng JSON hợp lệ:
           label.appendChild(radio);
           label.appendChild(badge);
           label.appendChild(span);
+
+          if (tagText) {
+            const tag = document.createElement("span");
+            tag.className = "quiz-opt-tag";
+            tag.innerText = tagText;
+            label.appendChild(tag);
+          }
+
           container.appendChild(label);
         });
 
@@ -1437,9 +1811,9 @@ Trả về DUY NHẤT một đối tượng JSON hợp lệ:
         const nextBtnText = document.getElementById("quizNextBtnText");
 
         if (quizCurrentIdx === QUIZ_QUESTIONS.length - 1) {
-          nextBtnText.innerText = "Hoàn thành bài kiểm tra & Xem tổng kết ➜";
+          nextBtnText.innerText = "Hoàn thành bài kiểm tra & Xem tổng kết";
         } else {
-          nextBtnText.innerText = "Câu tiếp theo ➜";
+          nextBtnText.innerText = "Câu tiếp theo";
         }
 
         if (prevAns) {
@@ -1478,49 +1852,19 @@ Trả về DUY NHẤT một đối tượng JSON hợp lệ:
         const q = QUIZ_QUESTIONS[quizCurrentIdx];
         const isCorrect = (chosenKey === q.correct);
 
-        // Lưu tạm
         quizAnswers[quizCurrentIdx] = {
           selectedKey: chosenKey,
           isCorrect: isCorrect,
           userExplanation: ""
         };
 
-        // Cập nhật UI lựa chọn
-        q.options.forEach((opt) => {
-          const lbl = document.getElementById(`optLabel_${opt.key}`);
-          if (lbl) {
-            lbl.style.cursor = "default";
-            if (opt.key === chosenKey) {
-              lbl.classList.add("selected");
-              if (isCorrect) {
-                lbl.classList.add("correct-choice");
-              } else {
-                lbl.classList.add("wrong-choice");
-              }
-            }
-          }
-        });
-
-        const boxCorrect = document.getElementById("quizFeedbackCorrect");
-        const boxWrong = document.getElementById("quizFeedbackWrong");
-        const nextBtn = document.getElementById("quizNextBtn");
+        // Vẽ lại toàn bộ câu hỏi (dùng chung logic tô màu/tag với renderCurrentQuizQuestion
+        // để hiện đúng đáp án đúng màu xanh ngay cả khi học viên chọn sai)
+        renderCurrentQuizQuestion();
 
         if (isCorrect) {
-          boxCorrect.style.display = "block";
-          boxWrong.style.display = "none";
-          setTimeout(() => {
-            document.getElementById("quizExplanationInput").focus();
-          }, 100);
-        } else {
-          boxCorrect.style.display = "none";
-          boxWrong.style.display = "block";
-          const correctOpt = q.options.find(o => o.key === q.correct);
-          document.getElementById("quizCorrectAnswerDisplay").innerText = `${correctOpt.key.toUpperCase()}. ${correctOpt.text}`;
-          document.getElementById("quizExplanationWrongDisplay").innerText = q.explanation;
+          document.getElementById("quizExplanationInput").focus();
         }
-
-        // Mở khóa nút tiếp theo khi hoàn thành chọn đáp án xong
-        nextBtn.disabled = false;
       }
 
       function nextQuizQuestion() {
@@ -1569,7 +1913,7 @@ Trả về DUY NHẤT một đối tượng JSON hợp lệ:
             <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
               <b style="font-size:14px; color:#0f172a;">Câu ${q.id}: ${q.question}</b>
               <span class="badge ${isCorrect ? 'success' : 'warning'}" style="margin-bottom:0; flex-shrink:0;">
-                ${isCorrect ? '✅ Đúng' : '❌ Sai'}
+                ${isCorrect ? 'Đúng' : 'Sai'}
               </span>
             </div>
             <div style="margin: 6px 0; color:#334155;">
@@ -1581,7 +1925,7 @@ Trả về DUY NHẤT một đối tượng JSON hợp lệ:
             const exp = ans && ans.userExplanation ? ans.userExplanation : '<i>(Học viên không nhập giải thích)</i>';
             cardHtml += `
               <div style="background:#f0fdf4; border-left:3px solid #22c55e; padding:8px 10px; border-radius:6px; color:#166534; margin-top:6px;">
-                <b>✍️ Lời giải thích của bạn:</b> ${exp}
+                <b>Lời giải thích của bạn:</b> ${exp}
               </div>
             `;
           } else {
@@ -1590,7 +1934,7 @@ Trả về DUY NHẤT một đối tượng JSON hợp lệ:
                 <b>Đáp án đúng chuẩn:</b> ${correctOpt.key.toUpperCase()}. ${correctOpt.text}
               </div>
               <div style="background:#f8fafc; border-left:3px solid #ef4444; padding:8px 10px; border-radius:6px; color:#334155; margin-top:6px;">
-                <b>📖 Giải thích chuẩn:</b> ${q.explanation}
+                <b>Giải thích chuẩn:</b> ${q.explanation}
               </div>
             `;
           }
@@ -1605,15 +1949,20 @@ Trả về DUY NHẤT một đối tượng JSON hợp lệ:
         show("s0b");
       }
 
-      async function triggerAiGenFromQuiz() {
+      // Gộp "AI sinh câu hỏi thích ứng" + "vào Bước 1" thành 1 hành động duy nhất:
+      // bấm 1 lần → AI soạn câu hỏi theo trình độ → vào thẳng màn tự luận với câu hỏi đó.
+      // Lỗi API thì báo thật (không fallback bằng câu hỏi giả danh AI) — đúng nguyên tắc
+      // PAIR "Errors & Graceful Failure" đã khai trong spec §4b.
+      async function goToEssayWithAiQuestion() {
         const score = window.lastQuizScore || { pct: 60, tier: "Trung bình" };
-        const loading = document.getElementById("genLoading");
-        const resBox = document.getElementById("genResultBox");
-        const btn = document.getElementById("btnAiGenFromSummary");
+        const btn = document.getElementById("btnGoEssay");
+        const label = document.getElementById("btnGoEssayLabel");
+        const errBox = document.getElementById("genErrorBox");
 
-        loading.style.display = "block";
-        resBox.style.display = "none";
         btn.disabled = true;
+        errBox.style.display = "none";
+        const originalLabel = label.innerHTML;
+        label.innerHTML = '<span class="spinner" style="width:15px;height:15px;border-width:2px;margin-right:6px;"></span>AI đang soạn câu hỏi theo trình độ của bạn...';
 
         try {
           const sysPrompt = `Bạn là AI giáo viên môn AI Agent, LLM & RAG.
@@ -1635,29 +1984,21 @@ Trả về DUY NHẤT một đối tượng JSON:
             doc_source: qData.doc_source || "Tài liệu bài giảng",
             doc_excerpt: qData.doc_excerpt,
           };
-          document.getElementById("generatedQuestionText").innerText = qData.cau_hoi_bai_tap;
-          document.getElementById("generatedDocText").innerText = qData.doc_excerpt;
-          loading.style.display = "none";
-          resBox.style.display = "block";
+          updateQuestionUI();
+          document.getElementById("answer").value = "";
+          show("s1");
         } catch (e) {
-          loading.style.display = "none";
-          resBox.style.display = "block";
-          document.getElementById("generatedQuestionText").innerText = 'Từ "unbelievable" khi qua BPE tokenizer thường được tách thành mấy token, và vì sao?';
-          document.getElementById("generatedDocText").innerText = 'transcript-03, đoạn 04:12 — "BPE gộp các cặp ký tự xuất hiện thường xuyên nhất trong corpus..."';
+          errBox.style.display = "block";
+          document.getElementById("genErrorMsg").innerText = e.message;
         } finally {
           btn.disabled = false;
+          label.innerHTML = originalLabel;
         }
       }
 
       function restartQuiz() {
         initQuiz();
         show("s0");
-      }
-
-      function useGeneratedQuestion() {
-        updateQuestionUI();
-        document.getElementById("answer").value = "";
-        show("s1");
       }
 
       function skipToStep1() {
@@ -1669,10 +2010,13 @@ Trả về DUY NHẤT một đối tượng JSON:
       // ==========================================
       async function submitAnswerAndEvaluate() {
         const studentAns = document.getElementById("answer").value.trim();
+        const answerError = document.getElementById("answerError");
         if (!studentAns) {
-          alert("Vui lòng nhập câu trả lời của bạn trước khi nộp!");
+          answerError.style.display = "block";
+          document.getElementById("answer").focus();
           return;
         }
+        answerError.style.display = "none";
 
         show("s2");
         const loading = document.getElementById("evalLoading");
@@ -1720,16 +2064,12 @@ Câu trả lời của học viên: ${studentAns}
           const isCorrect = evalRes.ket_qua === "DUNG";
 
           if (isCorrect) {
-            document.getElementById("evalBadge").className = "badge success";
-            document.getElementById("evalBadge").innerText = "Chính xác ✅";
             document.getElementById("evalStatusHeader").innerText = "Bạn đã trả lời đúng!";
             document.getElementById("correctFeedbackText").innerText =
               evalRes.phan_tich || "Câu trả lời của bạn đã nêu đúng bản chất kiến thức dựa trên tài liệu bài giảng.";
             correctBox.style.display = "block";
             wrongBox.style.display = "none";
           } else {
-            document.getElementById("evalBadge").className = "badge warning";
-            document.getElementById("evalBadge").innerText = "Chưa chính xác ❌";
             document.getElementById("evalStatusHeader").innerText = "AI Chẩn đoán lỗi hiểu nhầm";
             document.getElementById("userAnsEcho").innerText = `"${studentAns}"`;
 
@@ -1767,10 +2107,13 @@ Câu trả lời của học viên: ${studentAns}
       // mức độ cao hơn (giải thích bằng lời riêng) trước khi công nhận hoàn thành.
       function confirmDeeperUnderstanding() {
         const explain = document.getElementById("deeperConfirmInput").value.trim();
+        const errBox = document.getElementById("deeperConfirmError");
         if (explain.length < 10) {
-          alert("Bạn hãy giải thích rõ hơn một chút (ít nhất khoảng 1 câu) trước khi xác nhận nhé.");
+          errBox.style.display = "block";
+          document.getElementById("deeperConfirmInput").focus();
           return;
         }
+        errBox.style.display = "none";
         document.getElementById("deeperConfirmGate").style.display = "none";
         document.getElementById("retryCelebrationContent").style.display = "block";
       }
@@ -1780,10 +2123,13 @@ Câu trả lời của học viên: ${studentAns}
       // ==========================================
       async function submitRetryAndEvaluate() {
         const retryAns = document.getElementById("retryAnswerInput").value.trim();
+        const retryError = document.getElementById("retryAnswerError");
         if (!retryAns) {
-          alert("Vui lòng nhập câu trả lời đã sửa đổi của bạn!");
+          retryError.style.display = "block";
+          document.getElementById("retryAnswerInput").focus();
           return;
         }
+        retryError.style.display = "none";
 
         show("s4");
         const loading = document.getElementById("retryLoading");
@@ -1822,8 +2168,6 @@ Câu trả lời mới sửa lại: ${retryAns}
           const isFixed = retryRes.ket_qua === "DUNG";
 
           if (isFixed) {
-            document.getElementById("retryBadge").className = "badge success";
-            document.getElementById("retryBadge").innerText = "Tự sửa thành công ✅";
             document.getElementById("retryStatusHeader").innerText = "Kết quả: Bạn đã hiểu đúng bài!";
             document.getElementById("retrySuccessNhanXet").innerText = retryRes.nhan_xet;
             // Không công nhận ngay — luôn confirm lại bằng 1 câu hỏi mức độ cao hơn trước
@@ -1833,8 +2177,6 @@ Câu trả lời mới sửa lại: ${retryAns}
             successBox.style.display = "block";
             stillWrongBox.style.display = "none";
           } else {
-            document.getElementById("retryBadge").className = "badge warning";
-            document.getElementById("retryBadge").innerText = "Cần cố gắng thêm ⚠️";
             document.getElementById("retryStatusHeader").innerText = "Kết quả: Vẫn còn thiếu sót";
             document.getElementById("retryStillWrongNhanXet").innerText = retryRes.nhan_xet;
             successBox.style.display = "none";
@@ -1868,6 +2210,7 @@ Câu trả lời mới sửa lại: ${retryAns}
       function show(id) {
         document.querySelectorAll(".screen").forEach((s) => s.classList.remove("active"));
         document.getElementById(id).classList.add("active");
+        document.body.classList.toggle("wide-screen", id === "s0");
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
