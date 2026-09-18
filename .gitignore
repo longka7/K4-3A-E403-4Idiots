@@ -8,3 +8,8 @@ eval/eval_results.json
 *.log
 __pycache__/
 .DS_Store
+
+# Node.js dependencies (không thuộc cấu trúc repo chuẩn của khoá)
+node_modules/
+package.json
+package-lock.json
