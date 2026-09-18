@@ -1,0 +1,6 @@
+### Reflection — UX/Validation Lead
+- **Họ tên - MSHV** Nguyễn Tuấn Khanh - 2A202602819
+- **Vai trò:** UX/Validation Lead.
+- **Phần mình làm:** Ở CP3, mình viết kịch bản quay video thao tác 30 giây theo đúng luồng AI thật. Ở CP4, mình viết `spec.md` §4b, lựa chọn và xác định vị trí áp dụng của 4 nguyên tắc HAX/PAIR (G2, G4, G8, G9) trong `mock-cp2.html`. Ở CP5, mình tìm willing user, ghi log và quote nguyên văn vào `validation/`, đồng thời chuẩn bị slides PDF và video demo dự phòng.
+- **AI hỗ trợ thế nào:** Chỉ sử dụng AI ở bước viết `spec.md`, chủ yếu để hỗ trợ diễn đạt và cấu trúc nội dung. Các hoạt động kiểm thử, tìm user, ghi nhận feedback và chuẩn bị tài liệu/demo được thực hiện trực tiếp.
+- **Một bài học từ case fail của nhóm:** Qua feedback kiểm thử, mình nhận ra bài học rằng để người dùng mắc kẹt quá lâu ở một thao tác mà lỗi có thể nằm ở AI sẽ tạo trải nghiệm ức chế. Ngoài ra, một số kịch bản được đưa ra với mục đích để test các case khó được thiết kế chưa hợp lý (Thực hiện test "Nguồn sự thật" bằng cách prompt cho AI đưa ra câu hỏi ép buộc người dùng phải tự dùng đến kiến thức bên ngoài dữ kiện để trả lời đúng), mình sẽ lưu ý để không thiết kế các test case với input như thế sau này.
