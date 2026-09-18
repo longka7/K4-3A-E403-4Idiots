@@ -7,3 +7,4 @@ codebase/config.js
 eval/eval_results.json
 *.log
 __pycache__/
+.DS_Store
